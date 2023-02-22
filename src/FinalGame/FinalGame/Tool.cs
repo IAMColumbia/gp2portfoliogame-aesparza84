@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FinalGame.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace FinalGame
 {
-    internal class Tool
+    public class Tool : ITool
     {
+        public string Name { get; set; }
+        public Tool() { }
+        void Use() { }
     }
 }
