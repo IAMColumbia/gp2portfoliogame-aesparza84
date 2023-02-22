@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FinalGame
 {
-    internal class Character
+    internal class Enemy
     {
     }
 }
