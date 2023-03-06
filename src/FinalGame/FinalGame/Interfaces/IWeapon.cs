@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace FinalGame.Interfaces
 {
-    internal interface IWeapon
+    public interface IWeapon
     {
+        string Name { get; set; }
+        int Damage { get; set; }
     }
 }

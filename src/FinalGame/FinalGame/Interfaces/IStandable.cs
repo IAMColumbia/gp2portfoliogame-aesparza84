@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace FinalGame.Interfaces
 {
-    internal interface ITool
+    internal interface IStandable
     {
-        string Name { get; set; }    
-        void Use() { }
     }
 }

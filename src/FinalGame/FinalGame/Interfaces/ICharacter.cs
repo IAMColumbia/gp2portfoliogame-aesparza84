@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace FinalGame.Interfaces
 {
-    internal interface ICharacter
+    public interface ICharacter
     {
+        public int Health { get; set; }
+        public IWeapon weapon { get; set; }
+
     }
 }
