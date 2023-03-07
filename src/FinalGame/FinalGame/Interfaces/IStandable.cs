@@ -8,5 +8,6 @@ namespace FinalGame.Interfaces
 {
     internal interface IStandable
     {
+
     }
 }

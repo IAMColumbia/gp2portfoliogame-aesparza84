@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FinalGame
 {
-    public enum CharacterState {ATTACKING, NEUTRAL}
+    
     public class Player : DrawableSprite, ICharacter
     {
         int ICharacter.health { get; set; }
@@ -19,12 +19,19 @@ namespace FinalGame
         IWeapon ICharacter.weapon { get; set; }
 
         PlayerController controller;
-        CharacterState characterState { get; set; }
+        CharacterState ICharacter.characterState { get; set; }
 
+        string TextureName;
         public Player(Game game) : base(game)
         {
+            TextureName = "TestingSprite";
 
+            if (InputHandler ==null)
+            {
+
+            }
         }
+
 
     }
 }

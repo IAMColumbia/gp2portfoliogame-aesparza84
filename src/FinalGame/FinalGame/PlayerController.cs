@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FinalGame.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary.Util;
 using System;
@@ -12,13 +13,14 @@ namespace FinalGame
     class PlayerController
     {
         InputHandler input;
-
+        IWeapon weapon;
         public Vector2 Direction { get; set; }
 
-        public PlayerController(Game game) 
+        public PlayerController(Game game, IWeapon passedWeapon) 
         {
             input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
             this.Direction = Vector2.Zero;
+            this.weapon = passedWeapon;
         }
 
         public void HandleInput(GameTime gametime)
@@ -36,6 +38,10 @@ namespace FinalGame
             if (input.KeyboardState.IsKeyDown(Keys.Space))
             {
                 this.Direction = new Vector2(0,1);
+            }
+            if (input.MouseState.LeftButton )
+            {
+
             }
         }
     }

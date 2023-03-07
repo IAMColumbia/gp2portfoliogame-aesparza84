@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace FinalGame.Interfaces
 {
+    public enum CharacterState { ATTACKING, NEUTRAL }
+    public enum LifeState { ALIVE, DEAD}
     public interface ICharacter
     {
-        public int Health { get; set; }
-        public IWeapon weapon { get; set; }
+        int health { get; set; }
+
+        LifeState lifestate{ get; set; }
+        IWeapon weapon { get; set; }
+
+        CharacterState characterState { get; set; }
 
     }
 }
