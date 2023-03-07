@@ -25,7 +25,7 @@ namespace FinalGame
         public Player(Game game) : base(game)
         {
             TextureName = "TestingSprite";
-
+            speed = 40;
             if (InputHandler ==null)
             {
 
