@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace FinalGame
 {
-    public interface IWeapon
+    internal class DeleteCharacter
     {
-        string Name { get; set; }
-        int Damage { get; set; }
-        public void Use();
     }
 }
