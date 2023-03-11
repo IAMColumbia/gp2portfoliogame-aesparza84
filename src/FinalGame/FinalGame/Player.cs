@@ -1,5 +1,4 @@
-﻿using FinalGame.Interfaces;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoGameLibrary.Sprite;
 using MonoGameLibrary.Util;
 using System;
@@ -10,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace FinalGame
 {
-    
+
     public class Player : DrawableSprite, ICharacter
     {
-        int ICharacter.health { get; set; }
-        LifeState ICharacter.lifestate { get; set; }
+        int health { get; set; }
+        LifeState lifestate { get; set; }
         int speed;
-        IWeapon ICharacter.weapon { get; set; }
+        IWeapon weapon { get; set; }
 
         PlayerController controller;
         CharacterState ICharacter.characterState { get; set; }

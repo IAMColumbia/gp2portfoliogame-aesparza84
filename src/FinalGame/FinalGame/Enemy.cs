@@ -1,5 +1,4 @@
-﻿using FinalGame.Interfaces;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoGameLibrary.Sprite;
 using System;
 using System.Collections.Generic;

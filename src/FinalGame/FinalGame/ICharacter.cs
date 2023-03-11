@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinalGame.Interfaces
+namespace FinalGame
 {
     public enum CharacterState { ATTACKING, NEUTRAL }
-    public enum LifeState { ALIVE, DEAD}
+    public enum LifeState { ALIVE, DEAD }
     public interface ICharacter
     {
         int health { get; set; }
 
-        LifeState lifestate{ get; set; }
+        LifeState lifestate { get; set; }
         IWeapon weapon { get; set; }
 
         CharacterState characterState { get; set; }

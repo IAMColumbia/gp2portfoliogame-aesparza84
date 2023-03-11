@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinalGame.Interfaces
+namespace FinalGame
 {
-    public interface IWeapon
+    internal interface ITool
     {
         string Name { get; set; }
-        int Damage { get; set; }
+        void Use() { }
     }
 }

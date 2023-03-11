@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinalGame.Interfaces
+namespace FinalGame
 {
     internal interface IStandable
     {
