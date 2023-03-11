@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace FixedFinalGame
 {
-    internal interface IStandable
+    internal interface ICollidable
     {
-
     }
 }

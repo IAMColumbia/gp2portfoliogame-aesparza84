@@ -22,6 +22,13 @@ namespace FixedFinalGame
             this.weapon = passedWeapon;
         }
 
+        //Building without weapon
+        public PlayerController(Game game)
+        {
+            input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
+            this.Direction = Vector2.Zero;
+        }
+
         public void HandleInput(GameTime gametime)
         {
             var mouseState = Mouse.GetState();

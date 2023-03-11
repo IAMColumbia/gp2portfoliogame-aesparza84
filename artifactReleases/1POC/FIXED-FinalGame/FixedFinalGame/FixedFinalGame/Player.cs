@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace FixedFinalGame
 {
 
-    public class Player :DrawableSprite, ICharacter
+    public class Player : DrawableSprite, ICharacter
     {
         //int health { get; set; }
         //LifeState lifestate { get; set; }
