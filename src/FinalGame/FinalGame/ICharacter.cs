@@ -9,7 +9,7 @@ namespace FinalGame
 {
     public enum CharacterState { ATTACKING, NEUTRAL }
     public enum LifeState { ALIVE, DEAD }
-    public interface ICharacter
+    interface ICharacter
     {
         int health { get; set; }
         float GravityAccel { get; set; }
