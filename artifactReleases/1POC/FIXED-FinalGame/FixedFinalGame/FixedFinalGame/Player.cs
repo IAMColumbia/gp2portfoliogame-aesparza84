@@ -5,6 +5,7 @@ using MonoGameLibrary.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,55 +14,107 @@ namespace FixedFinalGame
 
     public class Player : DrawableSprite, ICharacter
     {
-        //int health { get; set; }
-        //LifeState lifestate { get; set; }
-        //int speed;
-        //float GravityAccel { get; set; }
-        //Vector2 GravityDir { get; set; }
-
-        //IWeapon weapon { get; set; }
-
         public int health { get; set; }
-        int speed { get; set; }
-        public float GravityAccel { get; set; }
-        public Vector2 GravityDir { get; set; }
+       public int speed { get; set; }
+        
         public LifeState lifestate { get; set; }
+        public GroundState groundState { get; set; }
         public IWeapon weapon { get; set; }
         public CharacterState characterState { get; set; }
 
-        Texture2D _texture;
-
-        PlayerController controller;
-     
+        public Gravity gravity { get; set; }
+        PlayerController controller;     
         string TextureName;
+
+        GameConsole console;
+
         public Player(Game game) : base(game)
         {
             TextureName = "TestingSprite";
-            this.Location = new Vector2(50,50);
+            this.Location = new Vector2(50,250);
+            gravity = new Gravity();
+
+            if (controller == null)
+            {
+                controller = new PlayerController(game, this);    
+            }
+
+            console= new GameConsole(game);
+            this.Game.Components.Add(console);
+
             SetStats();
         }
-
+        
         void SetStats()
-        { 
+        {
             this.health= 100;
-            this.speed= 40;
-            this.GravityAccel = 1.5f;
-            this.GravityDir = new Vector2(1,0);
+            this.speed= 15;
+            this.gravity.GravityAccel = 2f;
+            this.gravity.GravityDir = new Vector2(0,1);
         }
 
-        public void DenyMovement(TerrainBlock block) 
+        public void KeepOnScreen(GraphicsDevice gd) 
         {
-            this.Direction.X= 0;
-            this.Direction.Y= 0;
+            if (this.Location.X > gd.Viewport.Width - spriteTexture.Width || spriteTexture.Width < 0)
+            {
+                this.Direction = this.Direction * new Vector2(0,0);
+            }
+
+            if (this.Location.Y > 250)
+            {
+                this.Direction.Y= 0;
+            }
         }
+
+        public void CheckIfStanding()
+        {
+            if (Direction.Y == 0)
+            {
+                groundState = GroundState.STANDING;
+            }
+            else { groundState= GroundState.JUMPING; }
+        }
+        
+        public void DoGravity(float time)
+        {
+            this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel)*(time/1000);
+        }
+
+        private void timecorrect(float time) 
+        {
+            this.Location = this.Location + (this.Direction * speed) * (time/1000);
+        }
+
+       
         public override void Update(GameTime gameTime)
         {
+
+            console.Log("Direction.Y",this.Direction.Y.ToString());
+            console.Log("Standing State ", this.groundState.ToString());
+            console.Log("Location", this.Location.ToString());
+
+            float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            
+            CheckIfStanding();
+
+            if (this.Direction.Y != 0)
+            {
+                DoGravity(time);
+            }
+
+            controller.HandleInput(gameTime);
+            this.Direction += controller.Direction;
+
+            
+            timecorrect(time);
+            KeepOnScreen(this.Game.GraphicsDevice);
             base.Update(gameTime);
         }
 
         protected override void LoadContent()
         {
-            this._texture = this.Game.Content.Load<Texture2D>(TextureName);
+            this.spriteTexture = this.Game.Content.Load<Texture2D>(TextureName);
             base.LoadContent();
         }
 

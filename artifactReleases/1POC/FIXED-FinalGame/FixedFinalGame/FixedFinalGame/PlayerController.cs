@@ -13,43 +13,63 @@ namespace FixedFinalGame
     {
         InputHandler input;
         IWeapon weapon;
+
+        Player PassedPlayer;
         public Vector2 Direction { get; set; }
 
-        public PlayerController(Game game, IWeapon passedWeapon) 
+        public PlayerController(Game game, Player player, IWeapon passedWeapon) 
         {
             input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
             this.Direction = Vector2.Zero;
             this.weapon = passedWeapon;
+            PassedPlayer = player;
         }
 
         //Building without weapon
-        public PlayerController(Game game)
-        {
+        public PlayerController(Game game, Player player)
+        {            
             input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
             this.Direction = Vector2.Zero;
+            PassedPlayer = player;
         }
 
         public void HandleInput(GameTime gametime)
         {
             var mouseState = Mouse.GetState();
             this.Direction = Vector2.Zero;
-
-            if (input.KeyboardState.IsKeyDown(Keys.Left))
+            if (input != null)
             {
-                this.Direction = new Vector2(-1,0);
+                if (input.KeyboardState.IsKeyDown(Keys.A))
+                {
+                    this.Direction = new Vector2(-1, 0);
+                }
+                if (input.KeyboardState.IsKeyDown(Keys.D))
+                {
+                    this.Direction = new Vector2(1, 0);
+                }
+                if (input.KeyboardState.IsKeyDown(Keys.Space))
+                {
+                    var PrevSpeed = PassedPlayer.speed;
+                    if (PassedPlayer.groundState == GroundState.STANDING)
+                    {                       
+                        this.Direction = new Vector2(0,-20);
+                        PassedPlayer.groundState = GroundState.JUMPING;
+                    }
+                    if (PassedPlayer.groundState == GroundState.JUMPING)
+                    {
+                        PassedPlayer.speed = PrevSpeed;
+                    }                    
+                }
+                //if (mouseState.LeftButton == ButtonState.Pressed)
+                //{
+                //    this.weapon.Use();
+                //}
             }
-            if (input.KeyboardState.IsKeyDown(Keys.Right))
+            else 
             {
-                this.Direction = new Vector2(1,0);
+                this.Direction = Vector2.Zero;
             }
-            if (input.KeyboardState.IsKeyDown(Keys.Space))
-            {
-                this.Direction = new Vector2(0,1);
-            }
-            if (mouseState.LeftButton == ButtonState.Pressed)
-            {
-                this.weapon.Use();
-            }
+                          
         }
     }
 }

@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 namespace FixedFinalGame
 {
     public enum CharacterState { ATTACKING, NEUTRAL }
+    public enum GroundState {STANDING, JUMPING }
     public enum LifeState { ALIVE, DEAD }
     interface ICharacter
     {
         int health { get; set; }
-        float GravityAccel { get; set; }
-        Vector2 GravityDir { get; set; } 
+        Gravity gravity { get; set; }
 
         LifeState lifestate { get; set; }
+        GroundState groundState { get; set; }
         IWeapon weapon { get; set; }
 
         CharacterState characterState { get; set; }

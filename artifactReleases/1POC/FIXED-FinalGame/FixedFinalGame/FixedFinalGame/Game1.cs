@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameLibrary.Util;
 
 namespace FixedFinalGame
 {
@@ -9,6 +10,13 @@ namespace FixedFinalGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        public static int Screenheight, Screenwidth;
+
+        
+        InputHandler input;
+
+        Camera cam;
+
         Player player;
         public Game1()
         {
@@ -16,13 +24,22 @@ namespace FixedFinalGame
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
+            input = new InputHandler(this); 
+            this.Components.Add(input);
+
             player = new Player(this);
             this.Components.Add(player);
+
+            cam = new Camera(this, player, _spriteBatch);
+            this.Components.Add(cam);
         }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            Screenheight = _graphics.PreferredBackBufferHeight;
+            Screenwidth  = _graphics.PreferredBackBufferWidth;
+
+            
 
             base.Initialize();
         }
@@ -49,6 +66,9 @@ namespace FixedFinalGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            _spriteBatch.Begin(transformMatrix: cam.Transform);
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
