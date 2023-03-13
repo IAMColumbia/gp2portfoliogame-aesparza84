@@ -49,15 +49,14 @@ namespace FixedFinalGame
                 }
                 if (input.KeyboardState.IsKeyDown(Keys.Space))
                 {
-                    var PrevSpeed = PassedPlayer.speed;
                     if (PassedPlayer.groundState == GroundState.STANDING)
                     {                       
-                        this.Direction = new Vector2(0,-20);
+                        this.Direction = new Vector2(0,-5);
                         PassedPlayer.groundState = GroundState.JUMPING;
                     }
                     if (PassedPlayer.groundState == GroundState.JUMPING)
-                    {
-                        PassedPlayer.speed = PrevSpeed;
+                    {                        
+                        
                     }                    
                 }
                 //if (mouseState.LeftButton == ButtonState.Pressed)

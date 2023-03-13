@@ -10,21 +10,23 @@ using System.Threading.Tasks;
 
 namespace FixedFinalGame
 {
-    public class Camera:DrawableGameComponent
+    public class Camera
     {
-        DrawableSprite PassedSprite;
+        Player PassedSprite;
+
+        Vector2 Location;
         public Matrix Transform { get; set; }
 
         SpriteBatch PassedSb;
-        public Camera(Game game, DrawableSprite TargetSprite, SpriteBatch sb) : base(game)
+
+        public Camera(Player TargetSprite, SpriteBatch sb)
         {
+            Location = Vector2.Zero;
             PassedSprite = TargetSprite;
             PassedSb = sb;
         }
 
-      
-
-        public void StickToSprite(DrawableSprite sprite)    
+        public void StickToSprite(Player sprite)
         {
             //Matrix Loc = Matrix.CreateTranslation
             //    (
@@ -37,34 +39,18 @@ namespace FixedFinalGame
 
             //Transform = Loc * center;
 
+
+
             //------Other method--------------
-            var x = (Game1.Screenwidth / 2) - sprite.Location.X;
-            var y = (Game1.Screenheight / 2) - sprite.Location.Y;
-            Transform = Matrix.CreateTranslation(x,y,0f);
+            float x = (Game1.Screenwidth / 2) - sprite.Location.X;
+            float y = (Game1.Screenheight / 2) - sprite.Location.Y;
+
+            Transform = Matrix.CreateTranslation(x, y, 0);
         }
 
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
-        protected override void LoadContent()
-        {
-            base.LoadContent();
-        }
-        public override void Update(GameTime gameTime)  
+        public void Update()
         {
             StickToSprite(PassedSprite);
-            base.Update(gameTime);
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            PassedSb.Begin(transformMatrix: this.Transform);
-
-            PassedSb.End();
-
-            base.Draw(gameTime);
         }
     }
 }

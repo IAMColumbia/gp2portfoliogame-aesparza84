@@ -30,7 +30,7 @@ namespace FixedFinalGame
             player = new Player(this);
             this.Components.Add(player);
 
-           
+                     
         }
 
         protected override void Initialize()
@@ -47,15 +47,16 @@ namespace FixedFinalGame
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            cam = new Camera(this, player, _spriteBatch);
-            this.Components.Add(cam);
             // TODO: use this.Content to load your game content here
+            cam = new Camera(player, _spriteBatch);
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            cam.Update();
 
             // TODO: Add your update logic here
 
@@ -64,9 +65,12 @@ namespace FixedFinalGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkCyan);
 
             // TODO: Add your drawing code here
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null,null,null,null, cam.Transform);
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

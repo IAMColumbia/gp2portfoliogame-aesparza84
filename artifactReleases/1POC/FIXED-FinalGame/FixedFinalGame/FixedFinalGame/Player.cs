@@ -61,6 +61,7 @@ namespace FixedFinalGame
                 this.Direction = this.Direction * new Vector2(0,0);
             }
 
+            //Cheating Floor
             if (this.Location.Y > 250)
             {
                 this.Direction.Y= 0;
@@ -84,6 +85,7 @@ namespace FixedFinalGame
         private void timecorrect(float time) 
         {
             this.Location = this.Location + (this.Direction * speed) * (time/1000);
+            DoGravity(time);
         }
 
        
@@ -98,11 +100,6 @@ namespace FixedFinalGame
 
             
             CheckIfStanding();
-
-            if (this.Direction.Y != 0)
-            {
-                DoGravity(time);
-            }
 
             controller.HandleInput(gameTime);
             this.Direction += controller.Direction;
