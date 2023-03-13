@@ -22,16 +22,17 @@ namespace FixedFinalGame
         public IWeapon weapon { get; set; }
         public CharacterState characterState { get; set; }
 
-        public Gravity gravity { get; set; }
+        public Gravity gravity { get; set; }    
         PlayerController controller;     
-        string TextureName;
+        string TextureName; 
 
         GameConsole console;
 
         public Player(Game game) : base(game)
         {
-            TextureName = "TestingSprite";
-            this.Location = new Vector2(50,250);
+            TextureName = "TestingSrite2";
+            
+
             gravity = new Gravity();
 
             if (controller == null)

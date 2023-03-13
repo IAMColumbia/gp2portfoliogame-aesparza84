@@ -30,8 +30,7 @@ namespace FixedFinalGame
             player = new Player(this);
             this.Components.Add(player);
 
-            cam = new Camera(this, player, _spriteBatch);
-            this.Components.Add(cam);
+           
         }
 
         protected override void Initialize()
@@ -39,7 +38,7 @@ namespace FixedFinalGame
             Screenheight = _graphics.PreferredBackBufferHeight;
             Screenwidth  = _graphics.PreferredBackBufferWidth;
 
-            
+            player.Location = new Vector2(GraphicsDevice.Viewport.Width/2, GraphicsDevice.Viewport.Height/2);
 
             base.Initialize();
         }
@@ -48,6 +47,8 @@ namespace FixedFinalGame
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            cam = new Camera(this, player, _spriteBatch);
+            this.Components.Add(cam);
             // TODO: use this.Content to load your game content here
         }
 
@@ -66,9 +67,6 @@ namespace FixedFinalGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            _spriteBatch.Begin(transformMatrix: cam.Transform);
-
-            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

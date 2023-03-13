@@ -13,6 +13,8 @@ namespace FixedFinalGame
     public class Camera:DrawableGameComponent
     {
         DrawableSprite PassedSprite;
+        public Matrix Transform { get; set; }
+
         SpriteBatch PassedSb;
         public Camera(Game game, DrawableSprite TargetSprite, SpriteBatch sb) : base(game)
         {
@@ -20,20 +22,25 @@ namespace FixedFinalGame
             PassedSb = sb;
         }
 
-        public Matrix Transform { get; set; }   
+      
 
         public void StickToSprite(DrawableSprite sprite)    
         {
-            Matrix Loc = Matrix.CreateTranslation
-                (
-                    -sprite.Location.X - (sprite.Rectagle.Width / 2),        //middle of sprite x-axis  
-                    -sprite.Location.Y - (sprite.Rectagle.Height / 2),       //middle of sprite y-axis  
-                    0
-                ) ;
+            //Matrix Loc = Matrix.CreateTranslation
+            //    (
+            //        -sprite.Location.X - (sprite.Rectagle.Width / 2),        //middle of sprite x-axis  
+            //        -sprite.Location.Y - (sprite.Rectagle.Height / 2),       //middle of sprite y-axis  
+            //        0
+            //    ) ;
 
-            Matrix center = Matrix.CreateTranslation(Game1.Screenwidth / 2, Game1.Screenheight / 2, 0);
+            //Matrix center = Matrix.CreateTranslation(Game1.Screenwidth / 2, Game1.Screenheight / 2, 0);
 
-            Transform = Loc * center;            
+            //Transform = Loc * center;
+
+            //------Other method--------------
+            var x = (Game1.Screenwidth / 2) - sprite.Location.X;
+            var y = (Game1.Screenheight / 2) - sprite.Location.Y;
+            Transform = Matrix.CreateTranslation(x,y,0f);
         }
 
         public override void Initialize()
@@ -51,13 +58,13 @@ namespace FixedFinalGame
             base.Update(gameTime);
         }
 
-        //public override void Draw(GameTime gameTime)
-        //{
-        //    PassedSb.Begin(transformMatrix: this.Transform);
+        public override void Draw(GameTime gameTime)
+        {
+            PassedSb.Begin(transformMatrix: this.Transform);
 
-        //    PassedSb.End();
+            PassedSb.End();
 
-        //    base.Draw(gameTime);
-        //}
+            base.Draw(gameTime);
+        }
     }
 }
