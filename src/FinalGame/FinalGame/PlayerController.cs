@@ -1,5 +1,4 @@
-﻿using FinalGame.Interfaces;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary.Util;
 using System;
@@ -25,6 +24,7 @@ namespace FinalGame
 
         public void HandleInput(GameTime gametime)
         {
+            var mouseState = Mouse.GetState();
             this.Direction = Vector2.Zero;
 
             if (input.KeyboardState.IsKeyDown(Keys.Left))
@@ -39,9 +39,9 @@ namespace FinalGame
             {
                 this.Direction = new Vector2(0,1);
             }
-            if (input.MouseState.LeftButton )
+            if (mouseState.LeftButton == ButtonState.Pressed)
             {
-
+                this.weapon.Use();
             }
         }
     }
