@@ -1,1 +1,13 @@
 Release Notes version 1 POC
+
+Goal:
+For the Proof of concept, I was to have a build
+where the player can move around and stand on platforms,
+as well as have a camera that follows the player throughout 
+the world.
+
+For proof of concept, I did NOT meet my goals. Platforms are
+in the works but mainly the camera is where it did not come
+together. Movement and gravity for my character is awkward 
+since it was built around a bad input but fixable. 
+
