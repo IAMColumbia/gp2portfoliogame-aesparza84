@@ -15,6 +15,9 @@ namespace FixedFinalGame
         IWeapon weapon;
 
         Player PassedPlayer;
+
+
+        public Gravity gravity;
         public Vector2 Direction { get; set; }
 
         public PlayerController(Game game, Player player, IWeapon passedWeapon) 
@@ -31,14 +34,23 @@ namespace FixedFinalGame
             input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
             this.Direction = Vector2.Zero;
             PassedPlayer = player;
+
+            gravity = new Gravity();
+            SetGravity();
         }
 
+        void SetGravity()
+        {
+            this.gravity.GravityAccel = 12f;
+            this.gravity.GravityDir = new Vector2(0, 6);
+        }
         public void HandleInput(GameTime gametime)
         {
-            var mouseState = Mouse.GetState();
             this.Direction = Vector2.Zero;
-            if (input != null)
-            {
+
+            //var moustate = Mouse.GetState();
+
+
                 if (input.KeyboardState.IsKeyDown(Keys.A))
                 {
                     this.Direction = new Vector2(-1, 0);
@@ -51,7 +63,7 @@ namespace FixedFinalGame
                 {
                     if (PassedPlayer.groundState == GroundState.STANDING)
                     {                       
-                        this.Direction = new Vector2(0,-5);
+                        this.Direction = new Vector2(0,-25);
                         PassedPlayer.groundState = GroundState.JUMPING;
                     }
                     if (PassedPlayer.groundState == GroundState.JUMPING)
@@ -63,11 +75,7 @@ namespace FixedFinalGame
                 //{
                 //    this.weapon.Use();
                 //}
-            }
-            else 
-            {
-                this.Direction = Vector2.Zero;
-            }
+            
                           
         }
     }

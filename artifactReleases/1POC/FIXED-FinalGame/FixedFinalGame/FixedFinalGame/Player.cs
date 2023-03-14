@@ -49,16 +49,20 @@ namespace FixedFinalGame
         void SetStats()
         {
             this.health= 100;
-            this.speed= 15;
-            this.gravity.GravityAccel = 2f;
-            this.gravity.GravityDir = new Vector2(0,1);
+            this.speed= 25;
+
+            this.gravity.GravityAccel = controller.gravity.GravityAccel;
+            this.gravity.GravityDir = controller.gravity.GravityDir;
+
+            //this.gravity.GravityAccel = 22f;
+            //this.gravity.GravityDir = new Vector2(0, 1);
         }
 
         public void KeepOnScreen(GraphicsDevice gd) 
         {
             if (this.Location.X > gd.Viewport.Width - spriteTexture.Width || spriteTexture.Width < 0)
             {
-                this.Direction = this.Direction * new Vector2(0,0);
+                this.Direction.X = 0; 
             }
 
             //Cheating Floor
@@ -93,6 +97,7 @@ namespace FixedFinalGame
         {
 
             console.Log("Direction.Y",this.Direction.Y.ToString());
+            console.Log("Direction.X", this.Direction.X.ToString());
             console.Log("Standing State ", this.groundState.ToString());
             console.Log("Location", this.Location.ToString());
 
