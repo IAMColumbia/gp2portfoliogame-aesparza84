@@ -15,41 +15,41 @@ namespace FixedFinalGame
     public class Player : DrawableSprite, ICharacter
     {
         public int health { get; set; }
-       public int speed { get; set; }
-        
+        public int speed { get; set; }
+
         public LifeState lifestate { get; set; }
         public GroundState groundState { get; set; }
         public IWeapon weapon { get; set; }
         public CharacterState characterState { get; set; }
 
-        public Gravity gravity { get; set; }    
-        PlayerController controller;     
-        string TextureName; 
+        public Gravity gravity { get; set; }
+        PlayerController controller;
+        string TextureName;
 
         GameConsole console;
 
         public Player(Game game) : base(game)
         {
             TextureName = "TestingSrite2";
-            
+
 
             gravity = new Gravity();
 
             if (controller == null)
             {
-                controller = new PlayerController(game, this);    
+                controller = new PlayerController(game, this);
             }
 
-            console= new GameConsole(game);
+            console = new GameConsole(game);
             this.Game.Components.Add(console);
 
             SetStats();
         }
-        
+
         void SetStats()
         {
-            this.health= 100;
-            this.speed= 25;
+            this.health = 100;
+            this.speed = 500;
 
             this.gravity.GravityAccel = controller.gravity.GravityAccel;
             this.gravity.GravityDir = controller.gravity.GravityDir;
@@ -58,6 +58,7 @@ namespace FixedFinalGame
             //this.gravity.GravityDir = new Vector2(0, 1);
         }
 
+        public void ResetLocation() { this.Location = new Vector2(Game1.Screenwidth/2, Game1.Screenheight/2); }
         public void KeepOnScreen(GraphicsDevice gd) 
         {
             if (this.Location.X > gd.Viewport.Width - spriteTexture.Width || spriteTexture.Width < 0)
@@ -89,7 +90,7 @@ namespace FixedFinalGame
         private void timecorrect(float time) 
         {
             this.Location = this.Location + (this.Direction * speed) * (time/1000);
-            DoGravity(time);
+            //DoGravity(time);
         }
 
        

@@ -44,16 +44,16 @@ namespace FixedFinalGame
             this.gravity.GravityAccel = 12f;
             this.gravity.GravityDir = new Vector2(0, 6);
         }
-        public void HandleInput(GameTime gametime)
+        public void HandleInput(GameTime gameTime)
         {
+            float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             this.Direction = Vector2.Zero;
 
             //var moustate = Mouse.GetState();
-
-
                 if (input.KeyboardState.IsKeyDown(Keys.A))
                 {
                     this.Direction = new Vector2(-1, 0);
+                    
                 }
                 if (input.KeyboardState.IsKeyDown(Keys.D))
                 {
@@ -63,14 +63,18 @@ namespace FixedFinalGame
                 {
                     if (PassedPlayer.groundState == GroundState.STANDING)
                     {                       
-                        this.Direction = new Vector2(0,-25);
+                        this.Direction = new Vector2(0,-2);
                         PassedPlayer.groundState = GroundState.JUMPING;
                     }
                     if (PassedPlayer.groundState == GroundState.JUMPING)
-                    {                        
-                        
+                    {
+                        PassedPlayer.DoGravity(time);
                     }                    
                 }
+            if (input.KeyboardState.IsKeyDown(Keys.R))
+            {
+                PassedPlayer.ResetLocation();
+            }
                 //if (mouseState.LeftButton == ButtonState.Pressed)
                 //{
                 //    this.weapon.Use();
