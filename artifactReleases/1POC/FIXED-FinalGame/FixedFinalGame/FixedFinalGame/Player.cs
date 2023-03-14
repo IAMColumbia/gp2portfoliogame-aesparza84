@@ -108,7 +108,7 @@ namespace FixedFinalGame
             CheckIfStanding();
 
             controller.HandleInput(gameTime);
-            this.Direction += controller.Direction;
+            this.Direction = controller.Direction;
 
             
             timecorrect(time);

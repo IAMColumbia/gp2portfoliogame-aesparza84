@@ -68,7 +68,7 @@ namespace FixedFinalGame
                     }
                     if (PassedPlayer.groundState == GroundState.JUMPING)
                     {
-                        PassedPlayer.DoGravity(time);
+                        
                     }                    
                 }
             if (input.KeyboardState.IsKeyDown(Keys.R))
