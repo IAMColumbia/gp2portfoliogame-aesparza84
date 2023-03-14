@@ -49,7 +49,7 @@ namespace FixedFinalGame
         void SetStats()
         {
             this.health = 100;
-            this.speed = 500;
+            this.speed = 50;
 
             this.gravity.GravityAccel = controller.gravity.GravityAccel;
             this.gravity.GravityDir = controller.gravity.GravityDir;
@@ -58,14 +58,13 @@ namespace FixedFinalGame
             //this.gravity.GravityDir = new Vector2(0, 1);
         }
 
-        public void ResetLocation() { this.Location = new Vector2(Game1.Screenwidth/2, Game1.Screenheight/2); }
+        public void ResetLocation() 
+        {
+            this.Direction = Vector2.Zero;
+            this.Location = new Vector2(Game1.Screenwidth/2, Game1.Screenheight/2);
+        }
         public void KeepOnScreen(GraphicsDevice gd) 
         {
-            if (this.Location.X > gd.Viewport.Width - spriteTexture.Width || spriteTexture.Width < 0)
-            {
-                this.Direction.X = 0; 
-            }
-
             //Cheating Floor
             if (this.Location.Y > 250)
             {
@@ -90,7 +89,7 @@ namespace FixedFinalGame
         private void timecorrect(float time) 
         {
             this.Location = this.Location + (this.Direction * speed) * (time/1000);
-            //DoGravity(time);
+            DoGravity(time);
         }
 
        
@@ -108,7 +107,7 @@ namespace FixedFinalGame
             CheckIfStanding();
 
             controller.HandleInput(gameTime);
-            this.Direction = controller.Direction;
+            this.Direction += controller.Direction;
 
             
             timecorrect(time);
