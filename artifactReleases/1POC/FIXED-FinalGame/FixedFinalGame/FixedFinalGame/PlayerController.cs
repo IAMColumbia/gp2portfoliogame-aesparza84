@@ -41,7 +41,7 @@ namespace FixedFinalGame
 
         void SetGravity()
         {
-            this.gravity.GravityAccel = 12f;
+            this.gravity.GravityAccel = 5f;
             this.gravity.GravityDir = new Vector2(0, 5);
         }
         public void HandleInput(GameTime gameTime)

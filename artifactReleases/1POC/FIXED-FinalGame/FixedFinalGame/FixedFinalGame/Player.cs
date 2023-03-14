@@ -65,11 +65,6 @@ namespace FixedFinalGame
         }
         public void KeepOnScreen(GraphicsDevice gd) 
         {
-            if (this.Location.X > gd.Viewport.Width - spriteTexture.Width || spriteTexture.Width < 0)
-            {
-                this.Direction.X = 0; 
-            }
-
             //Cheating Floor
             if (this.Location.Y > 250)
             {
