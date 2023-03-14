@@ -42,7 +42,7 @@ namespace FixedFinalGame
         void SetGravity()
         {
             this.gravity.GravityAccel = 12f;
-            this.gravity.GravityDir = new Vector2(0, 6);
+            this.gravity.GravityDir = new Vector2(0, 5);
         }
         public void HandleInput(GameTime gameTime)
         {
@@ -63,7 +63,7 @@ namespace FixedFinalGame
                 {
                     if (PassedPlayer.groundState == GroundState.STANDING)
                     {                       
-                        this.Direction = new Vector2(0,-2);
+                        this.Direction = new Vector2(0,-10);
                         PassedPlayer.groundState = GroundState.JUMPING;
                     }
                     if (PassedPlayer.groundState == GroundState.JUMPING)
