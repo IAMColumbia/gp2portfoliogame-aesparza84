@@ -44,5 +44,6 @@ namespace FixedFinalGame
         {
             StickToSprite(PassedSprite);
         }
+
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Sprite;
 using MonoGameLibrary.Util;
+using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace FixedFinalGame
         public IWeapon weapon { get; set; }
         public CharacterState characterState { get; set; }
 
+        private SpriteEffects s;
+
         public Gravity gravity { get; set; }
         PlayerController controller;
         string TextureName;
@@ -31,7 +34,7 @@ namespace FixedFinalGame
         public Player(Game game) : base(game)
         {
             TextureName = "TestingSrite2";
-
+           
 
             gravity = new Gravity();
 
@@ -42,8 +45,10 @@ namespace FixedFinalGame
 
             console = new GameConsole(game);
             this.Game.Components.Add(console);
-
+            this.Origin = new Vector2(this.Rectagle.Width/2, this.Rectagle.Height/2);
             SetStats();
+
+            s = SpriteEffects.None;
         }
 
         void SetStats()
@@ -111,6 +116,7 @@ namespace FixedFinalGame
 
             
             timecorrect(time);
+           // flip();
             KeepOnScreen(this.Game.GraphicsDevice);
             base.Update(gameTime);
         }
@@ -125,9 +131,41 @@ namespace FixedFinalGame
         {
             base.Initialize();  
         }
+
+        void flip()
+        {
+            if (Direction.X < 0)
+            {
+                s = SpriteEffects.FlipHorizontally;
+                spriteBatch.Begin();
+                spriteBatch.Draw(this.spriteTexture,this.Location,null,Color.White,0f,this.Origin,1f,s,1);
+                spriteBatch.End();
+            }
+            if (Direction.X >= 0)
+            {
+                s = SpriteEffects.None;
+                spriteBatch.Begin();
+                spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
+                spriteBatch.End();
+            }
+        }
+
         public override void Draw(GameTime gameTime)
         {
-            base.Draw(gameTime);
+            if (Direction.X < 0)
+            {
+                s = SpriteEffects.FlipHorizontally;
+                spriteBatch.Begin();
+                spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
+                spriteBatch.End();
+            }
+            if (Direction.X >= 0)
+            {
+                s = SpriteEffects.None;
+                spriteBatch.Begin();
+                spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
+                spriteBatch.End();
+            }
         }
 
     }

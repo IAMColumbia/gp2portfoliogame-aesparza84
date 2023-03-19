@@ -59,6 +59,10 @@ namespace FixedFinalGame
                 {
                     this.Direction = new Vector2(1, 0);
                 }
+                if (input.KeyboardState.IsKeyDown(Keys.W))
+                {
+                    this.Direction = Vector2.Zero;
+                }
                 if (input.KeyboardState.IsKeyDown(Keys.Space))
                 {
                     if (PassedPlayer.groundState == GroundState.STANDING)
