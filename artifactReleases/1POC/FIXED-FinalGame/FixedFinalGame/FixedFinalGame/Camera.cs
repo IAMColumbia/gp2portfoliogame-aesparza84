@@ -19,9 +19,9 @@ namespace FixedFinalGame
 
         //SpriteBatch PassedSb;
 
-        public Camera(Player TargetSprite, SpriteBatch sb)
+        public Camera(Player TargetSprite)
         {
-            Location = Vector2.Zero;
+            //Location = Vector2.Zero;
             PassedSprite = TargetSprite;
             //PassedSb = sb;
         }

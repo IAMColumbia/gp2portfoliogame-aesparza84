@@ -23,6 +23,9 @@ namespace FixedFinalGame
         public IWeapon weapon { get; set; }
         public CharacterState characterState { get; set; }
 
+        //------------------Not Icharacter
+
+        public Camera cam;
         private SpriteEffects s;
 
         public Gravity gravity { get; set; }
@@ -47,7 +50,7 @@ namespace FixedFinalGame
             this.Game.Components.Add(console);
             this.Origin = new Vector2(this.Rectagle.Width/2, this.Rectagle.Height/2);
             SetStats();
-
+            cam = new Camera(this);
             s = SpriteEffects.None;
         }
 
@@ -100,6 +103,7 @@ namespace FixedFinalGame
        
         public override void Update(GameTime gameTime)
         {
+            cam.Update();
 
             console.Log("Direction.Y",this.Direction.Y.ToString());
             console.Log("Direction.X", this.Direction.X.ToString());
@@ -116,7 +120,6 @@ namespace FixedFinalGame
 
             
             timecorrect(time);
-           // flip();
             KeepOnScreen(this.Game.GraphicsDevice);
             base.Update(gameTime);
         }
@@ -132,37 +135,21 @@ namespace FixedFinalGame
             base.Initialize();  
         }
 
-        void flip()
-        {
-            if (Direction.X < 0)
-            {
-                s = SpriteEffects.FlipHorizontally;
-                spriteBatch.Begin();
-                spriteBatch.Draw(this.spriteTexture,this.Location,null,Color.White,0f,this.Origin,1f,s,1);
-                spriteBatch.End();
-            }
-            if (Direction.X >= 0)
-            {
-                s = SpriteEffects.None;
-                spriteBatch.Begin();
-                spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
-                spriteBatch.End();
-            }
-        }
-
         public override void Draw(GameTime gameTime)
         {
             if (Direction.X < 0)
             {
                 s = SpriteEffects.FlipHorizontally;
-                spriteBatch.Begin();
+                 spriteBatch.Begin(SpriteSortMode.Deferred,null,null,null,null,null, cam.Transform);
+                //spriteBatch.Begin();
                 spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
                 spriteBatch.End();
             }
             if (Direction.X >= 0)
             {
                 s = SpriteEffects.None;
-                spriteBatch.Begin();
+                 spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);
+                //spriteBatch.Begin();
                 spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
                 spriteBatch.End();
             }

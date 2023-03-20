@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGameLibrary.Sprite;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,11 +11,14 @@ using System.Threading.Tasks;
 
 namespace FixedFinalGame
 {
-    public  class GameMap: DrawableGameComponent
+    public  class GameMap: DrawableSprite
     {
         public int BlockWidth, BlockHeight, MapWidth, MapHeight;
 
-       
+        //--------
+        string LevelLayout;
+        Texture2D ground;
+        //----------
         string terrainTexture;
 
         public string filename;
@@ -42,6 +46,31 @@ namespace FixedFinalGame
             var WorldDimensions = lines[2].Split(",");
             this.MapHeight= int.Parse(WorldDimensions[0]);
             this.MapWidth= int.Parse(WorldDimensions[1]);            
+        }
+
+        public void createLevel()
+        {
+            MapWidth = 20;
+            MapHeight = 10;
+            LevelLayout += "n-------------------";
+            LevelLayout += "n-------------------";
+            LevelLayout += "n-------------------";
+            LevelLayout += "n-------------------";
+            LevelLayout += "n-------------------";
+            LevelLayout += "n----------------nn-";
+            LevelLayout += "n------------nnnn---";
+            LevelLayout += "n--nnnnnnnnnn-------";
+            LevelLayout += "n-------------------";
+            LevelLayout += "n-------------------";
+
+            //switch (LevelLayout)
+            //{
+            //    case"n":
+            //        break;
+            //    case "-":
+            //        spriteBatch.Draw();
+            //        break;
+            //}
         }
 
         public void BuildMap()
