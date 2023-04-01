@@ -25,7 +25,8 @@ namespace FixedFinalGame
 
         //------------------Not Icharacter
 
-        public Camera cam;
+        private Camera cam;
+
         private SpriteEffects s;
 
         public Gravity gravity { get; set; }
@@ -34,7 +35,8 @@ namespace FixedFinalGame
 
         GameConsole console;
 
-        public Player(Game game) : base(game)
+        
+        public Player(Game game, Camera camera) : base(game)
         {
             TextureName = "TestingSrite2";
            
@@ -50,7 +52,10 @@ namespace FixedFinalGame
             this.Game.Components.Add(console);
             this.Origin = new Vector2(this.Rectagle.Width/2, this.Rectagle.Height/2);
             SetStats();
-            cam = new Camera(this);
+
+            // cam = new Camera();
+            cam = camera;
+
             s = SpriteEffects.None;
         }
 
@@ -76,7 +81,7 @@ namespace FixedFinalGame
             //Cheating Floor
             if (this.Location.Y > 250)
             {
-                this.Direction.Y= 0;
+                this.Direction.Y = 0.0f;
             }
         }
 
@@ -103,7 +108,7 @@ namespace FixedFinalGame
        
         public override void Update(GameTime gameTime)
         {
-            cam.Update();
+            //cam.Update();
 
             console.Log("Direction.Y",this.Direction.Y.ToString());
             console.Log("Direction.X", this.Direction.X.ToString());
@@ -148,8 +153,8 @@ namespace FixedFinalGame
             if (Direction.X >= 0)
             {
                 s = SpriteEffects.None;
-                 spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);
-                //spriteBatch.Begin();
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);
+               // spriteBatch.Begin();
                 spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
                 spriteBatch.End();
             }

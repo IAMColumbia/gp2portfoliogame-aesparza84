@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Sprite;
+using SharpDX.Direct2D1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,25 +11,49 @@ using System.Threading.Tasks;
 namespace FixedFinalGame
 {
     public class MonoTile : DrawableSprite, ICollidable
-    {      
-        protected Texture2D texture;
+    {  
 
         public string TextureName;
 
-        public MonoTile(Game game, string textureName) : base(game)
-        {
-            this.TextureName= textureName;
+        public Rectangle rect;
+        private DrawableSprite passedSprite;
+        private Camera cam;
+
+        public MonoTile(Game game, DrawableSprite character, Camera camera) : base(game)
+        {         
+            this.TextureName= "TestTile2";
+            this.Location = new Vector2(200, 240);
+            rect= new Rectangle();
+            passedSprite = character;
+            cam = camera;
         }
 
+        public void Stand(DrawableSprite character) 
+        {
+            character.Direction.Y = 0;
+        }
         protected override void LoadContent()
         {
-            this.texture = Game.Content.Load<Texture2D>(this.TextureName);
+            this.spriteTexture = Game.Content.Load<Texture2D>(this.TextureName);
+            this.rect = new Rectangle((int)this.Location.X, (int)this.Location.Y, this.spriteTexture.Width, this.spriteTexture.Height);
             base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (Intersects(passedSprite))
+            {
+                Stand(passedSprite);
+            }
+
             base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);
+            spriteBatch.Draw(this.spriteTexture, this.Location, Color.White );
+            spriteBatch.End();
         }
     }
 }

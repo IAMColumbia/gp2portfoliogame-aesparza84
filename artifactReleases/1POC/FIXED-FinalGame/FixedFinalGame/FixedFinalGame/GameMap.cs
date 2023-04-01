@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FixedFinalGame
 {
-    public  class GameMap: DrawableSprite
+    public class GameMap: DrawableSprite
     {
         public int BlockWidth, BlockHeight, MapWidth, MapHeight;
 
@@ -78,15 +78,15 @@ namespace FixedFinalGame
             //2D array of terrain blocks
             MonoTile[,] blocks = new MonoTile[MapHeight,MapWidth];
 
-            for (int w = 0; w < MapWidth; w++)
-            {
-                blocks[w, 0] = new MonoTile(passedGame, terrainTexture);
+            //for (int w = 0; w < MapWidth; w++)
+            //{
+            //    blocks[w, 0] = new MonoTile(passedGame, terrainTexture);
 
-                for (int h = 0; h < MapHeight; h++)
-                {
-                    blocks[w,h] = new MonoTile(passedGame, terrainTexture);
-                }
-            }
+            //    for (int h = 0; h < MapHeight; h++)
+            //    {
+            //        blocks[w,h] = new MonoTile(passedGame, terrainTexture);
+            //    }
+            //}
         }
 
         public override void Draw(GameTime gameTime)

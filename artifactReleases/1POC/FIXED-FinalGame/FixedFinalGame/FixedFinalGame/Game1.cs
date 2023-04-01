@@ -16,8 +16,9 @@ namespace FixedFinalGame
         Texture2D FakePlayer;
 
         InputHandler input;
+        MonoTile tile;
 
-       // Camera cam;
+        Camera cam;
 
         Player player;
         public Game1()
@@ -26,13 +27,16 @@ namespace FixedFinalGame
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
+            cam = new Camera();
+
             input = new InputHandler(this); 
             this.Components.Add(input);
 
-            player = new Player(this);
+            player = new Player(this, cam);                     //add Camera to the objects, matrix
             this.Components.Add(player);
 
-                     
+            tile = new MonoTile(this, player, cam);
+            this.Components.Add(tile);
         }
 
         protected override void Initialize()
@@ -60,7 +64,7 @@ namespace FixedFinalGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            //cam.Update();
+            cam.Update(player);
 
             // TODO: Add your update logic here
 
@@ -74,8 +78,8 @@ namespace FixedFinalGame
             // TODO: Add your drawing code here
 
             //_spriteBatch.Begin();
-            _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, player.cam.Transform);
-            _spriteBatch.Draw(background, new Vector2(-100, -150), Color.White);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);
+            //_spriteBatch.Draw(background, new Vector2(-100, -150), Color.White);
             _spriteBatch.Draw(FakePlayer, new Vector2(40, 50), Color.White);
             _spriteBatch.End();
 

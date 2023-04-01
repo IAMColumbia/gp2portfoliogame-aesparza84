@@ -12,26 +12,19 @@ namespace FixedFinalGame
 {
     public class Camera
     {
-        Player PassedSprite;
-
-        Vector2 Location;
+        private DrawableSprite PassedSprite;
         public Matrix Transform { get; set; }
 
         //SpriteBatch PassedSb;
 
-        public Camera(Player TargetSprite)
+        public Camera()
         {
             //Location = Vector2.Zero;
-            PassedSprite = TargetSprite;
             //PassedSb = sb;
         }
 
-        public void StickToSprite(Player sprite)
+        public void StickToSprite(DrawableSprite sprite)
         {
-
-
-
-
 
             //--------------------
             float x = (Game1.Screenwidth / 2) - sprite.Location.X;
@@ -40,8 +33,9 @@ namespace FixedFinalGame
             Transform = Matrix.CreateTranslation(x, y, 0);
         }
 
-        public void Update()
+        public void Update(DrawableSprite TargetSprite)
         {
+            PassedSprite = TargetSprite;
             StickToSprite(PassedSprite);
         }
 
