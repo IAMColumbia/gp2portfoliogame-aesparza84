@@ -15,15 +15,16 @@ namespace FixedFinalGame
         IWeapon weapon;
 
         Player PassedPlayer;
-
-
-        public Gravity gravity;
-        public Vector2 Direction { get; set; }
+        public Vector2 Direction;
+        public Vector2 Speed;
 
         public PlayerController(Game game, Player player, IWeapon passedWeapon) 
         {
             input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
+
             this.Direction = Vector2.Zero;
+            this.Speed = new Vector2(70, 100);
+
             this.weapon = passedWeapon;
             PassedPlayer = player;
         }
@@ -32,18 +33,50 @@ namespace FixedFinalGame
         public PlayerController(Game game, Player player)
         {            
             input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
+            
             this.Direction = Vector2.Zero;
+            this.Speed = new Vector2(200, 100);
+
             PassedPlayer = player;
-
-            gravity = new Gravity();
-            SetGravity();
         }
 
-        void SetGravity()
+        public void DifferentHandleInput(GameTime gameTime)
         {
-            this.gravity.GravityAccel = 5f;
-            this.gravity.GravityDir = new Vector2(0, 5);
+            float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            this.Speed.X = 0;
+
+            if (input.KeyboardState.IsKeyDown(Keys.A))
+            {
+                this.Direction = new Vector2(-1, 0);
+                this.Speed.X = 200;
+            }
+            if (input.KeyboardState.IsKeyDown(Keys.D))
+            {
+                this.Direction = new Vector2(1, 0);
+                this.Speed.X = 200;
+            }
+
+            if (input.KeyboardState.IsKeyDown(Keys.Space))
+            {
+                if (PassedPlayer.groundState == GroundState.STANDING)
+                {
+                    this.Direction.Y = -10;
+                }
+                else if (PassedPlayer.groundState == GroundState.JUMPING)
+                {
+                    //DoGravity(time);
+
+                }
+            }
+
+            if (input.KeyboardState.IsKeyDown(Keys.R))
+            {
+                PassedPlayer.ResetLocation();
+            }
         }
+
+
+
         public void HandleInput(GameTime gameTime)
         {
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -68,7 +101,8 @@ namespace FixedFinalGame
                 {
                     if (PassedPlayer.groundState == GroundState.STANDING)
                     {                       
-                        this.Direction = new Vector2(0,-10);
+                        this.Speed = new Vector2(500,10);
+                        this.Direction = new Vector2(0,-1);
                         PassedPlayer.groundState = GroundState.JUMPING;
                     }
                     if (PassedPlayer.groundState == GroundState.JUMPING)

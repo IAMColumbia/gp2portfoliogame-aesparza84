@@ -30,7 +30,7 @@ namespace FixedFinalGame
 
         public void Stand(DrawableSprite character) 
         {
-            character.Direction.Y = 0;
+            character.Direction.Y= 0;
         }
         protected override void LoadContent()
         {
@@ -41,12 +41,24 @@ namespace FixedFinalGame
 
         public override void Update(GameTime gameTime)
         {
-            if (Intersects(passedSprite))
+            //if (Intersects(passedSprite))
+            //{
+            //    Stand(passedSprite);
+            //}
+
+            if (this.Rectagle.Intersects(passedSprite.Rectagle))
             {
-                Stand(passedSprite);
+               Stand(passedSprite);
             }
 
+
             base.Update(gameTime);
+        }
+
+        public override void Initialize()
+        {
+            this.showMarkers= true;
+            base.Initialize();
         }
 
         public override void Draw(GameTime gameTime)

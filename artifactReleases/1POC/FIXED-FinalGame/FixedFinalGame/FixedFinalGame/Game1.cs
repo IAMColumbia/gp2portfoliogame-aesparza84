@@ -46,6 +46,14 @@ namespace FixedFinalGame
 
             player.Location = new Vector2(GraphicsDevice.Viewport.Width/2, GraphicsDevice.Viewport.Height/2);
 
+            for (int i = 0; i < 3; i++)
+            {
+                MonoTile tile = new MonoTile(this,player,cam);
+                tile.Location = new Vector2(i*100, i*100);
+                this.Components.Add(tile);
+            }
+            
+
             base.Initialize();
         }
 

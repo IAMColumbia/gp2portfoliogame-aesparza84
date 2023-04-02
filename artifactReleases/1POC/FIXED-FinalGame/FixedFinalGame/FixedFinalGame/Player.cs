@@ -16,7 +16,7 @@ namespace FixedFinalGame
     public class Player : DrawableSprite, ICharacter
     {
         public int health { get; set; }
-        public int speed { get; set; }
+        public Vector2 speed;
 
         public LifeState lifestate { get; set; }
         public GroundState groundState { get; set; }
@@ -30,6 +30,7 @@ namespace FixedFinalGame
         private SpriteEffects s;
 
         public Gravity gravity { get; set; }
+
         PlayerController controller;
         string TextureName;
 
@@ -62,10 +63,10 @@ namespace FixedFinalGame
         void SetStats()
         {
             this.health = 100;
-            this.speed = 50;
+            this.speed = controller.Speed;
 
-            this.gravity.GravityAccel = controller.gravity.GravityAccel;
-            this.gravity.GravityDir = controller.gravity.GravityDir;
+            this.gravity.GravityAccel = 5f;
+            this.gravity.GravityDir = new Vector2(0,5);
 
             //this.gravity.GravityAccel = 22f;
             //this.gravity.GravityDir = new Vector2(0, 1);
@@ -74,7 +75,7 @@ namespace FixedFinalGame
         public void ResetLocation() 
         {
             this.Direction = Vector2.Zero;
-            this.Location = new Vector2(Game1.Screenwidth/2, Game1.Screenheight/2);
+            this.Location = new Vector2(Game1.Screenwidth/2, Game1.Screenheight/2-50);
         }
         public void KeepOnScreen(GraphicsDevice gd) 
         {
@@ -91,41 +92,77 @@ namespace FixedFinalGame
             {
                 groundState = GroundState.STANDING;
             }
-            else { groundState= GroundState.JUMPING; }
+            else if (Direction.Y != 0) 
+            {
+                groundState = GroundState.JUMPING;
+            }
         }
         
         public void DoGravity(float time)
         {
             this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel)*(time/1000);
+
+            if (groundState == GroundState.JUMPING)
+            {
+                this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel) * (time / 1000);
+            }
         }
 
         private void timecorrect(float time) 
         {
             this.Location = this.Location + (this.Direction * speed) * (time/1000);
-            DoGravity(time);
         }
 
+        
        
         public override void Update(GameTime gameTime)
         {
             //cam.Update();
 
-            console.Log("Direction.Y",this.Direction.Y.ToString());
+            console.Log("Direction.Y", this.Direction.Y.ToString());
             console.Log("Direction.X", this.Direction.X.ToString());
+            console.Log("Speed.Y", this.speed.Y.ToString());
+            console.Log("Speed.X", this.speed.X.ToString());
             console.Log("Standing State ", this.groundState.ToString());
             console.Log("Location", this.Location.ToString());
 
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            
             CheckIfStanding();
+            if (groundState == GroundState.JUMPING)
+            {
+                DoGravity(time);
+            }
 
-            controller.HandleInput(gameTime);
+            controller.DifferentHandleInput(gameTime);
+
+            // this.Direction.X = controller.Direction.X;
+            // this.Direction.Y += controller.Direction.Y;
+
+            this.speed = controller.Speed;
             this.Direction += controller.Direction;
 
-            
+            if (Direction.X > 1)
+            {
+                Direction.X = 1;
+            }
+            if (Direction.X < -1)
+            {
+                Direction.X = -1;
+            }
+            if (Direction.Y < -10)
+            {
+                Direction.Y = -10;
+            }
+            if (Direction.Y > 15)
+            {
+                Direction.Y = 15;
+            }
+
+
             timecorrect(time);
             KeepOnScreen(this.Game.GraphicsDevice);
+
             base.Update(gameTime);
         }
 
@@ -137,6 +174,7 @@ namespace FixedFinalGame
 
         public override void Initialize()
         {
+
             base.Initialize();  
         }
 
@@ -158,6 +196,8 @@ namespace FixedFinalGame
                 spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
                 spriteBatch.End();
             }
+
+
         }
 
     }
