@@ -31,6 +31,7 @@ namespace FixedFinalGame
         public void Stand(Chracter character) 
         {
             character.Direction.Y =0;
+            character.speed.X = 0;
         }
         protected override void LoadContent()
         {
@@ -55,6 +56,7 @@ namespace FixedFinalGame
                 passedSprite.groundState = GroundState.JUMPING;
             }
 
+            
 
             base.Update(gameTime);
         }

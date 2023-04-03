@@ -1,26 +1,42 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Sprite;
+using MonoGameLibrary.Util;
+using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FixedFinalGame
 {
-    //public  class Enemy : DrawableSprite, ICharacter
-    //{
-    //    public int ID { get; set; }
-    //     int ICharacter.health { get; set; }
-    //     LifeState ICharacter.lifestate { get; set; }
+    public class Enemy : Chracter
+    {
+        string TextureName;
+        public Enemy(Game game) : base(game)
+        {
+            this.health = 3;
+            gravity = new Gravity();
+            TextureName = "TestEnemy";
+        }
 
-    //     CharacterState ICharacter.characterState { get; set; }
 
-    //     IWeapon ICharacter.weapon { get; set; }
-    //    public Enemy(Game game) : base(game)
-    //    {
+        protected override void LoadContent()
+        {
+            this.spriteTexture = this.Game.Content.Load<Texture2D>(TextureName);
+            base.LoadContent();
+        }
 
-    //    }
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
 
-    //}
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+        }
+    }
 }

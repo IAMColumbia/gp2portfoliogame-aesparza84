@@ -54,7 +54,7 @@ namespace FixedFinalGame
             this.Origin = new Vector2(this.Rectagle.Width/2, this.Rectagle.Height/2);
             SetStats();
 
-            // cam = new Camera();
+            this.health = 3;
             cam = camera;
 
             s = SpriteEffects.None;
@@ -97,6 +97,26 @@ namespace FixedFinalGame
                 groundState = GroundState.JUMPING;
             }
         }
+
+        private void DirectionLimit() 
+        {
+            if (Direction.X > 1)
+            {
+                Direction.X = 1;
+            }
+            if (Direction.X < -1)
+            {
+                Direction.X = -1;
+            }
+            if (Direction.Y < -10)
+            {
+                Direction.Y = -10;
+            }
+            if (Direction.Y > 15)
+            {
+                Direction.Y = 15;
+            }
+        }
         
         public void DoGravity(float time)
         {
@@ -128,6 +148,15 @@ namespace FixedFinalGame
 
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
+            if (health > 0)
+            {
+                lifestate = LifeState.ALIVE;
+            }
+            else
+            {
+                lifestate = LifeState.DEAD;
+            }
+
             CheckIfStanding();
             if (groundState == GroundState.JUMPING)
             {
@@ -142,23 +171,8 @@ namespace FixedFinalGame
             this.speed = controller.Speed;
             this.Direction += controller.Direction;
 
-            if (Direction.X > 1)
-            {
-                Direction.X = 1;
-            }
-            if (Direction.X < -1)
-            {
-                Direction.X = -1;
-            }
-            if (Direction.Y < -10)
-            {
-                Direction.Y = -10;
-            }
-            if (Direction.Y > 15)
-            {
-                Direction.Y = 15;
-            }
 
+            DirectionLimit();
 
             timecorrect(time);
             KeepOnScreen();
