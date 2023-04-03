@@ -12,6 +12,7 @@ namespace FixedFinalGame
     public enum LifeState { ALIVE, DEAD }
     public interface ICharacter
     {
+        
         int health { get; set; }
         Gravity gravity { get; set; }
 

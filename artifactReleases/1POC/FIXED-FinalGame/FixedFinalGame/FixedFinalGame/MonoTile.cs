@@ -16,10 +16,10 @@ namespace FixedFinalGame
         public string TextureName;
 
         public Rectangle rect;
-        private DrawableSprite passedSprite;
+        private Chracter passedSprite;
         private Camera cam;
 
-        public MonoTile(Game game, DrawableSprite character, Camera camera) : base(game)
+        public MonoTile(Game game, Chracter character, Camera camera) : base(game)
         {         
             this.TextureName= "TestTile2";
             this.Location = new Vector2(200, 240);
@@ -28,9 +28,9 @@ namespace FixedFinalGame
             cam = camera;
         }
 
-        public void Stand(DrawableSprite character) 
+        public void Stand(Chracter character) 
         {
-            character.Direction.Y= 0;
+            character.Direction.Y =0;
         }
         protected override void LoadContent()
         {
@@ -46,9 +46,13 @@ namespace FixedFinalGame
             //    Stand(passedSprite);
             //}
 
-            if (this.Rectagle.Intersects(passedSprite.Rectagle))
+            if (this.Intersects(passedSprite))
             {
-               Stand(passedSprite);
+                Stand(passedSprite);
+            }
+            else
+            {
+                passedSprite.groundState = GroundState.JUMPING;
             }
 
 

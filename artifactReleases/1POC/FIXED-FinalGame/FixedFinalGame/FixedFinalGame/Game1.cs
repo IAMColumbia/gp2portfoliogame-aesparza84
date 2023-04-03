@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary.Util;
+using System.Collections.Generic;
 
 namespace FixedFinalGame
 {
@@ -16,7 +17,8 @@ namespace FixedFinalGame
         Texture2D FakePlayer;
 
         InputHandler input;
-        MonoTile tile;
+
+        List<MonoTile> tiles;
 
         Camera cam;
 
@@ -35,8 +37,6 @@ namespace FixedFinalGame
             player = new Player(this, cam);                     //add Camera to the objects, matrix
             this.Components.Add(player);
 
-            tile = new MonoTile(this, player, cam);
-            this.Components.Add(tile);
         }
 
         protected override void Initialize()
@@ -46,13 +46,22 @@ namespace FixedFinalGame
 
             player.Location = new Vector2(GraphicsDevice.Viewport.Width/2, GraphicsDevice.Viewport.Height/2);
 
+            tiles= new List<MonoTile>();
             for (int i = 0; i < 3; i++)
             {
                 MonoTile tile = new MonoTile(this,player,cam);
-                tile.Location = new Vector2(i*100, i*100);
+                tile.Location = new Vector2(200*i, 260);
                 this.Components.Add(tile);
+                tiles.Add(tile);
             }
-            
+
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    MonoTile tile = new MonoTile(this,cam);
+            //    tile.Location = new Vector2(i*100, i*100);
+            //    this.Components.Add(tile);
+            //}
+
 
             base.Initialize();
         }
@@ -63,6 +72,8 @@ namespace FixedFinalGame
             background = this.Content.Load<Texture2D>("SpaceBackground");
             FakePlayer = this.Content.Load<Texture2D>("TestingSrite2");
 
+            
+            
             // TODO: use this.Content to load your game content here
             // cam = new Camera(player, _spriteBatch);
         }

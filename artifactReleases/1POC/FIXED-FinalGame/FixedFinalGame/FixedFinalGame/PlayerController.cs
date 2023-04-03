@@ -23,7 +23,7 @@ namespace FixedFinalGame
             input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
 
             this.Direction = Vector2.Zero;
-            this.Speed = new Vector2(70, 100);
+            this.Speed = new Vector2(200, 100);
 
             this.weapon = passedWeapon;
             PassedPlayer = player;
@@ -35,7 +35,7 @@ namespace FixedFinalGame
             input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
             
             this.Direction = Vector2.Zero;
-            this.Speed = new Vector2(200, 100);
+            this.Speed = new Vector2(350, 100);
 
             PassedPlayer = player;
         }
@@ -48,12 +48,12 @@ namespace FixedFinalGame
             if (input.KeyboardState.IsKeyDown(Keys.A))
             {
                 this.Direction = new Vector2(-1, 0);
-                this.Speed.X = 200;
+                this.Speed.X = 350;
             }
             if (input.KeyboardState.IsKeyDown(Keys.D))
             {
                 this.Direction = new Vector2(1, 0);
-                this.Speed.X = 200;
+                this.Speed.X = 350;
             }
 
             if (input.KeyboardState.IsKeyDown(Keys.Space))

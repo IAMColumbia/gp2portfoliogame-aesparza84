@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace FixedFinalGame
 {
 
-    public class Player : DrawableSprite, ICharacter
+    public class Player : Chracter
     {
         public int health { get; set; }
         public Vector2 speed;
@@ -77,7 +77,7 @@ namespace FixedFinalGame
             this.Direction = Vector2.Zero;
             this.Location = new Vector2(Game1.Screenwidth/2, Game1.Screenheight/2-50);
         }
-        public void KeepOnScreen(GraphicsDevice gd) 
+        public void KeepOnScreen()
         {
             //Cheating Floor
             if (this.Location.Y > 250)
@@ -161,7 +161,7 @@ namespace FixedFinalGame
 
 
             timecorrect(time);
-            KeepOnScreen(this.Game.GraphicsDevice);
+            KeepOnScreen();
 
             base.Update(gameTime);
         }

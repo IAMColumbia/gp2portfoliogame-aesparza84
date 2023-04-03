@@ -19,7 +19,7 @@ namespace FixedFinalGame
         string LevelLayout;
         Texture2D ground;
         //----------
-        string terrainTexture;
+        string TileTexture;
 
         public string filename;
         Game passedGame;
@@ -37,45 +37,26 @@ namespace FixedFinalGame
             var lines = textData.Split('\n');
 
             var texturename = lines[0].Trim();
-            this.terrainTexture = texturename;
+            this.TileTexture = texturename;                 //TestTile2
 
             var BlockDimensions = lines[1].Split(",");
-            this.BlockWidth = int.Parse(BlockDimensions[0]);
-            this.BlockHeight= int.Parse(BlockDimensions[1]);
+            this.BlockWidth = int.Parse(BlockDimensions[0]);    //65
+            this.BlockHeight= int.Parse(BlockDimensions[1]);    //65
 
             var WorldDimensions = lines[2].Split(",");
-            this.MapHeight= int.Parse(WorldDimensions[0]);
-            this.MapWidth= int.Parse(WorldDimensions[1]);            
+            this.MapHeight= int.Parse(WorldDimensions[0]); //9
+            this.MapWidth= int.Parse(WorldDimensions[1]);  //12       
+
+            for (int i = 0; i < MapWidth; i++)
+            {
+
+            }
         }
 
-        public void createLevel()
-        {
-            MapWidth = 20;
-            MapHeight = 10;
-            LevelLayout += "n-------------------";
-            LevelLayout += "n-------------------";
-            LevelLayout += "n-------------------";
-            LevelLayout += "n-------------------";
-            LevelLayout += "n-------------------";
-            LevelLayout += "n----------------nn-";
-            LevelLayout += "n------------nnnn---";
-            LevelLayout += "n--nnnnnnnnnn-------";
-            LevelLayout += "n-------------------";
-            LevelLayout += "n-------------------";
-
-            //switch (LevelLayout)
-            //{
-            //    case"n":
-            //        break;
-            //    case "-":
-            //        spriteBatch.Draw();
-            //        break;
-            //}
-        }
 
         public void BuildMap()
         {
-            //2D array of terrain blocks
+            //2D array of Monotiles
             MonoTile[,] blocks = new MonoTile[MapHeight,MapWidth];
 
             //for (int w = 0; w < MapWidth; w++)
