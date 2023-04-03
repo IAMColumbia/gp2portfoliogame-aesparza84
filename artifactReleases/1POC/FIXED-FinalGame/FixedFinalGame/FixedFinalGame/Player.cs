@@ -182,10 +182,32 @@ namespace FixedFinalGame
                 DoGravity(time);
             }
 
-            
+
 
             // this.Direction.X = controller.Direction.X;
             // this.Direction.Y += controller.Direction.Y;
+
+            switch (actionstate)
+            {
+                case Action.NEUTRAL:
+                    break;
+                case Action.ATTACKING:
+                    break;
+                case Action.BLOCKING:
+                    break;
+                default:
+                    break;
+            }
+
+            switch (lifestate)
+            {
+                case LifeState.ALIVE:
+                    break;
+                case LifeState.DEAD:
+                    break;
+                default:
+                    break;
+            }
 
             this.speed = controller.Speed;
             this.Direction += controller.Direction;

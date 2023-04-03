@@ -91,6 +91,10 @@ namespace FixedFinalGame
             }
         }
 
+        public void LockInput()
+        { 
+            
+        }
 
         //public void HandleInput(GameTime gameTime)
         //{
