@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FixedFinalGame
 {
-
+    public enum Action {NEUTRAL, ATTACKING, BLOCKING }
     public class Player : Chracter
     {
         public int health { get; set; }
@@ -27,12 +27,14 @@ namespace FixedFinalGame
 
         private Camera cam;
 
+        Action actionstate;
+
         private SpriteEffects s;
 
         public Gravity gravity { get; set; }
 
         PlayerController controller;
-        string TextureName;
+        string TextureName, BlockingTexture;
 
         GameConsole console;
 
@@ -40,6 +42,7 @@ namespace FixedFinalGame
         public Player(Game game, Camera camera) : base(game)
         {
             TextureName = "TestingSrite2";
+            BlockingTexture = "TestingSrite2-Blocking";
            
 
             gravity = new Gravity();
@@ -58,6 +61,8 @@ namespace FixedFinalGame
             cam = camera;
 
             s = SpriteEffects.None;
+
+            actionstate = Action.NEUTRAL;
         }
 
         void SetStats()
@@ -139,6 +144,9 @@ namespace FixedFinalGame
         {
             //cam.Update();
 
+            console.Log("Right Mouse B", this.controller.Block.ToString());
+            console.Log("Left Mouse B", this.controller.Attack.ToString());
+            console.Log("Action State", this.actionstate.ToString());
             console.Log("Direction.Y", this.Direction.Y.ToString());
             console.Log("Direction.X", this.Direction.X.ToString());
             console.Log("Speed.Y", this.speed.Y.ToString());
@@ -147,6 +155,8 @@ namespace FixedFinalGame
             console.Log("Location", this.Location.ToString());
 
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            controller.DifferentHandleInput(gameTime);
 
             if (health > 0)
             {
@@ -157,13 +167,22 @@ namespace FixedFinalGame
                 lifestate = LifeState.DEAD;
             }
 
+            if (controller.Block)
+            {
+                actionstate = Action.BLOCKING;
+            }
+            else
+            {
+                actionstate = Action.NEUTRAL;
+            }
+
             CheckIfStanding();
             if (groundState == GroundState.JUMPING)
             {
                 DoGravity(time);
             }
 
-            controller.DifferentHandleInput(gameTime);
+            
 
             // this.Direction.X = controller.Direction.X;
             // this.Direction.Y += controller.Direction.Y;
