@@ -65,10 +65,13 @@ namespace FixedFinalGame
             this.speed = new Vector2(150,0);
             if (this.Location.X > initialPosition.X+200)
             {
-               Direction = new Vector2();
+               Direction = new Vector2(-1,0);
+            }
+            else if (this.Location.X < initialPosition.X-200)
+            {
+                Direction = new Vector2(1,0);
             }
 
-            if
         }
 
         void MoveToPlayer()
