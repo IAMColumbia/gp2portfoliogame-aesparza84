@@ -20,22 +20,74 @@ namespace FixedFinalGame
 
         private Consciousness consc;
 
+        private Chracter passedPlayer;
+
         private SpriteEffects s;
-        public Enemy(Game game, Camera camera) : base(game)
+
+        Vector2 initialPosition;
+
+        GameConsole console;
+        public Enemy(Game game, Camera camera, Chracter character) : base(game)
         {
+            //console = (GameConsole)game.Services.GetService(typeof(GameConsole));
+            //if (console==null)
+            //{
+            //    console = new GameConsole(this.Game);
+            //    this.Game.Components.Add(console);
+            //}
+
             this.health = 3;
+            initialPosition = Location;
             gravity = new Gravity();
             TextureName = "TestEnemy";
             this.cam = camera;
+
+            passedPlayer= character;
+
+
+
+            setStats();
         }
 
+        void setStats()
+        {
+
+            this.health = 100;
+            this.speed = new Vector2(150,0);
+            this.Direction = new Vector2(1,0);
+
+            this.gravity.GravityAccel = 5f;
+            this.gravity.GravityDir = new Vector2(0,5);
+        }
 
         void Roam() 
         {
-            if (true)
+            this.speed = new Vector2(150,0);
+            if (this.Location.X > initialPosition.X+200)
             {
-
+               Direction = new Vector2();
             }
+
+            if
+        }
+
+        void MoveToPlayer()
+        {
+            this.speed = new Vector2(200,0);
+
+            if (this.Location.X < passedPlayer.Location.X)
+            {
+                Direction = new Vector2(1,0);
+            }
+            else if (this.Location.X > passedPlayer.Location.X)
+            {
+                Direction = new Vector2(-1,0);
+            }
+        }
+
+        private void timecorrect(float time)
+        {
+            this.Location = this.Location + (this.Direction * speed) * (time / 1000);
         }
         protected override void LoadContent()
         {
@@ -43,8 +95,56 @@ namespace FixedFinalGame
             base.LoadContent();
         }
 
+        float GetDistance(Chracter character)
+        { 
+            float distance = this.Location.X - character.Location.X;
+
+            return distance;
+        }
+
+
+        bool seePlayer()
+        {
+            if (Math.Abs(GetDistance(passedPlayer)) <200f)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public override void Update(GameTime gameTime)
         {
+            //console.Log("Conscuios", this.consc.ToString());
+            float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (seePlayer())
+            {
+                consc = Consciousness.ATTACKING;
+            }
+            else
+            {
+                consc = Consciousness.ROAMING;
+            }
+
+            switch (consc)
+            {
+                case Consciousness.ROAMING:
+                    Roam();
+                    break;
+                case Consciousness.ATTACKING:
+                    MoveToPlayer();
+                    if (Math.Abs(GetDistance(passedPlayer)) > 200f)
+                    {
+                        this.Location = initialPosition;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+
+            timecorrect(time);
+
             base.Update(gameTime);
         }
 

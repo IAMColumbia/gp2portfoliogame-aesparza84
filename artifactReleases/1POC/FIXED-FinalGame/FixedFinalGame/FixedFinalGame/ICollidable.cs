@@ -9,6 +9,9 @@ namespace FixedFinalGame
 {
     public interface ICollidable
     {
-        void Stand() { }
+        void Stand(Chracter passedcharacter)
+        {
+        
+        }
     }
 }

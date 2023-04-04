@@ -15,6 +15,7 @@ namespace FixedFinalGame
     public enum Action {NEUTRAL, ATTACKING, BLOCKING }
     public class Player : Chracter
     {
+        Texture2D normalTexture, blockingTexture;
         public int health { get; set; }
         public Vector2 speed;
 
@@ -31,17 +32,15 @@ namespace FixedFinalGame
 
         private SpriteEffects s;
 
-        public Gravity gravity { get; set; }
-
         PlayerController controller;
-        string TextureName, BlockingTexture;
+        string NormalTexture, BlockingTexture;
 
         GameConsole console;
 
         
         public Player(Game game, Camera camera) : base(game)
         {
-            TextureName = "TestingSrite2";
+            NormalTexture = "TestingSrite2";
             BlockingTexture = "TestingSrite2-Blocking";
            
 
@@ -52,8 +51,13 @@ namespace FixedFinalGame
                 controller = new PlayerController(game, this);
             }
 
-            console = new GameConsole(game);
-            this.Game.Components.Add(console);
+            console = (GameConsole)game.Services.GetService(typeof(GameConsole));
+            if (console == null)
+            {
+                console = new GameConsole(this.Game);
+                this.Game.Components.Add(console);
+            }
+
             this.Origin = new Vector2(this.Rectagle.Width/2, this.Rectagle.Height/2);
             SetStats();
 
@@ -190,10 +194,12 @@ namespace FixedFinalGame
             switch (actionstate)
             {
                 case Action.NEUTRAL:
+                    this.spriteTexture = normalTexture;
                     break;
                 case Action.ATTACKING:
                     break;
                 case Action.BLOCKING:
+                    this.spriteTexture = blockingTexture;
                     break;
                 default:
                     break;
@@ -223,7 +229,11 @@ namespace FixedFinalGame
 
         protected override void LoadContent()
         {
-            this.spriteTexture = this.Game.Content.Load<Texture2D>(TextureName);
+            this.normalTexture = this.Game.Content.Load<Texture2D>(NormalTexture);
+            this.blockingTexture = this.Game.Content.Load<Texture2D>(BlockingTexture);
+
+            this.spriteTexture = normalTexture;
+
             base.LoadContent();
         }
 

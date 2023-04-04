@@ -44,6 +44,8 @@ namespace FixedFinalGame
             PassedPlayer = player;
         }
 
+
+        
         public void DifferentHandleInput(GameTime gameTime)
         {
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -95,6 +97,8 @@ namespace FixedFinalGame
         { 
             
         }
+
+
 
         //public void HandleInput(GameTime gameTime)
         //{

@@ -18,16 +18,21 @@ namespace FixedFinalGame
 
         InputHandler input;
 
-        List<MonoTile> tiles;
+        TileMap world;
+
+        MonoTile tile;
 
         Camera cam;
 
         Player player;
+
+        Enemy enemy;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
 
             cam = new Camera();
 
@@ -37,6 +42,13 @@ namespace FixedFinalGame
             player = new Player(this, cam);                     //add Camera to the objects, matrix
             this.Components.Add(player);
 
+            enemy= new Enemy(this, cam, player);
+            this.Components.Add(enemy);
+
+            tile = new MonoTile(this, player, cam);
+            this.Components.Add(tile);
+
+            world = new TileMap(this, cam, player);
         }
 
         protected override void Initialize()
@@ -44,16 +56,27 @@ namespace FixedFinalGame
             Screenheight = _graphics.PreferredBackBufferHeight;
             Screenwidth  = _graphics.PreferredBackBufferWidth;
 
-            player.Location = new Vector2(GraphicsDevice.Viewport.Width/2, GraphicsDevice.Viewport.Height/2);
+            world.CreateTileMap(65, new int[,] 
+                                     { {2,0,0,0,0,0,0,0,0,2},
+                                       {2,0,0,0,0,0,0,0,0,2},
+                                       {2,0,0,0,0,0,0,0,0,2},
+                                       {2,0,0,0,0,0,0,0,0,2},
+                                       {2,0,0,0,0,0,0,0,0,2},
+                                       {2,0,0,0,0,0,0,0,0,2},
+                                       {2,0,0,0,0,0,0,0,0,2},
+            });
 
-            tiles= new List<MonoTile>();
-            for (int i = 0; i < 3; i++)
-            {
-                MonoTile tile = new MonoTile(this,player,cam);
-                tile.Location = new Vector2(200*i, 260);
-                this.Components.Add(tile);
-                tiles.Add(tile);
-            }
+            player.Location = new Vector2(GraphicsDevice.Viewport.Width/2, GraphicsDevice.Viewport.Height/2);
+            enemy.Location = new Vector2( (GraphicsDevice.Viewport.Width / 2)-200, GraphicsDevice.Viewport.Height / 2);
+
+            //tiles= new List<MonoTile>();
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    MonoTile tile = new MonoTile(this,player,cam);
+            //    tile.Location = new Vector2(200*i, 260);
+            //    this.Components.Add(tile);
+            //    tiles.Add(tile);
+            //}
 
             //for (int i = 0; i < 3; i++)
             //{

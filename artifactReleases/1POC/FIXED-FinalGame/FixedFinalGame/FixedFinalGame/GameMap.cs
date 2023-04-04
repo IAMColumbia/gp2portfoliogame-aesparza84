@@ -19,6 +19,9 @@ namespace FixedFinalGame
         string LevelLayout;
         Texture2D ground;
         //----------
+
+        public List<MonoTile> maptiles;
+
         string TileTexture;
 
         public string filename;
@@ -26,6 +29,7 @@ namespace FixedFinalGame
 
         public GameMap(Game game, string MapFile) : base(game)
         {
+            maptiles = new List<MonoTile>();
             filename = MapFile;
             passedGame= game;
         }
