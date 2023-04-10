@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FixedFinalGame
 {
-    public enum Consciousness {ROAMING, ATTACKING}
+    public enum Consciousness {ROAMING, CHASING, ATTACKING}
     public class Enemy : Chracter
     {
         string TextureName;
@@ -88,6 +88,11 @@ namespace FixedFinalGame
             }
         }
 
+        void Attack() 
+        {
+            passedPlayer.TakeDamage();
+        }
+
         private void timecorrect(float time)
         {
             this.Location = this.Location + (this.Direction * speed) * (time / 1000);
@@ -122,11 +127,16 @@ namespace FixedFinalGame
 
             if (seePlayer())
             {
-                consc = Consciousness.ATTACKING;
+                consc = Consciousness.CHASING;
             }
             else
             {
                 consc = Consciousness.ROAMING;
+            }
+
+            if (this.Rectagle.Intersects(passedPlayer.Rectagle))
+            {
+                Attack();
             }
 
             switch (consc)
@@ -134,13 +144,17 @@ namespace FixedFinalGame
                 case Consciousness.ROAMING:
                     Roam();
                     break;
-                case Consciousness.ATTACKING:
+                case Consciousness.CHASING:
                     MoveToPlayer();
                     if (Math.Abs(GetDistance(passedPlayer)) > 200f)
                     {
                         this.Location = initialPosition;
                     }
                     break;
+
+                case Consciousness.ATTACKING:
+                    Attack();
+                        break;
                 default:
                     break;
             }

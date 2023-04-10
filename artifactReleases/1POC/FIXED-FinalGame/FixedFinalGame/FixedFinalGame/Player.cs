@@ -26,6 +26,8 @@ namespace FixedFinalGame
 
         //------------------Not Icharacter
 
+        bool invulnerable;
+
         private Camera cam;
 
         Action actionstate;
@@ -61,7 +63,6 @@ namespace FixedFinalGame
             this.Origin = new Vector2(this.Rectagle.Width/2, this.Rectagle.Height/2);
             SetStats();
 
-            this.health = 3;
             cam = camera;
 
             s = SpriteEffects.None;
@@ -83,6 +84,7 @@ namespace FixedFinalGame
 
         public void ResetLocation() 
         {
+            this.health = 100;
             this.Direction = Vector2.Zero;
             this.Location = new Vector2(Game1.Screenwidth/2, Game1.Screenheight/2-50);
         }
@@ -137,6 +139,11 @@ namespace FixedFinalGame
             }
         }
 
+        public override void TakeDamage()
+        {
+            this.health -= 25;
+        }
+
         private void timecorrect(float time) 
         {
             this.Location = this.Location + (this.Direction * speed) * (time/1000);
@@ -148,8 +155,10 @@ namespace FixedFinalGame
         {
             //cam.Update();
 
+            console.Log("Health", this.health.ToString());
             console.Log("Right Mouse B", this.controller.Block.ToString());
             console.Log("Left Mouse B", this.controller.Attack.ToString());
+            console.Log("Invulnerable", this.invulnerable.ToString());
             console.Log("Action State", this.actionstate.ToString());
             console.Log("Direction.Y", this.Direction.Y.ToString());
             console.Log("Direction.X", this.Direction.X.ToString());
@@ -195,15 +204,20 @@ namespace FixedFinalGame
             {
                 case Action.NEUTRAL:
                     this.spriteTexture = normalTexture;
+                    invulnerable = false;
                     break;
                 case Action.ATTACKING:
+                    invulnerable = false;
                     break;
                 case Action.BLOCKING:
                     this.spriteTexture = blockingTexture;
+                    invulnerable= true;
                     break;
                 default:
                     break;
             }
+
+            
 
             switch (lifestate)
             {

@@ -23,5 +23,7 @@ namespace FixedFinalGame
         public GroundState groundState { get; set; }
         public IWeapon weapon { get; set; }
         public CharacterState characterState { get; set; }
+
+        public virtual void TakeDamage() { }
     }
 }
