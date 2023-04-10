@@ -10,8 +10,9 @@ namespace FixedFinalGame
     public enum CharacterState { ATTACKING, NEUTRAL }
     public enum GroundState {STANDING, JUMPING }
     public enum LifeState { ALIVE, DEAD }
-    interface ICharacter
+    public interface ICharacter
     {
+        
         int health { get; set; }
         Gravity gravity { get; set; }
 

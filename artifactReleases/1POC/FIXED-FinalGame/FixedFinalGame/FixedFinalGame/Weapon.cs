@@ -9,7 +9,7 @@ namespace FixedFinalGame
     public enum WeaponState{STOPPED, USING }
     public abstract class Weapon : IWeapon
     {
-        WeaponState wpstate { get; set; }
+        WeaponState weaponstate { get; set; }
         public string Name { get; set; }
         public int Damage { get; set; }
         public Weapon() 
@@ -19,11 +19,11 @@ namespace FixedFinalGame
 
         public virtual void Use()
         {
-            if (wpstate != WeaponState.STOPPED)
+            if (weaponstate != WeaponState.STOPPED)
             {
-                wpstate = WeaponState.USING;
+                weaponstate = WeaponState.USING;
             }
-            wpstate = WeaponState.STOPPED;
+            weaponstate = WeaponState.STOPPED;
         }
     }
 }
