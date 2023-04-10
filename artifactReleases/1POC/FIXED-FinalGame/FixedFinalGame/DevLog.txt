@@ -11,3 +11,7 @@ but it will return to the initial postition if the character gets out of range.
 Collision on my Tiles I need to redoe because its a simple rectangle intersect method with no other logic.
 I need to check a sprite NEXT location to determine whether it will collide with the tile or not, the side
 of the tile OR the top of the tile.
+
+A lot of objects are dependant on a player which I want to change because they will not 
+work without that dependeancy. The Collision manager is one way of doing this, instead of having each
+tile (when I get it working) take in the player for collision.
