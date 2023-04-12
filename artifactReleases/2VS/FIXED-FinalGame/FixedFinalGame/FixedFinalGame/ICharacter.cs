@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FixedFinalGame
 {
     public enum CharacterState { ATTACKING, NEUTRAL }
-    public enum GroundState {STANDING, JUMPING }
+    public enum GroundState {STANDING, JUMPING, FALLING }
     public enum LifeState { ALIVE, DEAD }
     public interface ICharacter
     {

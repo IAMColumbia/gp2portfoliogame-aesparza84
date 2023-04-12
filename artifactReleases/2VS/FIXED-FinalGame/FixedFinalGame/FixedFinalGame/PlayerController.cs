@@ -53,6 +53,7 @@ namespace FixedFinalGame
             Attack=false;
 
             this.Speed.X = 0;
+            this.Direction = Vector2.Zero;
 
             if (input.KeyboardState.IsKeyDown(Keys.A))
             {
@@ -65,11 +66,11 @@ namespace FixedFinalGame
                 this.Speed.X = 350;
             }
 
-            if (input.KeyboardState.IsKeyDown(Keys.Space))
+            if (input.KeyboardState.HasReleasedKey(Keys.Space))
             {
                 if (PassedPlayer.groundState == GroundState.STANDING)
                 {
-                    this.Direction.Y = -10;
+                    this.Direction.Y = -1;
                 }
                 else if (PassedPlayer.groundState == GroundState.JUMPING)
                 {
