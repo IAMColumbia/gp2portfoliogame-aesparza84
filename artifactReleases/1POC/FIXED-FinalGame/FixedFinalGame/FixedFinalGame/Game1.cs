@@ -48,7 +48,8 @@ namespace FixedFinalGame
             tile = new MonoTile(this, player, cam);
             this.Components.Add(tile);
 
-            world = new TileMap(this, cam, player);
+            world = new TileMap(this, cam);
+            this.Components.Add(world);
         }
 
         protected override void Initialize()
@@ -67,23 +68,7 @@ namespace FixedFinalGame
             });
 
             player.Location = new Vector2(GraphicsDevice.Viewport.Width/2, GraphicsDevice.Viewport.Height/2);
-            enemy.Location = new Vector2( (GraphicsDevice.Viewport.Width / 2)-200, GraphicsDevice.Viewport.Height / 2);
-
-            //tiles= new List<MonoTile>();
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    MonoTile tile = new MonoTile(this,player,cam);
-            //    tile.Location = new Vector2(200*i, 260);
-            //    this.Components.Add(tile);
-            //    tiles.Add(tile);
-            //}
-
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    MonoTile tile = new MonoTile(this,cam);
-            //    tile.Location = new Vector2(i*100, i*100);
-            //    this.Components.Add(tile);
-            //}
+            enemy.Location = new Vector2( (GraphicsDevice.Viewport.Width / 2)-200, GraphicsDevice.Viewport.Height / 2);          
 
 
             base.Initialize();

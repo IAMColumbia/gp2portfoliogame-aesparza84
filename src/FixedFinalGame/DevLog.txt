@@ -1,0 +1,13 @@
+For this build Gravity and the tilemap are my main issues that I need to sqaush.
+Ive been building my progam off this od version of movement where gravity doesnt kick in 
+until there is X (Key A, Key D) input. 
+The tilemap I have an idea of how to set it up but 
+it needs work. 
+
+I have an enemy that roams an 'initial' postion and chases the player if 
+they come within a certain range of the enemy. The enemy can run outside its initial postion when chasing
+but it will return to the initial postition if the character gets out of range.
+
+Collision on my Tiles I need to redoe because its a simple rectangle intersect method with no other logic.
+I need to check a sprite NEXT location to determine whether it will collide with the tile or not, the side
+of the tile OR the top of the tile.
