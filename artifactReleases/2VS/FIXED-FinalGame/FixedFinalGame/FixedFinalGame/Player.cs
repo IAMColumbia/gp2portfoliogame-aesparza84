@@ -136,7 +136,15 @@ namespace FixedFinalGame
             this.Location = this.Location + (this.Direction * speed) * (time/1000);
         }
 
-        
+        public void CheckTileCollision(MonoTile passedtile)
+        {
+            if (this.Rectagle.Left > passedtile.Rectagle.Left &&
+                this.Rectagle.Right < passedtile.Rectagle.Right &&
+                this.Rectagle.Bottom < passedtile.Rectagle.Top)
+            {
+                this.Location.Y= passedtile.Location.Y;
+            }
+        }
        
         public override void Update(GameTime gameTime)
         {
@@ -193,13 +201,6 @@ namespace FixedFinalGame
 
             }
 
-
-
-            DirectionLimit();
-            //if (groundState == GroundState.JUMPING)
-            //{
-            //    DoGravity(time);
-            //}
             timecorrectedMove(time);
             UpdateLog();
 

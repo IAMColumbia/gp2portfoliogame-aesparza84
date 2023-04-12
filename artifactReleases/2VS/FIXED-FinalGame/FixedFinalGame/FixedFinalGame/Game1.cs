@@ -19,6 +19,7 @@ namespace FixedFinalGame
         InputHandler input;
 
         TileMap world;
+        List<MonoTile> tiles;
 
         MonoTile tile;
 
@@ -32,9 +33,12 @@ namespace FixedFinalGame
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            
 
 
             cam = new Camera();
+
+            tiles= new List<MonoTile>();
 
             input = new InputHandler(this); 
             this.Components.Add(input);
@@ -47,6 +51,7 @@ namespace FixedFinalGame
 
             tile = new MonoTile(this, player, cam);
             this.Components.Add(tile);
+            tiles.Add(tile);
 
             world = new TileMap(this, cam, player);
         }
@@ -56,18 +61,6 @@ namespace FixedFinalGame
             Screenheight = _graphics.PreferredBackBufferHeight;
             Screenwidth  = _graphics.PreferredBackBufferWidth;
 
-            world.CreateTileMap(65, new int[,] 
-                                     { {2,0,0,0,0,0,0,0,0,2},
-                                       {2,0,0,0,0,0,0,0,0,2},
-                                       {2,0,0,0,0,0,0,0,0,2},
-                                       {2,0,0,0,0,0,0,0,0,2},
-                                       {2,0,0,0,0,0,0,0,0,2},
-                                       {2,0,0,0,0,0,0,0,0,2},
-                                       {2,0,0,0,0,0,0,0,0,2},
-            });
-
-            player.Location = new Vector2(GraphicsDevice.Viewport.Width/2, GraphicsDevice.Viewport.Height/2);
-            enemy.Location = new Vector2( (GraphicsDevice.Viewport.Width / 2)-200, GraphicsDevice.Viewport.Height / 2);
 
             //tiles= new List<MonoTile>();
             //for (int i = 0; i < 3; i++)
@@ -107,7 +100,10 @@ namespace FixedFinalGame
                 Exit();
 
             cam.Update(player);
-
+            foreach (MonoTile item in tiles)
+            {
+                player.CheckTileCollision(item);
+            }
             // TODO: Add your update logic here
 
             base.Update(gameTime);
