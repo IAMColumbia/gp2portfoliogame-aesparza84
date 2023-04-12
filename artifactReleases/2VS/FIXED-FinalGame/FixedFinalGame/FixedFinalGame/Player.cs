@@ -74,12 +74,7 @@ namespace FixedFinalGame
         {
             this.health = 100;
             this.speed = controller.Speed;
-
-            //this.gravity.GravityAccel = 5f;
-            //this.gravity.GravityDir = new Vector2(0,5);
-
-            //this.gravity.GravityAccel = 22f;
-            //this.gravity.GravityDir = new Vector2(0, 1);
+           
         }
 
         public void ResetLocation() 
@@ -133,17 +128,8 @@ namespace FixedFinalGame
         public void DoGravity(float time)
         {
             this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel)*(time/1000);
-
-            if (groundState == GroundState.JUMPING)
-            {
-                //this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel) * (time / 1000);
-            }
         }
 
-        public override void TakeDamage()
-        {
-            this.health -= 25;
-        }
 
         private void timecorrectedMove(float time) 
         {
@@ -162,15 +148,6 @@ namespace FixedFinalGame
 
             controller.DifferentHandleInput(gameTime);
 
-            if (health > 0)
-            {
-                lifestate = LifeState.ALIVE;
-            }
-            else
-            {
-                lifestate = LifeState.DEAD;
-            }
-
             if (controller.Block)
             {
                 actionstate = Action.BLOCKING;
@@ -182,11 +159,6 @@ namespace FixedFinalGame
 
             CheckIfStanding();
             
-
-
-
-            // this.Direction.X = controller.Direction.X;
-            // this.Direction.Y += controller.Direction.Y;
 
             switch (actionstate)
             {
@@ -205,18 +177,6 @@ namespace FixedFinalGame
                     break;
             }
 
-
-
-            switch (lifestate)
-            {
-                case LifeState.ALIVE:
-                    break;
-                case LifeState.DEAD:
-                    break;
-                default:
-                    break;
-            }
-
             this.speed = controller.Speed;
 
             switch (this.groundState)
@@ -224,6 +184,8 @@ namespace FixedFinalGame
                 case GroundState.FALLING:
                     break;
                 case GroundState.JUMPING:
+                    this.Direction.X = controller.Direction.X;
+                    DoGravity(time);
                     break;
                 case GroundState.STANDING:
                     this.Direction = controller.Direction;
@@ -234,10 +196,10 @@ namespace FixedFinalGame
 
 
             DirectionLimit();
-            if (groundState == GroundState.JUMPING)
-            {
-                DoGravity(time);
-            }
+            //if (groundState == GroundState.JUMPING)
+            //{
+            //    DoGravity(time);
+            //}
             timecorrectedMove(time);
             UpdateLog();
 

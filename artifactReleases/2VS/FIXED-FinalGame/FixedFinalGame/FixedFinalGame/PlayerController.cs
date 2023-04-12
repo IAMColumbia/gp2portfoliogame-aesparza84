@@ -70,7 +70,7 @@ namespace FixedFinalGame
             {
                 if (PassedPlayer.groundState == GroundState.STANDING)
                 {
-                    this.Direction.Y = -1;
+                    this.Direction.Y = -5;
                 }
                 else if (PassedPlayer.groundState == GroundState.JUMPING)
                 {
