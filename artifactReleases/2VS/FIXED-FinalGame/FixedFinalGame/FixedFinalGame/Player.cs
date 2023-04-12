@@ -75,8 +75,8 @@ namespace FixedFinalGame
             this.health = 100;
             this.speed = controller.Speed;
 
-            this.gravity.GravityAccel = 5f;
-            this.gravity.GravityDir = new Vector2(0,5);
+            //this.gravity.GravityAccel = 5f;
+            //this.gravity.GravityDir = new Vector2(0,5);
 
             //this.gravity.GravityAccel = 22f;
             //this.gravity.GravityDir = new Vector2(0, 1);
@@ -94,6 +94,7 @@ namespace FixedFinalGame
             if (this.Location.Y > 250)
             {
                 this.Direction.Y = 0.0f;
+                this.Location.Y = 250;
             }
         }
 
@@ -135,7 +136,7 @@ namespace FixedFinalGame
 
             if (groundState == GroundState.JUMPING)
             {
-                this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel) * (time / 1000);
+                //this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel) * (time / 1000);
             }
         }
 
@@ -144,7 +145,7 @@ namespace FixedFinalGame
             this.health -= 25;
         }
 
-        private void timecorrect(float time) 
+        private void timecorrectedMove(float time) 
         {
             this.Location = this.Location + (this.Direction * speed) * (time/1000);
         }
@@ -154,20 +155,10 @@ namespace FixedFinalGame
         public override void Update(GameTime gameTime)
         {
             //cam.Update();
-
-            console.Log("Health", this.health.ToString());
-            console.Log("Right Mouse B", this.controller.Block.ToString());
-            console.Log("Left Mouse B", this.controller.Attack.ToString());
-            console.Log("Invulnerable", this.invulnerable.ToString());
-            console.Log("Action State", this.actionstate.ToString());
-            console.Log("Direction.Y", this.Direction.Y.ToString());
-            console.Log("Direction.X", this.Direction.X.ToString());
-            console.Log("Speed.Y", this.speed.Y.ToString());
-            console.Log("Speed.X", this.speed.X.ToString());
-            console.Log("Standing State ", this.groundState.ToString());
-            console.Log("Location", this.Location.ToString());
-
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            KeepOnScreen();
+
+            
 
             controller.DifferentHandleInput(gameTime);
 
@@ -190,10 +181,7 @@ namespace FixedFinalGame
             }
 
             CheckIfStanding();
-            if (groundState == GroundState.JUMPING)
-            {
-                DoGravity(time);
-            }
+            
 
 
 
@@ -211,13 +199,13 @@ namespace FixedFinalGame
                     break;
                 case Action.BLOCKING:
                     this.spriteTexture = blockingTexture;
-                    invulnerable= true;
+                    invulnerable = true;
                     break;
                 default:
                     break;
             }
 
-            
+
 
             switch (lifestate)
             {
@@ -230,15 +218,45 @@ namespace FixedFinalGame
             }
 
             this.speed = controller.Speed;
-            this.Direction += controller.Direction;
+
+            switch (this.groundState)
+            {
+                case GroundState.FALLING:
+                    break;
+                case GroundState.JUMPING:
+                    break;
+                case GroundState.STANDING:
+                    this.Direction = controller.Direction;
+                    break;
+
+            }
+
 
 
             DirectionLimit();
-
-            timecorrect(time);
-            KeepOnScreen();
+            if (groundState == GroundState.JUMPING)
+            {
+                DoGravity(time);
+            }
+            timecorrectedMove(time);
+            UpdateLog();
 
             base.Update(gameTime);
+        }
+
+        private void UpdateLog()
+        {
+            console.Log("Health", this.health.ToString());
+            console.Log("Right Mouse B", this.controller.Block.ToString());
+            console.Log("Left Mouse B", this.controller.Attack.ToString());
+            console.Log("Invulnerable", this.invulnerable.ToString());
+            console.Log("Action State", this.actionstate.ToString());
+            console.Log("Direction.Y", this.Direction.Y.ToString());
+            console.Log("Direction.X", this.Direction.X.ToString());
+            console.Log("Speed.Y", this.speed.Y.ToString());
+            console.Log("Speed.X", this.speed.X.ToString());
+            console.Log("Standing State ", this.groundState.ToString());
+            console.Log("Location", this.Location.ToString());
         }
 
         protected override void LoadContent()
