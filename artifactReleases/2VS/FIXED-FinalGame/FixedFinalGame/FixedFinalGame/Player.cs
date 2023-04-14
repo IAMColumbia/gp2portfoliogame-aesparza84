@@ -18,14 +18,17 @@ namespace FixedFinalGame
         Texture2D normalTexture, blockingTexture;
         public int health { get; set; }
         public Vector2 speed;
+        public int Speed;
 
         public LifeState lifestate { get; set; }
         public GroundState groundState { get; set; }
+
         public IWeapon weapon { get; set; }
         public CharacterState characterState { get; set; }
 
         //------------------Not Icharacter
 
+        float jumpheight;
         bool invulnerable;
 
         private Camera cam;
@@ -72,9 +75,9 @@ namespace FixedFinalGame
 
         void SetStats()
         {
-            this.health = 100;
-            this.speed = controller.Speed;
-           
+            this.Speed = controller.Speed;
+            this.groundState = GroundState.JUMPING;
+            this.jumpheight= controller.jumpheight;
         }
 
         public void ResetLocation() 
@@ -86,10 +89,10 @@ namespace FixedFinalGame
         public void KeepOnScreen()
         {
             //Cheating Floor
-            if (this.Location.Y > 250)
+            if (this.Location.Y > 310)
             {
                 this.Direction.Y = 0.0f;
-                this.Location.Y = 250;
+                this.Location.Y = 310;
             }
         }
 
@@ -104,27 +107,6 @@ namespace FixedFinalGame
                 groundState = GroundState.JUMPING;
             }
         }
-
-        private void DirectionLimit() 
-        {
-            if (Direction.X > 1)
-            {
-                Direction.X = 1;
-            }
-            if (Direction.X < -1)
-            {
-                Direction.X = -1;
-            }
-            if (Direction.Y < -10)
-            {
-                Direction.Y = -10;
-            }
-            if (Direction.Y > 15)
-            {
-                Direction.Y = 15;
-            }
-        }
-        
         public void DoGravity(float time)
         {
             this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel)*(time/1000);
@@ -133,7 +115,7 @@ namespace FixedFinalGame
 
         private void timecorrectedMove(float time) 
         {
-            this.Location = this.Location + (this.Direction * speed) * (time/1000);
+            this.Location = this.Location + (this.Direction * Speed) * (time/1000);
         }
 
         public void CheckTileCollision(MonoTile passedtile)
@@ -142,13 +124,13 @@ namespace FixedFinalGame
                 this.Rectagle.Right < passedtile.Rectagle.Right &&
                 this.Rectagle.Bottom < passedtile.Rectagle.Top)
             {
-                this.Location.Y= passedtile.Location.Y;
+               this.groundState = GroundState.STANDING;
             }
         }
        
+
         public override void Update(GameTime gameTime)
         {
-            //cam.Update();
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             KeepOnScreen();
 
@@ -185,7 +167,7 @@ namespace FixedFinalGame
                     break;
             }
 
-            this.speed = controller.Speed;
+            //this.speed = controller.Speed;
 
             switch (this.groundState)
             {
@@ -196,9 +178,9 @@ namespace FixedFinalGame
                     DoGravity(time);
                     break;
                 case GroundState.STANDING:
+                    this.Direction.Y = 0.0f;
                     this.Direction = controller.Direction;
                     break;
-
             }
 
             timecorrectedMove(time);
@@ -209,16 +191,18 @@ namespace FixedFinalGame
 
         private void UpdateLog()
         {
-            console.Log("Health", this.health.ToString());
+            console.Log("Standing State ", this.groundState.ToString());
             console.Log("Right Mouse B", this.controller.Block.ToString());
             console.Log("Left Mouse B", this.controller.Attack.ToString());
             console.Log("Invulnerable", this.invulnerable.ToString());
             console.Log("Action State", this.actionstate.ToString());
             console.Log("Direction.Y", this.Direction.Y.ToString());
             console.Log("Direction.X", this.Direction.X.ToString());
-            console.Log("Speed.Y", this.speed.Y.ToString());
-            console.Log("Speed.X", this.speed.X.ToString());
-            console.Log("Standing State ", this.groundState.ToString());
+            //console.Log("Speed.Y", this.speed.Y.ToString());
+            //console.Log("Speed.X", this.speed.X.ToString());
+            console.Log("Speed", this.Speed.ToString());
+            console.Log("Bottom", this.Rectagle.Bottom.ToString());
+            console.Log("Top", this.Rectagle.Top.ToString());
             console.Log("Location", this.Location.ToString());
         }
 

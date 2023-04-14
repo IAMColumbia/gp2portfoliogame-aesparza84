@@ -46,12 +46,8 @@ namespace FixedFinalGame
             player = new Player(this, cam);                     //add Camera to the objects, matrix
             this.Components.Add(player);
 
-            enemy= new Enemy(this, cam, player);
-            this.Components.Add(enemy);
-
-            tile = new MonoTile(this, player, cam);
-            this.Components.Add(tile);
-            tiles.Add(tile);
+            //enemy= new Enemy(this, cam, player);
+            //this.Components.Add(enemy);
 
             world = new TileMap(this, cam, player);
         }
@@ -61,23 +57,13 @@ namespace FixedFinalGame
             Screenheight = _graphics.PreferredBackBufferHeight;
             Screenwidth  = _graphics.PreferredBackBufferWidth;
 
-
-            //tiles= new List<MonoTile>();
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    MonoTile tile = new MonoTile(this,player,cam);
-            //    tile.Location = new Vector2(200*i, 260);
-            //    this.Components.Add(tile);
-            //    tiles.Add(tile);
-            //}
-
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    MonoTile tile = new MonoTile(this,cam);
-            //    tile.Location = new Vector2(i*100, i*100);
-            //    this.Components.Add(tile);
-            //}
-
+            for (int i = 0; i < 4; i++)
+            {
+                MonoTile tile =  new MonoTile(this, cam);
+                this.Components.Add(tile);
+                tile.Location = new Vector2(500 +i*100, 300-i*100);
+                tiles.Add(tile);
+            }
 
             base.Initialize();
         }
@@ -100,10 +86,12 @@ namespace FixedFinalGame
                 Exit();
 
             cam.Update(player);
+
             foreach (MonoTile item in tiles)
             {
                 player.CheckTileCollision(item);
             }
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);

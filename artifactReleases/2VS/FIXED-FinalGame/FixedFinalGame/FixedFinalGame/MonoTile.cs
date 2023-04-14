@@ -19,24 +19,22 @@ namespace FixedFinalGame
         private Chracter passedSprite;
         private Camera cam;
 
-        public MonoTile(Game game, Chracter character, Camera camera) : base(game)
+        public MonoTile(Game game, Camera camera) : base(game)
         {
-            this.TextureName= "TestTile2";
+            this.TextureName= "TestTile3";
 
             this.Location = new Vector2(500, 240);
             rect= new Rectangle();
-            passedSprite = character;
             cam = camera;
         }
 
-        public MonoTile(Game game,Camera camera, Chracter character,string texturename) : base(game)
+        public MonoTile(Game game,Camera camera,string texturename) : base(game)
         {
             this.TextureName = texturename;
 
            // this.Location = new Vector2(200, 240);
             rect = new Rectangle();
             cam = camera;
-            passedSprite= character;
         }
 
         public void Stand(Chracter character) 
@@ -52,19 +50,7 @@ namespace FixedFinalGame
 
         public override void Update(GameTime gameTime)
         {
-            //if (Intersects(passedSprite))
-            //{
-            //    Stand(passedSprite);
-            //}
-
-            if (this.Intersects(passedSprite))
-            {
-                Stand(passedSprite);
-            }
-            else
-            {
-                passedSprite.groundState = GroundState.JUMPING;
-            }
+            
 
             
 
