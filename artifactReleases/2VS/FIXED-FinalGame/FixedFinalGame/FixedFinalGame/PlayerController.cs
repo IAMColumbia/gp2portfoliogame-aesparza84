@@ -72,7 +72,7 @@ namespace FixedFinalGame
             {
                 if (PassedPlayer.groundState == GroundState.STANDING)
                 {
-                    this.Direction.Y = -2.5f;
+                    this.Direction.Y -= jumpheight;
                 }
                 else if (PassedPlayer.groundState == GroundState.JUMPING)
                 {

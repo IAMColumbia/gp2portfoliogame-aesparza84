@@ -9,6 +9,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace FixedFinalGame
 {
@@ -76,7 +78,6 @@ namespace FixedFinalGame
         void SetStats()
         {
             this.Speed = controller.Speed;
-            this.groundState = GroundState.JUMPING;
             this.jumpheight= controller.jumpheight;
         }
 
@@ -84,15 +85,23 @@ namespace FixedFinalGame
         {
             this.health = 100;
             this.Direction = Vector2.Zero;
-            this.Location = new Vector2(Game1.Screenwidth/2, Game1.Screenheight/2-50);
+            this.Location = new Vector2(Game1.Screenwidth/2, Game1.Screenheight/2-50);            
         }
+
+        bool intersectsRect;
         public void KeepOnScreen()
         {
             //Cheating Floor
-            if (this.Location.Y > 310)
+            if (this.Location.Y >= 310||intersectsRect==true)
             {
-                this.Direction.Y = 0.0f;
-                this.Location.Y = 310;
+                this.groundState = GroundState.STANDING;
+
+                //this.Direction.Y = 0.0f;
+               // this.Location.Y = 310;
+            }
+            else
+            {
+                this.groundState = GroundState.JUMPING;
             }
         }
 
@@ -107,6 +116,25 @@ namespace FixedFinalGame
                 groundState = GroundState.JUMPING;
             }
         }
+
+        public void DetermineStanding(float time)
+        {
+            switch (this.groundState)
+            {
+                case GroundState.FALLING:
+                    break;
+                case GroundState.JUMPING:
+                    this.Direction.X = controller.Direction.X;
+                    DoGravity(time);
+                    break;
+                case GroundState.STANDING:
+                    this.Direction.Y = 0.0f;
+                    this.Direction = controller.Direction;
+                    break;
+            }
+        }
+
+        
         public void DoGravity(float time)
         {
             this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel)*(time/1000);
@@ -120,23 +148,39 @@ namespace FixedFinalGame
 
         public void CheckTileCollision(MonoTile passedtile)
         {
-            if (this.Rectagle.Left > passedtile.Rectagle.Left &&
-                this.Rectagle.Right < passedtile.Rectagle.Right &&
-                this.Rectagle.Bottom < passedtile.Rectagle.Top)
+            //if (this.Rectagle.Left > passedtile.Rectagle.Left &&
+            //    this.Rectagle.Right < passedtile.Rectagle.Right &&
+            //    this.Rectagle.Bottom < passedtile.Rectagle.Top)
+            //{
+            //    //this.groundState = GroundState.STANDING;
+            //    intersectsRect = true;
+            //}
+
+            if (this.Rectagle.Intersects(passedtile.Rectagle))
             {
-               this.groundState = GroundState.STANDING;
+                intersectsRect = true;
+
+                this.Location.Y = passedtile.Rectagle.Top - this.Rectagle.Height;
             }
+            else { intersectsRect = false; }
         }
        
 
         public override void Update(GameTime gameTime)
         {
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            
+            //If character goes past 310, then groundstate is standing
             KeepOnScreen();
 
-            
-
             controller.DifferentHandleInput(gameTime);
+
+
+
+
+
+            //Determines Gravity based on groundstate
+            DetermineStanding(time);
 
             if (controller.Block)
             {
@@ -147,7 +191,7 @@ namespace FixedFinalGame
                 actionstate = Action.NEUTRAL;
             }
 
-            CheckIfStanding();
+           //CheckIfStanding();
             
 
             switch (actionstate)
@@ -167,21 +211,22 @@ namespace FixedFinalGame
                     break;
             }
 
-            //this.speed = controller.Speed;
+            
+           
 
-            switch (this.groundState)
-            {
-                case GroundState.FALLING:
-                    break;
-                case GroundState.JUMPING:
-                    this.Direction.X = controller.Direction.X;
-                    DoGravity(time);
-                    break;
-                case GroundState.STANDING:
-                    this.Direction.Y = 0.0f;
-                    this.Direction = controller.Direction;
-                    break;
-            }
+            //switch (this.groundState)
+            //{
+            //    case GroundState.FALLING:
+            //        break;
+            //    case GroundState.JUMPING:
+            //        this.Direction.X = controller.Direction.X;
+            //        DoGravity(time);
+            //        break;
+            //    case GroundState.STANDING:
+            //        this.Direction.Y = 0.0f;
+            //        this.Direction = controller.Direction;
+            //        break;
+            //}
 
             timecorrectedMove(time);
             UpdateLog();
@@ -192,6 +237,7 @@ namespace FixedFinalGame
         private void UpdateLog()
         {
             console.Log("Standing State ", this.groundState.ToString());
+            console.Log("Intersect Tile ", this.intersectsRect.ToString());
             console.Log("Right Mouse B", this.controller.Block.ToString());
             console.Log("Left Mouse B", this.controller.Attack.ToString());
             console.Log("Invulnerable", this.invulnerable.ToString());

@@ -24,7 +24,6 @@ namespace FixedFinalGame
             this.TextureName= "TestTile3";
 
             this.Location = new Vector2(500, 240);
-            rect= new Rectangle();
             cam = camera;
         }
 
@@ -39,7 +38,7 @@ namespace FixedFinalGame
 
         public void Stand(Chracter character) 
         {
-            character.Direction.Y= 0;
+            character.Direction.Y= 0.0f;
         }
         protected override void LoadContent()
         {
