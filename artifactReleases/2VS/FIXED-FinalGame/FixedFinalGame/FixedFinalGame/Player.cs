@@ -168,36 +168,40 @@ namespace FixedFinalGame
             intersectRight= false;
             intersectBottom = false;
 
-            if (this.Rectagle.Left < passedtile.CollisionRect.Left &&
-                this.Rectagle.Right <= passedtile.CollisionRect.Left)
+            if (this.Rectagle.IntersectsLeft(passedtile.Rectagle))
             {
                 intersectLeft = true;
             }
-            else { intersectLeft = false; }
 
-            if (this.Rectagle.Bottom >= passedtile.CollisionRect.Top +1 &&
-                this.Rectagle.Bottom <= passedtile.CollisionRect.Top+10 &&
-                this.Rectagle.Left <= passedtile.CollisionRect.Right &&
-                this.Rectagle.Right >= passedtile.CollisionRect.Left)
+            //if (this.Rectagle.Left < passedtile.CollisionRect.Left &&
+            //    this.Rectagle.Right <= passedtile.CollisionRect.Left+10)
+            //{
+            //    intersectLeft = true;
+            //}
+            //else { intersectLeft = false; }
+
+            if (this.Rectagle.IntersectsTop(passedtile.Rectagle))
             {
-                //this.groundState = GroundState.STANDING;
-                this.Location.Y= passedtile.CollisionRect.Top-this.Rectagle.Height;
+                this.Location.Y = passedtile.CollisionRect.Top - this.Rectagle.Height;
                 intersectsRect = true;
             }
 
-            
-
-            //if (this.Rectagle.Intersects(passedtile.Rectagle))
+            //if (this.Rectagle.Bottom >= passedtile.CollisionRect.Top +1 &&
+            //    this.Rectagle.Bottom <= passedtile.CollisionRect.Top+10 &&
+            //    this.Rectagle.Left <= passedtile.CollisionRect.Right &&
+            //    this.Rectagle.Right >= passedtile.CollisionRect.Left)
             //{
+            //    this.groundState = GroundState.STANDING;
+            //    this.Location.Y= passedtile.CollisionRect.Top-this.Rectagle.Height;
             //    intersectsRect = true;
-
-            //    this.Location.Y = passedtile.Rectagle.Top - this.Rectagle.Height;
-
             //}
-            
-        }
-       
 
+            if (this.Rectagle.IntersectsRight(passedtile.Rectagle))
+            {
+                intersectRight = true;
+            }
+        }
+        
         public override void Update(GameTime gameTime)
         {
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -210,9 +214,19 @@ namespace FixedFinalGame
             //Determines Gravity based on groundstate
             DetermineStanding(time);
 
-            if (intersectLeft==true)
+            if (intersectLeft == true)
             {
-                this.Direction.X *= -1;
+                if (this.Direction.X > 0)
+                {
+                    this.Direction.X = 0;
+                }
+            }
+            if (intersectRight == true) 
+            {
+                if (this.Direction.X<0)
+                {
+                    this.Direction.X = 0;
+                }
             }
 
             if (controller.Block)
@@ -256,7 +270,7 @@ namespace FixedFinalGame
         private void UpdateLog()
         {
             console.Log("Standing State ", this.groundState.ToString());
-            console.Log("Intersect Tile ", this.intersectsRect.ToString());
+            console.Log("intersect Left ", this.intersectLeft.ToString());
             console.Log("Right Mouse B", this.controller.Block.ToString());
             console.Log("Left Mouse B", this.controller.Attack.ToString());
             console.Log("Invulnerable", this.invulnerable.ToString());
@@ -305,8 +319,6 @@ namespace FixedFinalGame
                 spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
                 spriteBatch.End();
             }
-
-
         }
 
     }

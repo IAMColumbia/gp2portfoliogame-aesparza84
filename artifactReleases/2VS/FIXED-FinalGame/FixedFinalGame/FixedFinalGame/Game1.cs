@@ -102,6 +102,10 @@ namespace FixedFinalGame
                 {
                     player.CheckTileCollision(item);
                 }
+                else
+                {
+
+                }
                 
             }
 
