@@ -31,7 +31,13 @@ namespace FixedFinalGame
         //------------------Not Icharacter
 
         float jumpheight;
+
         bool invulnerable;
+
+        bool intersectsRect;
+        bool intersectLeft;
+        bool intersectRight;
+        bool intersectBottom;
 
         private Camera cam;
 
@@ -88,13 +94,22 @@ namespace FixedFinalGame
             this.Location = new Vector2(Game1.Screenwidth/2, Game1.Screenheight/2-50);            
         }
 
-        bool intersectsRect;
+        
         public void KeepOnScreen()
         {
             //Cheating Floor
             if (this.Location.Y >= 310||intersectsRect==true)
             {
-                this.groundState = GroundState.STANDING;
+
+                if (intersectsRect==true)
+                {
+                    this.groundState = GroundState.STANDING;
+                }
+                else if (this.Location.Y>=310)
+                {
+                    this.Location.Y = 310;
+                    this.groundState = GroundState.STANDING;
+                }
 
                 //this.Direction.Y = 0.0f;
                // this.Location.Y = 310;
@@ -148,21 +163,38 @@ namespace FixedFinalGame
 
         public void CheckTileCollision(MonoTile passedtile)
         {
-            //if (this.Rectagle.Left > passedtile.Rectagle.Left &&
-            //    this.Rectagle.Right < passedtile.Rectagle.Right &&
-            //    this.Rectagle.Bottom < passedtile.Rectagle.Top)
-            //{
-            //    //this.groundState = GroundState.STANDING;
-            //    intersectsRect = true;
-            //}
+            intersectsRect = false;
+            intersectLeft= false;
+            intersectRight= false;
+            intersectBottom = false;
 
-            if (this.Rectagle.Intersects(passedtile.Rectagle))
+            if (this.Rectagle.Left < passedtile.CollisionRect.Left &&
+                this.Rectagle.Right <= passedtile.CollisionRect.Left)
             {
-                intersectsRect = true;
-
-                this.Location.Y = passedtile.Rectagle.Top - this.Rectagle.Height;
+                intersectLeft = true;
             }
-            else { intersectsRect = false; }
+            else { intersectLeft = false; }
+
+            if (this.Rectagle.Bottom >= passedtile.CollisionRect.Top +1 &&
+                this.Rectagle.Bottom <= passedtile.CollisionRect.Top+10 &&
+                this.Rectagle.Left <= passedtile.CollisionRect.Right &&
+                this.Rectagle.Right >= passedtile.CollisionRect.Left)
+            {
+                //this.groundState = GroundState.STANDING;
+                this.Location.Y= passedtile.CollisionRect.Top-this.Rectagle.Height;
+                intersectsRect = true;
+            }
+
+            
+
+            //if (this.Rectagle.Intersects(passedtile.Rectagle))
+            //{
+            //    intersectsRect = true;
+
+            //    this.Location.Y = passedtile.Rectagle.Top - this.Rectagle.Height;
+
+            //}
+            
         }
        
 
@@ -175,12 +207,13 @@ namespace FixedFinalGame
 
             controller.DifferentHandleInput(gameTime);
 
-
-
-
-
             //Determines Gravity based on groundstate
             DetermineStanding(time);
+
+            if (intersectLeft==true)
+            {
+                this.Direction.X *= -1;
+            }
 
             if (controller.Block)
             {
@@ -192,6 +225,7 @@ namespace FixedFinalGame
             }
 
            //CheckIfStanding();
+
             
 
             switch (actionstate)
@@ -212,21 +246,6 @@ namespace FixedFinalGame
             }
 
             
-           
-
-            //switch (this.groundState)
-            //{
-            //    case GroundState.FALLING:
-            //        break;
-            //    case GroundState.JUMPING:
-            //        this.Direction.X = controller.Direction.X;
-            //        DoGravity(time);
-            //        break;
-            //    case GroundState.STANDING:
-            //        this.Direction.Y = 0.0f;
-            //        this.Direction = controller.Direction;
-            //        break;
-            //}
 
             timecorrectedMove(time);
             UpdateLog();

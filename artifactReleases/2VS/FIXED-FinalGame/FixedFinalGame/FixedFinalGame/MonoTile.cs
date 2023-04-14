@@ -15,7 +15,7 @@ namespace FixedFinalGame
 
         public string TextureName;
 
-        public Rectangle rect;
+        public Rectangle CollisionRect;
         private Chracter passedSprite;
         private Camera cam;
 
@@ -23,7 +23,7 @@ namespace FixedFinalGame
         {
             this.TextureName= "TestTile3";
 
-            this.Location = new Vector2(500, 240);
+            //this.Location = new Vector2(500, 240);
             cam = camera;
         }
 
@@ -32,7 +32,7 @@ namespace FixedFinalGame
             this.TextureName = texturename;
 
            // this.Location = new Vector2(200, 240);
-            rect = new Rectangle();
+            CollisionRect = new Rectangle();
             cam = camera;
         }
 
@@ -43,7 +43,8 @@ namespace FixedFinalGame
         protected override void LoadContent()
         {
             this.spriteTexture = Game.Content.Load<Texture2D>(this.TextureName);
-            this.rect = new Rectangle((int)this.Location.X, (int)this.Location.Y, this.spriteTexture.Width, this.spriteTexture.Height);
+            this.CollisionRect = new Rectangle((int)this.Location.X, (int)this.Location.Y, 150, 150);
+            
             base.LoadContent();
         }
 

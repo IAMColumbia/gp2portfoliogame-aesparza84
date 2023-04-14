@@ -65,6 +65,15 @@ namespace FixedFinalGame
                 tiles.Add(tile);
             }
 
+            for (int i = 0; i < 5; i++)
+            {
+                MonoTile tile = new MonoTile(this, cam);
+                this.Components.Add(tile);
+                tile.Location = new Vector2(-150 - i * 100, 300 );
+                tiles.Add(tile);
+            }
+
+
             base.Initialize();
         }
 
@@ -74,7 +83,7 @@ namespace FixedFinalGame
             background = this.Content.Load<Texture2D>("SpaceBackground");
             FakePlayer = this.Content.Load<Texture2D>("TestingSrite2");
 
-            
+           
             
             // TODO: use this.Content to load your game content here
             // cam = new Camera(player, _spriteBatch);
@@ -89,7 +98,11 @@ namespace FixedFinalGame
 
             foreach (MonoTile item in tiles)
             {
-                player.CheckTileCollision(item);
+                if (player.Rectagle.Intersects(item.CollisionRect))
+                {
+                    player.CheckTileCollision(item);
+                }
+                
             }
 
             // TODO: Add your update logic here
