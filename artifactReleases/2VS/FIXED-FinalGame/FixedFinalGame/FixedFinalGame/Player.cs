@@ -164,9 +164,10 @@ namespace FixedFinalGame
         public void CheckTileCollision(MonoTile passedtile)
         {
             intersectsRect = false;
-            intersectLeft= false;
-            intersectRight= false;
+            intersectLeft = false;
+            intersectRight = false;
             intersectBottom = false;
+
 
             if (this.Rectagle.IntersectsLeft(passedtile.Rectagle))
             {
@@ -214,16 +215,17 @@ namespace FixedFinalGame
             //Determines Gravity based on groundstate
             DetermineStanding(time);
 
-            if (intersectLeft == true)
+            
+            if (intersectRight == true) 
             {
-                if (this.Direction.X > 0)
+                if (this.Direction.X<0)
                 {
                     this.Direction.X = 0;
                 }
             }
-            if (intersectRight == true) 
+            if (intersectLeft == true)
             {
-                if (this.Direction.X<0)
+                if (this.Direction.X > 0)
                 {
                     this.Direction.X = 0;
                 }
@@ -271,10 +273,12 @@ namespace FixedFinalGame
         {
             console.Log("Standing State ", this.groundState.ToString());
             console.Log("intersect Left ", this.intersectLeft.ToString());
-            console.Log("Right Mouse B", this.controller.Block.ToString());
-            console.Log("Left Mouse B", this.controller.Attack.ToString());
-            console.Log("Invulnerable", this.invulnerable.ToString());
-            console.Log("Action State", this.actionstate.ToString());
+            console.Log("intersect Right ", this.intersectRight.ToString());
+            console.Log("intersect Top ", this.intersectsRect.ToString());
+            //console.Log("Right Mouse B", this.controller.Block.ToString());
+            //console.Log("Left Mouse B", this.controller.Attack.ToString());
+            //console.Log("Invulnerable", this.invulnerable.ToString());
+            //console.Log("Action State", this.actionstate.ToString());
             console.Log("Direction.Y", this.Direction.Y.ToString());
             console.Log("Direction.X", this.Direction.X.ToString());
             //console.Log("Speed.Y", this.speed.Y.ToString());
