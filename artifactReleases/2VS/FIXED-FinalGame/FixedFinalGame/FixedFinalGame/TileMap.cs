@@ -33,10 +33,10 @@ namespace FixedFinalGame
                     {
                         case 0:
                             break;
-                        case 2: tiles.Add(new MonoTile(passedgame, cam, c, "TestTile2-Dirt"));
+                        case 2: tiles.Add(new MonoTile(passedgame, cam, "TestTile2-Dirt"));
                                 
                             break;
-                        case 1: tiles.Add(new MonoTile(passedgame, cam, c,"TestTile2"));
+                        case 1: tiles.Add(new MonoTile(passedgame, cam, "TestTile2"));
                             break;
                     }
                 }

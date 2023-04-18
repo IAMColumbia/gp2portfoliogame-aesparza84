@@ -33,7 +33,6 @@ namespace FixedFinalGame
         {
             this.TextureName = texturename;
 
-           // this.Location = new Vector2(200, 240);
             rect = new Rectangle();
             cam = camera;
             passedSprite= character;
@@ -52,21 +51,18 @@ namespace FixedFinalGame
 
         public override void Update(GameTime gameTime)
         {
-            //if (Intersects(passedSprite))
+            
+
+            //if (this.Intersects(passedSprite))
             //{
             //    Stand(passedSprite);
             //}
+            //else
+            //{
+            //    passedSprite.groundState = GroundState.JUMPING;
+            //}
 
-            if (this.Intersects(passedSprite))
-            {
-                Stand(passedSprite);
-            }
-            else
-            {
-                passedSprite.groundState = GroundState.JUMPING;
-            }
 
-            
 
             base.Update(gameTime);
         }

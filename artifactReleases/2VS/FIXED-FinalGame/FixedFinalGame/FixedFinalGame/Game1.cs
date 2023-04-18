@@ -19,6 +19,7 @@ namespace FixedFinalGame
         InputHandler input;
 
         TileMap world;
+        List<MonoTile> tiles;
 
         MonoTile tile;
 
@@ -32,9 +33,12 @@ namespace FixedFinalGame
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            
 
 
             cam = new Camera();
+
+            tiles= new List<MonoTile>();
 
             input = new InputHandler(this); 
             this.Components.Add(input);
@@ -42,11 +46,8 @@ namespace FixedFinalGame
             player = new Player(this, cam);                     //add Camera to the objects, matrix
             this.Components.Add(player);
 
-            enemy= new Enemy(this, cam, player);
-            this.Components.Add(enemy);
-
-            tile = new MonoTile(this, player, cam);
-            this.Components.Add(tile);
+            //enemy= new Enemy(this, cam, player);
+            //this.Components.Add(enemy);
 
             world = new TileMap(this, cam, player);
         }
@@ -56,34 +57,21 @@ namespace FixedFinalGame
             Screenheight = _graphics.PreferredBackBufferHeight;
             Screenwidth  = _graphics.PreferredBackBufferWidth;
 
-            world.CreateTileMap(65, new int[,] 
-                                     { {2,0,0,0,0,0,0,0,0,2},
-                                       {2,0,0,0,0,0,0,0,0,2},
-                                       {2,0,0,0,0,0,0,0,0,2},
-                                       {2,0,0,0,0,0,0,0,0,2},
-                                       {2,0,0,0,0,0,0,0,0,2},
-                                       {2,0,0,0,0,0,0,0,0,2},
-                                       {2,0,0,0,0,0,0,0,0,2},
-            });
+            for (int i = 0; i < 4; i++)
+            {
+                MonoTile tile =  new MonoTile(this, cam);
+                this.Components.Add(tile);
+                tile.Location = new Vector2(500 +i*100, 300-i*100);
+                tiles.Add(tile);
+            }
 
-            player.Location = new Vector2(GraphicsDevice.Viewport.Width/2, GraphicsDevice.Viewport.Height/2);
-            enemy.Location = new Vector2( (GraphicsDevice.Viewport.Width / 2)-200, GraphicsDevice.Viewport.Height / 2);
-
-            //tiles= new List<MonoTile>();
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    MonoTile tile = new MonoTile(this,player,cam);
-            //    tile.Location = new Vector2(200*i, 260);
-            //    this.Components.Add(tile);
-            //    tiles.Add(tile);
-            //}
-
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    MonoTile tile = new MonoTile(this,cam);
-            //    tile.Location = new Vector2(i*100, i*100);
-            //    this.Components.Add(tile);
-            //}
+            for (int i = 0; i < 5; i++)
+            {
+                MonoTile tile = new MonoTile(this, cam);
+                this.Components.Add(tile);
+                tile.Location = new Vector2(-150 - i * 100, 300 );
+                tiles.Add(tile);
+            }
 
 
             base.Initialize();
@@ -95,7 +83,7 @@ namespace FixedFinalGame
             background = this.Content.Load<Texture2D>("SpaceBackground");
             FakePlayer = this.Content.Load<Texture2D>("TestingSrite2");
 
-            
+           
             
             // TODO: use this.Content to load your game content here
             // cam = new Camera(player, _spriteBatch);
@@ -107,6 +95,19 @@ namespace FixedFinalGame
                 Exit();
 
             cam.Update(player);
+
+            foreach (MonoTile item in tiles)
+            {
+                if (player.Rectagle.Intersects(item.CollisionRect))
+                {
+                    player.CheckTileCollision(item);
+                }
+                else
+                {
+
+                }
+                
+            }
 
             // TODO: Add your update logic here
 

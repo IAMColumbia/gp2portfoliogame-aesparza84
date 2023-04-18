@@ -212,6 +212,7 @@ namespace FixedFinalGame
                 case Action.BLOCKING:
                     this.spriteTexture = blockingTexture;
                     invulnerable= true;
+                    
                     break;
                 default:
                     break;

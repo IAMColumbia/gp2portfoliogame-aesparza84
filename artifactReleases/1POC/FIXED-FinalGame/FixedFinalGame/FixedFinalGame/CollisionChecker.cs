@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FixedFinalGame
 {
-    internal class CollisionChecker
+    public class CollisionChecker
     {
+
     }
 }

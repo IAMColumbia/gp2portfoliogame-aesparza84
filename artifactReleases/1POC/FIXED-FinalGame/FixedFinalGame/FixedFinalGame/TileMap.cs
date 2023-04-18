@@ -14,14 +14,13 @@ namespace FixedFinalGame
         private Camera cam;
         private Game passedgame;
         private Chracter c;
-        public TileMap(Game game, Camera camera, Chracter passedcharacter) : base(game)
+        public TileMap(Game game, Camera camera) : base(game)
         {
             this.tiles = new List<MonoTile>();
             passedgame= game;
-            c = passedcharacter;
             this.cam = camera;  
         }
-
+        
         public void CreateTileMap(int tileSize, int[,] worldLayout)
         {
             for (int x = 0; x < worldLayout.GetLength(1); x++)
