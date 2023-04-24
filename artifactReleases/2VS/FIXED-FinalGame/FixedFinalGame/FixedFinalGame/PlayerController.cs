@@ -54,7 +54,6 @@ namespace FixedFinalGame
             Block=false;
             Attack=false;
 
-            //this.Speed.X = 0;
             this.Direction = Vector2.Zero;
 
             if (input.KeyboardState.IsKeyDown(Keys.A))

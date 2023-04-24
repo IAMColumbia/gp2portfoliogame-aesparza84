@@ -49,7 +49,10 @@ namespace FixedFinalGame
             //enemy= new Enemy(this, cam, player);
             //this.Components.Add(enemy);
 
-            world = new TileMap(this, cam, player);
+            tile = new MonoTile(this,cam);
+            this.Components.Add(tile);
+
+            
         }
 
         protected override void Initialize()
@@ -73,6 +76,8 @@ namespace FixedFinalGame
                 tiles.Add(tile);
             }
 
+            tile.Location = new Vector2(1000, 300);
+            tiles.Add(tile);
 
             base.Initialize();
         }
@@ -83,7 +88,8 @@ namespace FixedFinalGame
             background = this.Content.Load<Texture2D>("SpaceBackground");
             FakePlayer = this.Content.Load<Texture2D>("TestingSrite2");
 
-           
+            world = new TileMap(this.Content, cam);
+            world.CreateMap();
             
             // TODO: use this.Content to load your game content here
             // cam = new Camera(player, _spriteBatch);
@@ -98,15 +104,10 @@ namespace FixedFinalGame
 
             foreach (MonoTile item in tiles)
             {
-                if (player.Rectagle.Intersects(item.CollisionRect))
+                if (player.Rectagle.Intersects(item.Rectagle))
                 {
                     player.CheckTileCollision(item);
                 }
-                else
-                {
-
-                }
-                
             }
 
             // TODO: Add your update logic here
@@ -123,14 +124,17 @@ namespace FixedFinalGame
             //_spriteBatch.Begin();
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);
             //_spriteBatch.Draw(background, new Vector2(-100, -150), Color.White);
-            _spriteBatch.Draw(FakePlayer, new Vector2(40, 50), Color.White);
+            _spriteBatch.Draw(FakePlayer, new Vector2(400, 50), Color.White);
+            world.Draw(_spriteBatch);
             _spriteBatch.End();
+
+            
 
             //_spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, player.cam.Transform);
             //_spriteBatch.Begin();
 
             //_spriteBatch.End();
-
+            
             base.Draw(gameTime);
         }
     }

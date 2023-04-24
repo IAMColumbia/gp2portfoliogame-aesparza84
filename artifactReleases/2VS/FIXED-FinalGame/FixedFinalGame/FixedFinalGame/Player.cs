@@ -19,7 +19,6 @@ namespace FixedFinalGame
     {
         Texture2D normalTexture, blockingTexture;
         public int health { get; set; }
-        public Vector2 speed;
         public int Speed;
 
         public LifeState lifestate { get; set; }
@@ -34,7 +33,7 @@ namespace FixedFinalGame
 
         bool invulnerable;
 
-        bool intersectsRect;
+        bool intersectsTop;
         bool intersectLeft;
         bool intersectRight;
         bool intersectBottom;
@@ -98,10 +97,10 @@ namespace FixedFinalGame
         public void KeepOnScreen()
         {
             //Cheating Floor
-            if (this.Location.Y >= 310||intersectsRect==true)
+            if (this.Location.Y >= 310||intersectsTop==true)
             {
 
-                if (intersectsRect==true)
+                if (intersectsTop==true)
                 {
                     this.groundState = GroundState.STANDING;
                 }
@@ -110,9 +109,6 @@ namespace FixedFinalGame
                     this.Location.Y = 310;
                     this.groundState = GroundState.STANDING;
                 }
-
-                //this.Direction.Y = 0.0f;
-               // this.Location.Y = 310;
             }
             else
             {
@@ -154,8 +150,6 @@ namespace FixedFinalGame
         {
             this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel)*(time/1000);
         }
-
-
         private void timecorrectedMove(float time) 
         {
             this.Location = this.Location + (this.Direction * Speed) * (time/1000);
@@ -163,45 +157,27 @@ namespace FixedFinalGame
 
         public void CheckTileCollision(MonoTile passedtile)
         {
-            intersectsRect = false;
+            intersectsTop = false;
             intersectLeft = false;
             intersectRight = false;
             intersectBottom = false;
-
 
             if (this.Rectagle.IntersectsLeft(passedtile.Rectagle))
             {
                 intersectLeft = true;
             }
 
-            //if (this.Rectagle.Left < passedtile.CollisionRect.Left &&
-            //    this.Rectagle.Right <= passedtile.CollisionRect.Left+10)
-            //{
-            //    intersectLeft = true;
-            //}
-            //else { intersectLeft = false; }
-
             if (this.Rectagle.IntersectsTop(passedtile.Rectagle))
             {
-                this.Location.Y = passedtile.CollisionRect.Top - this.Rectagle.Height;
-                intersectsRect = true;
+                intersectsTop = true;
             }
-
-            //if (this.Rectagle.Bottom >= passedtile.CollisionRect.Top +1 &&
-            //    this.Rectagle.Bottom <= passedtile.CollisionRect.Top+10 &&
-            //    this.Rectagle.Left <= passedtile.CollisionRect.Right &&
-            //    this.Rectagle.Right >= passedtile.CollisionRect.Left)
-            //{
-            //    this.groundState = GroundState.STANDING;
-            //    this.Location.Y= passedtile.CollisionRect.Top-this.Rectagle.Height;
-            //    intersectsRect = true;
-            //}
 
             if (this.Rectagle.IntersectsRight(passedtile.Rectagle))
             {
                 intersectRight = true;
             }
         }
+
         
         public override void Update(GameTime gameTime)
         {
@@ -215,21 +191,6 @@ namespace FixedFinalGame
             //Determines Gravity based on groundstate
             DetermineStanding(time);
 
-            
-            if (intersectRight == true) 
-            {
-                if (this.Direction.X<0)
-                {
-                    this.Direction.X = 0;
-                }
-            }
-            if (intersectLeft == true)
-            {
-                if (this.Direction.X > 0)
-                {
-                    this.Direction.X = 0;
-                }
-            }
 
             if (controller.Block)
             {
@@ -241,8 +202,6 @@ namespace FixedFinalGame
             }
 
            //CheckIfStanding();
-
-            
 
             switch (actionstate)
             {
@@ -261,8 +220,6 @@ namespace FixedFinalGame
                     break;
             }
 
-            
-
             timecorrectedMove(time);
             UpdateLog();
 
@@ -274,7 +231,7 @@ namespace FixedFinalGame
             console.Log("Standing State ", this.groundState.ToString());
             console.Log("intersect Left ", this.intersectLeft.ToString());
             console.Log("intersect Right ", this.intersectRight.ToString());
-            console.Log("intersect Top ", this.intersectsRect.ToString());
+            console.Log("intersect Top ", this.intersectsTop.ToString());
             //console.Log("Right Mouse B", this.controller.Block.ToString());
             //console.Log("Left Mouse B", this.controller.Attack.ToString());
             //console.Log("Invulnerable", this.invulnerable.ToString());
@@ -295,13 +252,14 @@ namespace FixedFinalGame
             this.blockingTexture = this.Game.Content.Load<Texture2D>(BlockingTexture);
 
             this.spriteTexture = normalTexture;
+            this.showMarkers = true;
 
             base.LoadContent();
         }
 
         public override void Initialize()
         {
-
+            
             base.Initialize();  
         }
 
