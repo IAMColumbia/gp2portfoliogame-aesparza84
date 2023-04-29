@@ -60,24 +60,7 @@ namespace FixedFinalGame
             Screenheight = _graphics.PreferredBackBufferHeight;
             Screenwidth  = _graphics.PreferredBackBufferWidth;
 
-            for (int i = 0; i < 4; i++)
-            {
-                MonoTile tile =  new MonoTile(this, cam);
-                this.Components.Add(tile);
-                tile.Location = new Vector2(500 +i*100, 300-i*100);
-                tiles.Add(tile);
-            }
-
-            for (int i = 0; i < 5; i++)
-            {
-                MonoTile tile = new MonoTile(this, cam);
-                this.Components.Add(tile);
-                tile.Location = new Vector2(-150 - i * 100, 300 );
-                tiles.Add(tile);
-            }
-
-            tile.Location = new Vector2(1000, 300);
-            tiles.Add(tile);
+            
 
             base.Initialize();
         }

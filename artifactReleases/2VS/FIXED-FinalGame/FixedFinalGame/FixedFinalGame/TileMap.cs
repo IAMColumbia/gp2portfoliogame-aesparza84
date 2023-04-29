@@ -116,9 +116,11 @@ namespace FixedFinalGame
             //---------------------------------
             int[][] MapGrid = 
             {
-               new int[] { 2,0,2,2,0,0,0},
-               new int[] { 0,0,0,0,0,0,0},
-               new int[] { 1,1,0,1,0,0,0}
+               new int[] { 1,2,2,2,2,2,1},
+               new int[] { 0,2,2,2,1,1,0},
+               new int[] { 0,2,2,1,1,1,0},
+               new int[] { 0,2,1,1,1,1,0},
+               new int[] { 0,1,1,1,1,1,0},
             };
 
             world = new Tile[MapGrid.Length][];
@@ -146,21 +148,31 @@ namespace FixedFinalGame
 
         public void Draw(SpriteBatch sp)
         {
-            for (int i = 0; i < world.Length; i++)
+
+            for (int i = 0; i < world[0].Length; i++)
             {
-                for (int j = 0; j < world[0].Length; j++)
+                for (int j = 0; j < world.Length; j++)
                 {
-                    //sp.Begin();
-                    ////sp.Draw(Grid[i][j].texture, new Rectangle(i*100, j*100, 100, 100), Color.White);
-                    //sp.Draw(world[i][j].texture, new Rectangle(i * 100, j * 100, 100, 100), Color.White);
-                    //sp.End();
-
-                    //sp.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Cam.Transform);
-                    sp.Draw(world[i][j].texture, new Rectangle(i * 100, j * 100, 100, 100), Color.White);
-                    //sp.End();
-
+                    //sp.Draw(Grid[i][j].texture, new Rectangle(i*100, j*100, 100, 100), Color.White);
+                    sp.Draw(world[j][i].texture, new Rectangle(i * 100, j * 100, 100, 100), Color.White);
                 }
             }
+
+
+            //for (int i = 0; i < world.Length; i++)
+            //{
+            //    for (int j = 0; j < world[0].Length; j++)
+            //    {
+            //        //sp.Begin();
+            //        ////sp.Draw(Grid[i][j].texture, new Rectangle(i*100, j*100, 100, 100), Color.White);
+            //        //sp.Draw(world[i][j].texture, new Rectangle(i * 100, j * 100, 100, 100), Color.White);
+            //        //sp.End();
+
+            //        //sp.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Cam.Transform);
+            //        sp.Draw(world[i][j].texture, new Rectangle(i * 100, j * 100, 100, 100), Color.White);
+            //        //sp.End();
+            //    }
+            //}
         }
     }
 }
