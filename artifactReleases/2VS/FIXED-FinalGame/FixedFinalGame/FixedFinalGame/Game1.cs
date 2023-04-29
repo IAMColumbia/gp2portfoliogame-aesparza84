@@ -18,7 +18,7 @@ namespace FixedFinalGame
 
         InputHandler input;
 
-        TileMap world;
+        TileMap GameWorld;
         List<MonoTile> tiles;
 
         MonoTile tile;
@@ -71,8 +71,10 @@ namespace FixedFinalGame
             background = this.Content.Load<Texture2D>("SpaceBackground");
             FakePlayer = this.Content.Load<Texture2D>("TestingSrite2");
 
-            world = new TileMap(this.Content, cam);
-            world.CreateMap();
+            GameWorld = new TileMap(this.Content, cam);
+            GameWorld.CreateMap();
+
+            
             
             // TODO: use this.Content to load your game content here
             // cam = new Camera(player, _spriteBatch);
@@ -84,14 +86,6 @@ namespace FixedFinalGame
                 Exit();
 
             cam.Update(player);
-
-            foreach (MonoTile item in tiles)
-            {
-                if (player.Rectagle.Intersects(item.Rectagle))
-                {
-                    player.CheckTileCollision(item);
-                }
-            }
 
             // TODO: Add your update logic here
 
@@ -108,7 +102,7 @@ namespace FixedFinalGame
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);
             //_spriteBatch.Draw(background, new Vector2(-100, -150), Color.White);
             _spriteBatch.Draw(FakePlayer, new Vector2(400, 50), Color.White);
-            world.Draw(_spriteBatch);
+            GameWorld.Draw(_spriteBatch);
             _spriteBatch.End();
 
             

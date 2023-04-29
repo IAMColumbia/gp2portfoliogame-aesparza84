@@ -97,16 +97,16 @@ namespace FixedFinalGame
         public void KeepOnScreen()
         {
             //Cheating Floor
-            if (this.Location.Y >= 310||intersectsTop==true)
+            if (this.Location.Y >= 350 || intersectsTop==true)
             {
 
                 if (intersectsTop==true)
                 {
                     this.groundState = GroundState.STANDING;
                 }
-                else if (this.Location.Y>=310)
+                else if (this.Location.Y>=350)
                 {
-                    this.Location.Y = 310;
+                    this.Location.Y = 350;
                     this.groundState = GroundState.STANDING;
                 }
             }
