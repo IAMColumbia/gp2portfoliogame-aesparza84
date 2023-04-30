@@ -50,11 +50,17 @@ namespace FixedFinalGame
             //---------------------------------
             int[][] MapGrid = 
             {
-               new int[] { 1,2,2,2,2,2,1},
-               new int[] { 0,2,2,2,2,1,0},
-               new int[] { 0,2,2,2,1,0,0},
-               new int[] { 0,2,2,2,2,2,0},
-               new int[] { 0,1,1,1,1,1,0},
+               //new int[] { 2,2,2,2,2,2,1},
+               //new int[] { 2,2,2,2,2,1,0},
+               //new int[] { 2,2,2,2,1,0,0},
+               //new int[] { 2,2,2,2,2,2,0},
+               //new int[] { 2,1,1,1,1,1,0},
+
+               new int[] { 2,2,2,2,2,2,1},
+               new int[] { 1,2,2,2,2,2,0},
+               new int[] { 2,2,2,2,2,1,0},
+               new int[] { 2,2,2,2,2,2,0},
+               new int[] { 1,1,1,1,1,1,0},
             };
 
             world = new Tile[MapGrid.Length][];
@@ -73,6 +79,15 @@ namespace FixedFinalGame
                     b = MapGrid[r][c];
 
                     world[r][c] = TilesToPickFrom[b];
+                    world[r][c].location = new Vector2(r*100, c*100);
+                }
+            }
+            
+            for (int i = 0; i < world[0].Length; i++)
+            {
+                for (int j = 0; j < world.Length; j++)
+                {
+                    world[j][i].rectangle = new Rectangle(i*100, j*100, 100,100);
                 }
             }
 

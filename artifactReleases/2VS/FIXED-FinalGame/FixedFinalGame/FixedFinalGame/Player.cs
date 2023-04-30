@@ -29,6 +29,12 @@ namespace FixedFinalGame
 
         //------------------Not Icharacter
 
+        public Tile[][] collisionmap { get; set; }
+        public Tile[] ColMap { get; set; }
+        bool hasMap;
+
+        Vector2 initPos;
+
         float jumpheight;
 
         bool invulnerable;
@@ -37,6 +43,7 @@ namespace FixedFinalGame
         bool intersectLeft;
         bool intersectRight;
         bool intersectBottom;
+        bool intersects;
 
         private Camera cam;
 
@@ -54,6 +61,7 @@ namespace FixedFinalGame
         {
             NormalTexture = "TestingSrite2";
             BlockingTexture = "TestingSrite2-Blocking";
+            hasMap = false;
            
 
             gravity = new Gravity();
@@ -90,7 +98,7 @@ namespace FixedFinalGame
         {
             this.health = 100;
             this.Direction = Vector2.Zero;
-            this.Location = new Vector2(Game1.Screenwidth/2, Game1.Screenheight/2-50);            
+            this.Location = new Vector2(300, 150);            
         }
 
         
@@ -178,10 +186,83 @@ namespace FixedFinalGame
             }
         }
 
+        public void GetMap(Tile[][] passedmap)
+        {
+            int n = passedmap.Length*passedmap[0].Length;
+            collisionmap = new Tile[passedmap.Length][];
+            ColMap = new Tile[n];
+
+            int m = 0;
+
+            for (int r = 0; r < passedmap.Length; r++)
+            {
+                collisionmap[r] = new Tile[passedmap[0].Length];
+
+                //grabs columns in row (7)
+                for (int c = 0; c < passedmap[r].Length; c++)
+                {
+                    collisionmap[r][c] = passedmap[r][c];
+
+                    ColMap[m] = passedmap[r][c];
+                    m++;
+                }
+            }
+            hasMap= true;
+        }
         
         public override void Update(GameTime gameTime)
         {
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            initPos = this.Location;
+
+            intersects = false;
+            if (hasMap)
+            {
+
+                for (int i = 0; i < ColMap.Length; i++)
+                {
+                    if (this.Rectagle.Intersects(ColMap[i].rectangle) &&
+                        ColMap[i].iscollidable)
+                    {
+                        intersects = true;
+                    }
+                }
+
+                //for (int i = 0; i < collisionmap[0].Length; i++)
+                //{
+                //    for (int j = 0; j < collisionmap.Length; j++)
+                //    {
+                //        tile = collisionmap[j][i];
+                //        if (tile.iscollidable && this.Rectagle.Intersects(tile.rectangle))
+                //        {
+                //            intersects = true;
+                //            //tile = collisionmap[j][i];
+                //        }
+
+                //        //if (this.Rectagle.Intersects(collisionmap[j][i].rectangle) 
+                //        //    && collisionmap[j][i].iscollidable ==true)
+                //        //{
+                //        //    intersects = true;
+                //        //    tile = collisionmap[j][i];
+                //        //}
+
+                //        //if (this.Rectagle.IntersectSide(collisionmap[j][i].rectangle))
+                //        //{
+
+                //        //    if (collisionmap[j][i].iscollidable == true)
+                //        //    {
+                //        //        //this.Speed = 0;
+                //        //        intersects = true;
+                //        //    }
+                //        //    else
+                //        //    {
+                //        //        this.Speed = controller.Speed;
+                //        //    }
+                //        //}
+                //    }
+                //}
+            }
             
             //If character goes past 310, then groundstate is standing
             KeepOnScreen();
@@ -229,9 +310,7 @@ namespace FixedFinalGame
         private void UpdateLog()
         {
             console.Log("Standing State ", this.groundState.ToString());
-            console.Log("intersect Left ", this.intersectLeft.ToString());
-            console.Log("intersect Right ", this.intersectRight.ToString());
-            console.Log("intersect Top ", this.intersectsTop.ToString());
+            console.Log("intersect ", this.intersects.ToString());
             //console.Log("Right Mouse B", this.controller.Block.ToString());
             //console.Log("Left Mouse B", this.controller.Attack.ToString());
             //console.Log("Invulnerable", this.invulnerable.ToString());

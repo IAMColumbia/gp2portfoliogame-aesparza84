@@ -19,9 +19,6 @@ namespace FixedFinalGame
         InputHandler input;
 
         TileMap GameWorld;
-        List<MonoTile> tiles;
-
-        MonoTile tile;
 
         Camera cam;
 
@@ -38,8 +35,6 @@ namespace FixedFinalGame
 
             cam = new Camera();
 
-            tiles= new List<MonoTile>();
-
             input = new InputHandler(this); 
             this.Components.Add(input);
 
@@ -48,11 +43,6 @@ namespace FixedFinalGame
 
             //enemy= new Enemy(this, cam, player);
             //this.Components.Add(enemy);
-
-            tile = new MonoTile(this,cam);
-            this.Components.Add(tile);
-
-            
         }
 
         protected override void Initialize()
@@ -60,7 +50,9 @@ namespace FixedFinalGame
             Screenheight = _graphics.PreferredBackBufferHeight;
             Screenwidth  = _graphics.PreferredBackBufferWidth;
 
-            
+
+
+            player.Enabled = false;
 
             base.Initialize();
         }
@@ -68,13 +60,14 @@ namespace FixedFinalGame
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            background = this.Content.Load<Texture2D>("SpaceBackground");
-            FakePlayer = this.Content.Load<Texture2D>("TestingSrite2");
+            //background = this.Content.Load<Texture2D>("SpaceBackground");
+            //FakePlayer = this.Content.Load<Texture2D>("TestingSrite2");
 
             GameWorld = new TileMap(this.Content, cam);
             GameWorld.CreateMap();
 
-            
+            player.GetMap(GameWorld.world);
+            player.Enabled = true;
             
             // TODO: use this.Content to load your game content here
             // cam = new Camera(player, _spriteBatch);
@@ -101,7 +94,7 @@ namespace FixedFinalGame
             //_spriteBatch.Begin();
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);
             //_spriteBatch.Draw(background, new Vector2(-100, -150), Color.White);
-            _spriteBatch.Draw(FakePlayer, new Vector2(400, 50), Color.White);
+            //_spriteBatch.Draw(FakePlayer, new Vector2(400, 50), Color.White);
             GameWorld.Draw(_spriteBatch);
             _spriteBatch.End();
 

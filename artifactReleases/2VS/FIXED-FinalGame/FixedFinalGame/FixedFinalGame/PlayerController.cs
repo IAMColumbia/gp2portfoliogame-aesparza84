@@ -93,6 +93,10 @@ namespace FixedFinalGame
             {
                 PassedPlayer.ResetLocation();
             }
+            if (input.KeyboardState.IsKeyDown(Keys.E))
+            {
+                PassedPlayer.Location.Y -= 35;
+            }
         }
 
         public void LockInput()
