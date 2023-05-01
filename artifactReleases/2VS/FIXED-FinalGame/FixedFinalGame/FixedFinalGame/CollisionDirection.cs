@@ -12,17 +12,13 @@ namespace FixedFinalGame
         public static bool IntersectsLeft(this Rectangle c, Rectangle tile)
         {
             return c.Left < tile.Left &&
-                   c.Right >= tile.Left + 6 &&
-                   c.Top < tile.Bottom &&
-                    c.Bottom > tile.Top;
+                   c.Right >= tile.Left;
         }
         public static bool IntersectsRight(this Rectangle c, Rectangle tile)
         {
             return c.Right > tile.Right &&
                    //Math.Abs(c.Left) <= Math.Abs(tile.Right)+1  &&
-                   c.Left <= tile.Right &&
-                   c.Top < tile.Bottom &&
-                   c.Bottom > tile.Top;
+                   c.Left <= tile.Right;
         }
         public static bool IntersectsTop(this Rectangle c, Rectangle tile)
         {

@@ -220,49 +220,69 @@ namespace FixedFinalGame
             if (hasMap)
             {
                 Tile tile = new Tile();
-                //for (int i = 0; i < ColMap.Length; i++)
-                //{
-                //    tile = ColMap[i];
-                //    if (this.Rectagle.Intersects(tile.rectangle)
-                //        && tile.iscollidable==true)
-                //    {
-                //        intersects = true;
-                //    }
-                //}
-
-
-                for (int i = 0; i < collisionmap[0].Length; i++)
+                for (int i = 0; i < ColMap.Length; i++)
                 {
-                    for (int j = 0; j < collisionmap.Length; j++)
+                    tile = ColMap[i];
+                    if (this.Rectagle.Intersects(tile.rectangle)
+                        && tile.iscollidable == true)
                     {
-                        tile = collisionmap[j][i];
-                        if (tile.iscollidable && this.Rectagle.Intersects(tile.rectangle))
+                        intersects = true;
+                        if (this.Rectagle.IntersectsRight(tile.rectangle))
                         {
-                            intersects = true;
+                            if (Direction.X < 0)
+                            {
+                                this.Location.X = tile.rectangle.Right;
+                            }
                         }
 
-                        //if (this.Rectagle.Intersects(collisionmap[j][i].rectangle) 
-                        //    && collisionmap[j][i].iscollidable ==true)
-                        //{
-                        //    intersects = true;
-                        //    tile = collisionmap[j][i];
-                        //}
+                        if (this.Rectagle.IntersectsLeft(tile.rectangle))
+                        {
+                            if (Direction.X > 0)
+                            {
+                                this.Location.X = tile.rectangle.Left-this.Rectagle.Width;
+                            }
+                        }
 
-                        //if (this.Rectagle.IntersectSide(collisionmap[j][i].rectangle))
-                        //{
-
-                        //    if (collisionmap[j][i].iscollidable == true)
-                        //    {
-                        //        //this.Speed = 0;
-                        //        intersects = true;
-                        //    }
-                        //    else
-                        //    {
-                        //        this.Speed = controller.Speed;
-                        //    }
-                        //}
+                        if (this.Rectagle.IntersectY(tile.rectangle))
+                        {
+                            this.groundState = GroundState.STANDING;
+                        }
                     }
                 }
+
+
+                //for (int i = 0; i < collisionmap[0].Length; i++)
+                //{
+                //    for (int j = 0; j < collisionmap.Length; j++)
+                //    {
+                //        tile = collisionmap[j][i];
+                //        if (tile.iscollidable && this.Rectagle.Intersects(tile.rectangle))
+                //        {
+                //            intersects = true;
+                //        }
+
+                //        //if (this.Rectagle.Intersects(collisionmap[j][i].rectangle) 
+                //        //    && collisionmap[j][i].iscollidable ==true)
+                //        //{
+                //        //    intersects = true;
+                //        //    tile = collisionmap[j][i];
+                //        //}
+
+                //        //if (this.Rectagle.IntersectSide(collisionmap[j][i].rectangle))
+                //        //{
+
+                //        //    if (collisionmap[j][i].iscollidable == true)
+                //        //    {
+                //        //        //this.Speed = 0;
+                //        //        intersects = true;
+                //        //    }
+                //        //    else
+                //        //    {
+                //        //        this.Speed = controller.Speed;
+                //        //    }
+                //        //}
+                //    }
+                //}
             }
             
             //If character goes past 310, then groundstate is standing
