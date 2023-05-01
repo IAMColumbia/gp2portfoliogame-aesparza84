@@ -21,6 +21,7 @@ namespace FixedFinalGame
         public Tile(bool IsCollidable) 
         {
             iscollidable= IsCollidable;
+            location = new Vector2(0,0);
 
             rectangle= new Rectangle(0,0,100,100);
         }

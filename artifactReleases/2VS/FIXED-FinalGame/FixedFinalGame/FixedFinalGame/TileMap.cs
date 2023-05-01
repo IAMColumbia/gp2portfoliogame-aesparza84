@@ -43,6 +43,12 @@ namespace FixedFinalGame
 
         }
 
+        private void CopyTile(Tile tile, int n)
+        { 
+            tile.iscollidable = TilesToPickFrom[n].iscollidable;
+            tile.texture = TilesToPickFrom[n].texture;
+        }
+
         public void CreateMap()
         { 
             
@@ -56,42 +62,45 @@ namespace FixedFinalGame
                //new int[] { 2,2,2,2,2,2,0},
                //new int[] { 2,1,1,1,1,1,0},
 
-               new int[] { 2,2,2,2,2,2,1},
-               new int[] { 1,2,2,2,2,2,0},
-               new int[] { 2,2,2,2,2,1,0},
-               new int[] { 2,2,2,2,2,2,0},
-               new int[] { 1,1,1,1,1,1,0},
+               //new int[] { 2,1,2,2,2,2,1},
+               //new int[] { 2,2,1,2,2,2,0},
+               //new int[] { 2,2,2,2,2,1,0},
+               //new int[] { 2,2,2,2,2,2,0},
+               //new int[] { 1,0,0,0,1,1,0},
+
+               new int[] { 1,2,1,2,2,2,2},
+               new int[] { 2,2,2,2,2,2,2},
+               new int[] { 2,2,2,2,2,2,2},
+               new int[] { 2,1,2,2,2,2,2,2},
+               new int[] { 2,2,2,2,2,2,2},
             };
 
             world = new Tile[MapGrid.Length][];
 
 
-            int b = 0;
+            int b = 0; 
+            
             //grabs rows (3)
             for (int r = 0; r < MapGrid.Length; r++)
             {
                 world[r] = new Tile[MapGrid[0].Length];
                 
                 //grabs columns in row (7)
-                for (int c = 0; c < MapGrid[r].Length; c++)
+                for (int c = 0; c < MapGrid[0].Length; c++)
                 {
+                    Tile tile = new Tile();
                     b = 0;
                     b = MapGrid[r][c];
+                    CopyTile(tile, b);
 
-                    world[r][c] = TilesToPickFrom[b];
-                    world[r][c].location = new Vector2(r*100, c*100);
+                    //world[r][c] = TilesToPickFrom[b];
+                    world[r][c] = tile;
+                    world[r][c].location = new Vector2(c*100, r*100);
+
+                    world[r][c].rectangle = new Rectangle((int)world[r][c].location.X, (int)world[r][c].location.Y, 100, 100);
                 }
             }
             
-            for (int i = 0; i < world[0].Length; i++)
-            {
-                for (int j = 0; j < world.Length; j++)
-                {
-                    world[j][i].rectangle = new Rectangle(i*100, j*100, 100,100);
-                }
-            }
-
-
         }
 
         public void Draw(SpriteBatch sp)
@@ -102,7 +111,10 @@ namespace FixedFinalGame
                 for (int j = 0; j < world.Length; j++)
                 {
                     //sp.Draw(Grid[i][j].texture, new Rectangle(i*100, j*100, 100, 100), Color.White);
+
                     sp.Draw(world[j][i].texture, new Rectangle(i * 100, j * 100, 100, 100), Color.White);
+
+                    //sp.Draw(world[j][i].texture, world[j][i].location, Color.White);
                 }
             }
         }

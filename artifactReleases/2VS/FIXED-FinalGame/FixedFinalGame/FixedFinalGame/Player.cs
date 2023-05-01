@@ -219,49 +219,50 @@ namespace FixedFinalGame
             intersects = false;
             if (hasMap)
             {
-
-                for (int i = 0; i < ColMap.Length; i++)
-                {
-                    if (this.Rectagle.Intersects(ColMap[i].rectangle) &&
-                        ColMap[i].iscollidable)
-                    {
-                        intersects = true;
-                    }
-                }
-
-                //for (int i = 0; i < collisionmap[0].Length; i++)
+                Tile tile = new Tile();
+                //for (int i = 0; i < ColMap.Length; i++)
                 //{
-                //    for (int j = 0; j < collisionmap.Length; j++)
+                //    tile = ColMap[i];
+                //    if (this.Rectagle.Intersects(tile.rectangle)
+                //        && tile.iscollidable==true)
                 //    {
-                //        tile = collisionmap[j][i];
-                //        if (tile.iscollidable && this.Rectagle.Intersects(tile.rectangle))
-                //        {
-                //            intersects = true;
-                //            //tile = collisionmap[j][i];
-                //        }
-
-                //        //if (this.Rectagle.Intersects(collisionmap[j][i].rectangle) 
-                //        //    && collisionmap[j][i].iscollidable ==true)
-                //        //{
-                //        //    intersects = true;
-                //        //    tile = collisionmap[j][i];
-                //        //}
-
-                //        //if (this.Rectagle.IntersectSide(collisionmap[j][i].rectangle))
-                //        //{
-
-                //        //    if (collisionmap[j][i].iscollidable == true)
-                //        //    {
-                //        //        //this.Speed = 0;
-                //        //        intersects = true;
-                //        //    }
-                //        //    else
-                //        //    {
-                //        //        this.Speed = controller.Speed;
-                //        //    }
-                //        //}
+                //        intersects = true;
                 //    }
                 //}
+
+
+                for (int i = 0; i < collisionmap[0].Length; i++)
+                {
+                    for (int j = 0; j < collisionmap.Length; j++)
+                    {
+                        tile = collisionmap[j][i];
+                        if (tile.iscollidable && this.Rectagle.Intersects(tile.rectangle))
+                        {
+                            intersects = true;
+                        }
+
+                        //if (this.Rectagle.Intersects(collisionmap[j][i].rectangle) 
+                        //    && collisionmap[j][i].iscollidable ==true)
+                        //{
+                        //    intersects = true;
+                        //    tile = collisionmap[j][i];
+                        //}
+
+                        //if (this.Rectagle.IntersectSide(collisionmap[j][i].rectangle))
+                        //{
+
+                        //    if (collisionmap[j][i].iscollidable == true)
+                        //    {
+                        //        //this.Speed = 0;
+                        //        intersects = true;
+                        //    }
+                        //    else
+                        //    {
+                        //        this.Speed = controller.Speed;
+                        //    }
+                        //}
+                    }
+                }
             }
             
             //If character goes past 310, then groundstate is standing
