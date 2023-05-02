@@ -15,7 +15,7 @@ namespace FixedFinalGame
         public Gravity() 
         {
             GravityDir = new Vector2(0, 1);
-            GravityAccel= 2.0f;
+            GravityAccel= 8.0f;
         }
     }
 }

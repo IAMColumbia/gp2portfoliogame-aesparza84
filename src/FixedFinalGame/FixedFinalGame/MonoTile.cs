@@ -15,56 +15,44 @@ namespace FixedFinalGame
 
         public string TextureName;
 
-        public Rectangle rect;
+        public Rectangle CollisionRect;
         private Chracter passedSprite;
         private Camera cam;
 
-        public MonoTile(Game game, Chracter character, Camera camera) : base(game)
-        {
-            this.TextureName= "TestTile2";
+        public bool iscollidable { get; set;}
 
-            this.Location = new Vector2(500, 240);
-            rect= new Rectangle();
-            passedSprite = character;
+        public MonoTile(Game game, Camera camera) : base(game)
+        {
+            this.TextureName= "TestTile3";
+
+            //this.Location = new Vector2(500, 240);
             cam = camera;
         }
 
-        public MonoTile(Game game,Camera camera, Chracter character,string texturename) : base(game)
+        public MonoTile(Game game,Camera camera,string texturename) : base(game)
         {
             this.TextureName = texturename;
 
            // this.Location = new Vector2(200, 240);
-            rect = new Rectangle();
+            CollisionRect = new Rectangle();
             cam = camera;
-            passedSprite= character;
         }
 
         public void Stand(Chracter character) 
         {
-            character.Direction.Y= 0;
+            character.Direction.Y= 0.0f;
         }
         protected override void LoadContent()
         {
             this.spriteTexture = Game.Content.Load<Texture2D>(this.TextureName);
-            this.rect = new Rectangle((int)this.Location.X, (int)this.Location.Y, this.spriteTexture.Width, this.spriteTexture.Height);
+            this.CollisionRect = new Rectangle((int)this.Location.X, (int)this.Location.Y, 150, 150);
+            
             base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
-            //if (Intersects(passedSprite))
-            //{
-            //    Stand(passedSprite);
-            //}
-
-            if (this.Intersects(passedSprite))
-            {
-                Stand(passedSprite);
-            }
-            else
-            {
-                passedSprite.groundState = GroundState.JUMPING;
-            }
+            
 
             
 
