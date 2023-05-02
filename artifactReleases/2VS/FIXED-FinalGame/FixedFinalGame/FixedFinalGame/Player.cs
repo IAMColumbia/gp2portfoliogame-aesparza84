@@ -124,17 +124,6 @@ namespace FixedFinalGame
             }
         }
 
-        public void CheckIfStanding()
-        {
-            if (Direction.Y == 0)
-            {
-                groundState = GroundState.STANDING;
-            }
-            else if (Direction.Y != 0) 
-            {
-                groundState = GroundState.JUMPING;
-            }
-        }
 
         public void DetermineStanding(float time)
         {
@@ -163,29 +152,7 @@ namespace FixedFinalGame
             this.Location = this.Location + (this.Direction * Speed) * (time/1000);
         }
 
-        public void CheckTileCollision(MonoTile passedtile)
-        {
-            intersectsTop = false;
-            intersectLeft = false;
-            intersectRight = false;
-            intersectBottom = false;
-
-            if (this.Rectagle.IntersectsLeft(passedtile.Rectagle))
-            {
-                intersectLeft = true;
-            }
-
-            if (this.Rectagle.IntersectsTop(passedtile.Rectagle))
-            {
-                intersectsTop = true;
-            }
-
-            if (this.Rectagle.IntersectsRight(passedtile.Rectagle))
-            {
-                intersectRight = true;
-            }
-        }
-
+        
         public void GetMap(Tile[][] passedmap)
         {
             int n = passedmap.Length*passedmap[0].Length;
@@ -233,9 +200,10 @@ namespace FixedFinalGame
                         if (this.Rectagle.IntersectsRight(tile.rectangle))
                         {
                             intersectRight = true;
+
                             if (Direction.X < 0)
                             {
-                                this.Location.X = tile.rectangle.Right;
+                                this.Location.X = tile.rectangle.Right+1;
                                
                             }
                            
@@ -251,17 +219,22 @@ namespace FixedFinalGame
                             }
                         }
 
-                        if (this.Rectagle.IntersectY(tile.rectangle) &&
+                        if (this.Rectagle.IntersectsTop(tile.rectangle) &&
                             this.Rectagle.IntersectSide(tile.rectangle))
                         {
-                           intersectsTop= true;
+                            intersectsTop = true;
+                            this.Location.Y=tile.rectangle.Top-this.Rectagle.Height+1;
                         }
                     }
                 }
             }
-            
+
             //If character goes past 350, then groundstate is standing
-            KeepOnScreen();
+            if (intersectsTop == true)
+            {
+                groundState = GroundState.STANDING;
+            }
+            else { groundState = GroundState.JUMPING; }
 
             controller.DifferentHandleInput(gameTime);
 

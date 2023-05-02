@@ -68,7 +68,8 @@ namespace FixedFinalGame
 
             player.GetMap(GameWorld.world);
             player.Enabled = true;
-            
+            player.Location = new Vector2(300, 150);
+
             // TODO: use this.Content to load your game content here
             // cam = new Camera(player, _spriteBatch);
         }
