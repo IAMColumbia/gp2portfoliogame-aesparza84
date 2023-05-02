@@ -25,7 +25,14 @@ namespace FixedFinalGame
         public static bool IntersectsTop(this Rectangle c, Rectangle tile)
         {
             return c.Bottom >= tile.Top + 1 &&
-                   c.Bottom < tile.Top+50;
+                (c.Bottom < tile.Top + 15 ||
+                 c.Bottom < tile.Top+50);
+        }
+
+        public static bool IntersectsBot(this Rectangle c, Rectangle tile)
+        {
+            return c.Bottom > tile.Bottom &&
+                   c.Top <= tile.Bottom+1;
         }
 
         //more general

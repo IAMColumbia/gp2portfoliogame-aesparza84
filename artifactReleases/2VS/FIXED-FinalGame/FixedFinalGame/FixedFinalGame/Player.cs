@@ -187,6 +187,7 @@ namespace FixedFinalGame
             intersectsTop= false;
             intersectRight= false;
             intersectLeft= false;
+            intersectBottom= false;
             if (hasMap)
             {
                 Tile tile = new Tile();
@@ -213,9 +214,15 @@ namespace FixedFinalGame
                             intersectLeft = true;
                             if (Direction.X > 0)
                             {
-                                this.Location.X = tile.rectangle.Left-this.Rectagle.Width+1;
+                                this.Location.X = tile.rectangle.Left-this.Rectagle.Width-1;
                                 
                             }
+                        }
+
+                        if (this.Rectagle.IntersectsBot(tile.rectangle))
+                        {
+                            intersectBottom = true;
+                            this.Direction.Y = Math.Abs(this.Direction.Y);
                         }
 
                         if (this.Rectagle.IntersectsTop(tile.rectangle) &&
@@ -280,6 +287,7 @@ namespace FixedFinalGame
             console.Log("Standing State ", this.groundState.ToString());
             console.Log("intersect ", this.intersects.ToString());
             console.Log("intersect Top", this.intersectsTop.ToString());
+            console.Log("intersect Bot", this.intersectBottom.ToString());
             console.Log("intersect Right", this.intersectRight.ToString());
             console.Log("intersect Left", this.intersectLeft.ToString());
             //console.Log("Right Mouse B", this.controller.Block.ToString());
