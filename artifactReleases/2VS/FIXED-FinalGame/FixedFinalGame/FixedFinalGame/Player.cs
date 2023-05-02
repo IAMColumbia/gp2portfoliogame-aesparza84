@@ -222,7 +222,7 @@ namespace FixedFinalGame
                         if (this.Rectagle.IntersectsBot(tile.rectangle))
                         {
                             intersectBottom = true;
-                            this.Direction.Y = Math.Abs(this.Direction.Y);
+                            this.Direction.Y = 1;
                         }
 
                         if (this.Rectagle.IntersectsTop(tile.rectangle) &&
