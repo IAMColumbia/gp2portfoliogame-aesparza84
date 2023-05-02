@@ -217,6 +217,9 @@ namespace FixedFinalGame
             initPos = this.Location;
 
             intersects = false;
+            intersectsTop= false;
+            intersectRight= false;
+            intersectLeft= false;
             if (hasMap)
             {
                 Tile tile = new Tile();
@@ -229,63 +232,35 @@ namespace FixedFinalGame
                         intersects = true;
                         if (this.Rectagle.IntersectsRight(tile.rectangle))
                         {
+                            intersectRight = true;
                             if (Direction.X < 0)
                             {
                                 this.Location.X = tile.rectangle.Right;
+                               
                             }
+                           
                         }
 
                         if (this.Rectagle.IntersectsLeft(tile.rectangle))
                         {
+                            intersectLeft = true;
                             if (Direction.X > 0)
                             {
                                 this.Location.X = tile.rectangle.Left-this.Rectagle.Width;
+                                
                             }
                         }
 
-                        if (this.Rectagle.IntersectY(tile.rectangle))
+                        if (this.Rectagle.IntersectY(tile.rectangle) &&
+                            this.Rectagle.IntersectSide(tile.rectangle))
                         {
-                            this.groundState = GroundState.STANDING;
+                           intersectsTop= true;
                         }
                     }
                 }
-
-
-                //for (int i = 0; i < collisionmap[0].Length; i++)
-                //{
-                //    for (int j = 0; j < collisionmap.Length; j++)
-                //    {
-                //        tile = collisionmap[j][i];
-                //        if (tile.iscollidable && this.Rectagle.Intersects(tile.rectangle))
-                //        {
-                //            intersects = true;
-                //        }
-
-                //        //if (this.Rectagle.Intersects(collisionmap[j][i].rectangle) 
-                //        //    && collisionmap[j][i].iscollidable ==true)
-                //        //{
-                //        //    intersects = true;
-                //        //    tile = collisionmap[j][i];
-                //        //}
-
-                //        //if (this.Rectagle.IntersectSide(collisionmap[j][i].rectangle))
-                //        //{
-
-                //        //    if (collisionmap[j][i].iscollidable == true)
-                //        //    {
-                //        //        //this.Speed = 0;
-                //        //        intersects = true;
-                //        //    }
-                //        //    else
-                //        //    {
-                //        //        this.Speed = controller.Speed;
-                //        //    }
-                //        //}
-                //    }
-                //}
             }
             
-            //If character goes past 310, then groundstate is standing
+            //If character goes past 350, then groundstate is standing
             KeepOnScreen();
 
             controller.DifferentHandleInput(gameTime);
@@ -332,6 +307,9 @@ namespace FixedFinalGame
         {
             console.Log("Standing State ", this.groundState.ToString());
             console.Log("intersect ", this.intersects.ToString());
+            console.Log("intersect Top", this.intersectsTop.ToString());
+            console.Log("intersect Right", this.intersectRight.ToString());
+            console.Log("intersect Left", this.intersectLeft.ToString());
             //console.Log("Right Mouse B", this.controller.Block.ToString());
             //console.Log("Left Mouse B", this.controller.Attack.ToString());
             //console.Log("Invulnerable", this.invulnerable.ToString());
