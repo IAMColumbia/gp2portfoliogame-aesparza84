@@ -204,7 +204,6 @@ namespace FixedFinalGame
                             if (Direction.X < 0)
                             {
                                 this.Location.X = tile.rectangle.Right+1;
-                               
                             }
                            
                         }
@@ -214,7 +213,7 @@ namespace FixedFinalGame
                             intersectLeft = true;
                             if (Direction.X > 0)
                             {
-                                this.Location.X = tile.rectangle.Left-this.Rectagle.Width;
+                                this.Location.X = tile.rectangle.Left-this.Rectagle.Width+1;
                                 
                             }
                         }
