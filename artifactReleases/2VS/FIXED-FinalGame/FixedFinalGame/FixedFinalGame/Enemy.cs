@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FixedFinalGame
 {
-    public enum Consciousness {ROAMING, CHASING, ATTACKING}
+    public enum Consciousness {ROAMING, CHASING, ATTACKING, STILL}
     public class Enemy : Chracter
     {
         string TextureName;
@@ -27,7 +27,7 @@ namespace FixedFinalGame
         Vector2 initialPosition;
 
         GameConsole console;
-        public Enemy(Game game, Camera camera, Chracter character) : base(game)
+        public Enemy(Game game, Camera camera) : base(game)
         {
             //console = (GameConsole)game.Services.GetService(typeof(GameConsole));
             //if (console==null)
@@ -42,18 +42,19 @@ namespace FixedFinalGame
             TextureName = "TestEnemy";
             this.cam = camera;
 
-            passedPlayer= character;
-
-
-
             setStats();
+        }
+
+        public void GetCharcter(Player player) 
+        {
+            this.passedPlayer= player;
         }
 
         void setStats()
         {
 
             this.health = 100;
-            this.speed = new Vector2(150,0);
+            this.Speed = 150;
             this.Direction = new Vector2(1,0);
 
             this.gravity.GravityAccel = 5f;
@@ -62,7 +63,7 @@ namespace FixedFinalGame
 
         void Roam() 
         {
-            this.speed = new Vector2(150,0);
+            this.Speed = 150;
             if (this.Location.X > initialPosition.X+200)
             {
                Direction = new Vector2(-1,0);
@@ -76,7 +77,7 @@ namespace FixedFinalGame
 
         void MoveToPlayer()
         {
-            this.speed = new Vector2(200,0);
+            this.Speed = 200;
 
             if (this.Location.X < passedPlayer.Location.X)
             {
@@ -95,7 +96,7 @@ namespace FixedFinalGame
 
         private void timecorrect(float time)
         {
-            this.Location = this.Location + (this.Direction * speed) * (time / 1000);
+            this.Location = this.Location + (this.Direction * Speed) * (time / 1000);
         }
         protected override void LoadContent()
         {
@@ -109,8 +110,6 @@ namespace FixedFinalGame
 
             return distance;
         }
-
-
         bool seePlayer()
         {
             if (Math.Abs(GetDistance(passedPlayer)) <200f)
@@ -120,44 +119,48 @@ namespace FixedFinalGame
             return false;
         }
 
+        
+
         public override void Update(GameTime gameTime)
         {
             //console.Log("Conscuios", this.consc.ToString());
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            if (seePlayer())
-            {
-                consc = Consciousness.CHASING;
-            }
-            else
-            {
-                consc = Consciousness.ROAMING;
-            }
+            this.Speed = 0;
 
-            if (this.Rectagle.Intersects(passedPlayer.Rectagle))
-            {
-                Attack();
-            }
+            //if (seePlayer())
+            //{
+            //    consc = Consciousness.CHASING;
+            //}
+            //else
+            //{
+            //    consc = Consciousness.ROAMING;
+            //}
 
-            switch (consc)
-            {
-                case Consciousness.ROAMING:
-                    Roam();
-                    break;
-                case Consciousness.CHASING:
-                    MoveToPlayer();
-                    if (Math.Abs(GetDistance(passedPlayer)) > 200f)
-                    {
-                        this.Location = initialPosition;
-                    }
-                    break;
+            //if (this.Rectagle.Intersects(passedPlayer.Rectagle))
+            //{
+            //    Attack();
+            //}
 
-                case Consciousness.ATTACKING:
-                    Attack();
-                        break;
-                default:
-                    break;
-            }
+            //switch (consc)
+            //{
+            //    case Consciousness.ROAMING:
+            //        Roam();
+            //        break;
+            //    case Consciousness.CHASING:
+            //        MoveToPlayer();
+            //        if (Math.Abs(GetDistance(passedPlayer)) > 200f)
+            //        {
+            //            this.Location = initialPosition;
+            //        }
+            //        break;
+
+            //    case Consciousness.ATTACKING:
+            //        Attack();
+            //            break;
+            //    default:
+            //        break;
+            //}
 
 
             timecorrect(time);

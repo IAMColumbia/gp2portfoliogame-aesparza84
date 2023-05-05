@@ -19,7 +19,6 @@ namespace FixedFinalGame
     {
         Texture2D normalTexture, blockingTexture;
         public int health { get; set; }
-        public int Speed;
 
         public LifeState lifestate { get; set; }
         public GroundState groundState { get; set; }
@@ -28,12 +27,6 @@ namespace FixedFinalGame
         public CharacterState characterState { get; set; }
 
         //------------------Not Icharacter
-
-        public Tile[][] collisionmap { get; set; }
-        public Tile[] ColMap { get; set; }
-        bool hasMap;
-
-        Vector2 initPos;
 
         float jumpheight;
 
@@ -151,43 +144,13 @@ namespace FixedFinalGame
         {
             this.Location = this.Location + (this.Direction * Speed) * (time/1000);
         }
-
-        
-        public void GetMap(Tile[][] passedmap)
+        private void CheckCollision()
         {
-            int n = passedmap.Length*passedmap[0].Length;
-            collisionmap = new Tile[passedmap.Length][];
-            ColMap = new Tile[n];
-
-            int m = 0;
-
-            for (int r = 0; r < passedmap.Length; r++)
-            {
-                collisionmap[r] = new Tile[passedmap[0].Length];
-
-                //grabs columns in row (7)
-                for (int c = 0; c < passedmap[r].Length; c++)
-                {
-                    collisionmap[r][c] = passedmap[r][c];
-
-                    ColMap[m] = passedmap[r][c];
-                    m++;
-                }
-            }
-            hasMap= true;
-        }
-        
-        public override void Update(GameTime gameTime)
-        {
-            float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-            initPos = this.Location;
-
             intersects = false;
-            intersectsTop= false;
-            intersectRight= false;
-            intersectLeft= false;
-            intersectBottom= false;
+            intersectsTop = false;
+            intersectRight = false;
+            intersectLeft = false;
+            intersectBottom = false;
             if (hasMap)
             {
                 Tile tile = new Tile();
@@ -204,9 +167,9 @@ namespace FixedFinalGame
 
                             if (Direction.X < 0)
                             {
-                                this.Location.X = tile.rectangle.Right+1;
+                                this.Location.X = tile.rectangle.Right + 1;
                             }
-                           
+
                         }
 
                         if (this.Rectagle.IntersectsLeft(tile.rectangle))
@@ -214,8 +177,8 @@ namespace FixedFinalGame
                             intersectLeft = true;
                             if (Direction.X > 0)
                             {
-                                this.Location.X = tile.rectangle.Left-this.Rectagle.Width-1;
-                                
+                                this.Location.X = tile.rectangle.Left - this.Rectagle.Width - 1;
+
                             }
                         }
 
@@ -229,11 +192,17 @@ namespace FixedFinalGame
                             this.Rectagle.IntersectSide(tile.rectangle))
                         {
                             intersectsTop = true;
-                            this.Location.Y=tile.rectangle.Top-this.Rectagle.Height+1;
+                            this.Location.Y = tile.rectangle.Top - this.Rectagle.Height + 1;
                         }
                     }
                 }
             }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            CheckCollision();
 
             //If character goes past 350, then groundstate is standing
             if (intersectsTop == true)
@@ -257,7 +226,7 @@ namespace FixedFinalGame
                 actionstate = Action.NEUTRAL;
             }
 
-           //CheckIfStanding();
+            //CheckIfStanding();
 
             switch (actionstate)
             {
@@ -281,6 +250,8 @@ namespace FixedFinalGame
 
             base.Update(gameTime);
         }
+
+       
 
         private void UpdateLog()
         {

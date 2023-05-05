@@ -19,7 +19,7 @@ namespace FixedFinalGame
         Tile[] TilesToPickFrom;
         int x, y;
 
-        Texture2D UnderGround, TestTile, AirTile;
+        Texture2D UnderGround, TestTile, AirTile, ESpawner;
         public TileMap(ContentManager content, Camera cam)
         {
             this.Cam= cam;
@@ -27,25 +27,29 @@ namespace FixedFinalGame
             UnderGround = content.Load<Texture2D>("DirtTile");
             TestTile = content.Load<Texture2D>("TestTile3");
             AirTile = content.Load<Texture2D>("AirTile");
+            ESpawner = content.Load<Texture2D>("EnemySpawnTile");
 
 
-            TilesToPickFrom = new Tile[3];
+            TilesToPickFrom = new Tile[4];
 
-            TilesToPickFrom[0] = new Tile(true);
+            TilesToPickFrom[0] = new Tile(true, false);
             TilesToPickFrom[0].texture= UnderGround;
 
-            TilesToPickFrom[1] = new Tile(true);
+            TilesToPickFrom[1] = new Tile(true, false);
             TilesToPickFrom[1].texture= TestTile;
 
-            TilesToPickFrom[2] = new Tile(false);
+            TilesToPickFrom[2] = new Tile(false, false);
             TilesToPickFrom[2].texture= AirTile;
 
+            TilesToPickFrom[3] = new Tile(true, true);
+            TilesToPickFrom[3].texture = ESpawner;
 
         }
 
         private void CopyTile(Tile tile, int n)
         { 
             tile.iscollidable = TilesToPickFrom[n].iscollidable;
+            tile.isspawner= TilesToPickFrom[n].isspawner;
             tile.texture = TilesToPickFrom[n].texture;
         }
 
@@ -69,7 +73,7 @@ namespace FixedFinalGame
                new int[] { 0,1,2,2,2,2,2,2,2,2,1,1,1,2,2},
                new int[] { 0,0,2,2,2,2,2,2,2,1,0,0,0,1,2},
                new int[] { 0,0,2,2,2,2,2,2,1,0,0,0,0,0,1},
-               new int[] { 0,0,2,2,2,2,2,1,0,0,0,0,0,0,0},
+               new int[] { 0,0,2,2,2,2,3,1,0,0,0,0,0,0,0},
                new int[] { 0,0,1,1,1,1,1,0,0,0,0,0,0,0,2},
 
                //new int[] { 1,2,1,2,2,2,2},

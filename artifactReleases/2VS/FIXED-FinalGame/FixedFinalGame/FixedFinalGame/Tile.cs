@@ -11,6 +11,7 @@ namespace FixedFinalGame
     public class Tile : ICollidable
     {
         public bool iscollidable { get; set; }
+        public bool isspawner { get; set; }
         public Rectangle rectangle { get; set; }
 
         public Texture2D texture;
@@ -18,9 +19,10 @@ namespace FixedFinalGame
         public Vector2 location { get; set; }
 
         public Tile() { }
-        public Tile(bool IsCollidable) 
+        public Tile(bool IsCollidable, bool isSpawner) 
         {
             iscollidable= IsCollidable;
+            isspawner= isSpawner;
             location = new Vector2(0,0);
 
             rectangle= new Rectangle(0,0,100,100);
