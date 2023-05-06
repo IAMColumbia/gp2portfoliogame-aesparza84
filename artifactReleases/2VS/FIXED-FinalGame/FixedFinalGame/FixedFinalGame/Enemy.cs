@@ -81,10 +81,12 @@ namespace FixedFinalGame
                 case GroundState.FALLING:
                     break;
                 case GroundState.JUMPING:
+                    this.Direction.X = 0;
                     DoGravity(time);
                     break;
                 case GroundState.STANDING:
                     this.Direction.Y = 0.0f;
+                    this.Direction.X = prevDirection.X;
                     break;
             }
         }
@@ -177,34 +179,36 @@ namespace FixedFinalGame
             //console.Log("Conscuios", this.consc.ToString());
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
+            if (this.Direction.X != 0)
+            {
+                prevDirection.X = this.Direction.X;
+            }
+
             checkCollision();
             if (intersectsTop == true)
             {
-                canConsc = true;
                 groundState = GroundState.STANDING;
             }
             else
             {
                 groundState = GroundState.JUMPING;
-                canConsc = false;
-                this.Direction.X = 0;
             }
 
             DetermineStanding(time);
 
 
-            if (canConsc)
+            
+            if (seePlayer())
             {
-                if (seePlayer())
-                {
-                    consc = Consciousness.CHASING;
-                }
-                else
-                {
-                    consc = Consciousness.ROAMING;
-                }
-                
+                consc = Consciousness.CHASING;
             }
+            else
+            {
+                consc = Consciousness.ROAMING;
+            }
+
+               
+            
             
 
             //if (this.Rectagle.Intersects(passedPlayer.Rectagle))
