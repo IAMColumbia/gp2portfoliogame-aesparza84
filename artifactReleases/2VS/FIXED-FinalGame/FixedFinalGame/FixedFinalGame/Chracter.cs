@@ -17,6 +17,10 @@ namespace FixedFinalGame
 
         }
 
+        protected bool intersectsTop;
+        protected bool intersectLeft;
+        protected bool intersectRight;
+        protected bool intersectBottom;
         public int health { get;set; }
         public int Speed;
         public Gravity gravity { get; set; }
@@ -24,7 +28,6 @@ namespace FixedFinalGame
         public GroundState groundState { get; set; }
         public IWeapon weapon { get; set; }
         public CharacterState characterState { get; set; }
-        public Tile[][] collisionmap { get; set; }
         public Tile[] ColMap { get; set; }
 
         protected bool hasMap { get; set; }
@@ -34,25 +37,75 @@ namespace FixedFinalGame
         public void GetMap(Tile[][] passedmap)
         {
             int n = passedmap.Length * passedmap[0].Length;
-            collisionmap = new Tile[passedmap.Length][];
             ColMap = new Tile[n];
 
             int m = 0;
 
             for (int r = 0; r < passedmap.Length; r++)
             {
-                collisionmap[r] = new Tile[passedmap[0].Length];
 
                 //grabs columns in row (7)
                 for (int c = 0; c < passedmap[r].Length; c++)
                 {
-                    collisionmap[r][c] = passedmap[r][c];
 
                     ColMap[m] = passedmap[r][c];
                     m++;
                 }
             }
             hasMap = true;
+        }
+
+        protected void checkCollision()
+        {
+            intersectsTop = false;
+            intersectRight = false;
+            intersectLeft = false;
+            intersectBottom = false;
+            if (hasMap)
+            {
+                Tile tile = new Tile();
+                for (int i = 0; i < ColMap.Length; i++)
+                {
+                    tile = ColMap[i];
+                    if (this.Rectagle.Intersects(tile.rectangle)
+                        && tile.iscollidable == true)
+                    {
+                        if (this.Rectagle.IntersectsRight(tile.rectangle))
+                        {
+                            intersectRight = true;
+
+                            if (Direction.X < 0)
+                            {
+                                this.Location.X = tile.rectangle.Right + 1;
+                            }
+
+                        }
+
+                        if (this.Rectagle.IntersectsLeft(tile.rectangle))
+                        {
+                            intersectLeft = true;
+                            if (Direction.X > 0)
+                            {
+                                this.Location.X = tile.rectangle.Left - this.Rectagle.Width - 1;
+
+                            }
+                        }
+
+                        if (this.Rectagle.IntersectsBot(tile.rectangle))
+                        {
+                            intersectBottom = true;
+                            this.Direction.Y = 1;
+                        }
+
+                        if (this.Rectagle.IntersectsTop(tile.rectangle) &&
+                            this.Rectagle.IntersectSide(tile.rectangle))
+                        {
+                            intersectsTop = true;
+                            this.Location.Y = tile.rectangle.Top - this.Rectagle.Height + 1;
+                        }
+                    }
+                }
+            }
         }
 
     }

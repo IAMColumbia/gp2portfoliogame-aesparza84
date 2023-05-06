@@ -31,6 +31,8 @@ namespace FixedFinalGame
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+          
             
             enemies= new List<Enemy>(); 
 
@@ -44,6 +46,7 @@ namespace FixedFinalGame
 
             //enemy= new Enemy(this, cam, player);
             //this.Components.Add(enemy);
+
         }
 
         protected override void Initialize()
@@ -54,23 +57,28 @@ namespace FixedFinalGame
             GameWorld = new TileMap(this.Content, cam);
             GameWorld.CreateMap();
 
-            Tile tile = new Tile();
 
-            for (int r = 0; r < GameWorld.world.Length; r++)
+            Tile tile = new Tile();
+            for (int i = 0; i < GameWorld.world[0].Length; i++)
             {
-                for (int c = 0; c < GameWorld.world[r].Length; c++)
+                for (int j = 0; j < GameWorld.world.Length; j++)
                 {
-                    tile = GameWorld.world[r][c];
-                    if (tile.isspawner == true)
+                    tile = GameWorld.world[j][i];
+                    if (tile.isspawner==true)
                     {
                         Enemy en = new Enemy(this, cam);
                         this.Components.Add(en);
+                        en.GetMap(GameWorld.world);
                         en.Location = new Vector2(tile.location.X, tile.location.Y - en.Rectagle.Height);
-                        
+                        en.Location = tile.location;
+
                         enemies.Add(en);
                     }
+                   
                 }
             }
+
+           
 
             player.Enabled = false;
 

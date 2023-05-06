@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Sprite;
 using MonoGameLibrary.Util;
 using SharpDX.MediaFoundation;
+using SharpDX.XInput;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,29 @@ namespace FixedFinalGame
             this.gravity.GravityAccel = 5f;
             this.gravity.GravityDir = new Vector2(0,5);
         }
+        private void DoGravity(float time)
+        {
+            this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel) * (time / 1000);
+        }
+        private void timecorrectedMove(float time)
+        {
+            this.Location = this.Location + (this.Direction * Speed) * (time / 1000);
+        }
 
+        public void DetermineStanding(float time)
+        {
+            switch (this.groundState)
+            {
+                case GroundState.FALLING:
+                    break;
+                case GroundState.JUMPING:
+                    DoGravity(time);
+                    break;
+                case GroundState.STANDING:
+                    this.Direction.Y = 0.0f;
+                    break;
+            }
+        }
         void Roam() 
         {
             this.Speed = 150;
@@ -126,7 +149,14 @@ namespace FixedFinalGame
             //console.Log("Conscuios", this.consc.ToString());
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            this.Speed = 0;
+            checkCollision();
+            if (intersectsTop == true)
+            {
+                groundState = GroundState.STANDING;
+            }
+            else { groundState = GroundState.JUMPING; }
+
+            DetermineStanding(time);
 
             //if (seePlayer())
             //{

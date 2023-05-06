@@ -41,7 +41,7 @@ namespace FixedFinalGame
             TilesToPickFrom[2] = new Tile(false, false);
             TilesToPickFrom[2].texture= AirTile;
 
-            TilesToPickFrom[3] = new Tile(true, true);
+            TilesToPickFrom[3] = new Tile(false, true);
             TilesToPickFrom[3].texture = ESpawner;
 
         }
@@ -66,14 +66,14 @@ namespace FixedFinalGame
                //new int[] { 2,2,2,2,2,2,0},
                //new int[] { 2,1,1,1,1,1,0},
 
-               new int[] { 1,1,1,2,2,2,1,2,2,2,2,2,2,1,1},
+               new int[] { 1,3,1,2,2,2,1,2,2,2,2,2,2,1,1},
                new int[] { 0,2,2,2,2,2,0,2,2,2,2,2,2,2,2},
                new int[] { 0,2,2,2,2,1,0,2,2,2,2,2,2,2,2},
                new int[] { 0,2,2,2,2,2,0,2,2,2,2,2,2,2,2},
                new int[] { 0,1,2,2,2,2,2,2,2,2,1,1,1,2,2},
                new int[] { 0,0,2,2,2,2,2,2,2,1,0,0,0,1,2},
-               new int[] { 0,0,2,2,2,2,2,2,1,0,0,0,0,0,1},
-               new int[] { 0,0,2,2,2,2,3,1,0,0,0,0,0,0,0},
+               new int[] { 0,0,2,2,2,2,3,2,1,0,0,0,0,0,1},
+               new int[] { 0,0,2,2,2,2,2,1,0,0,0,0,0,0,0},
                new int[] { 0,0,1,1,1,1,1,0,0,0,0,0,0,0,2},
 
                //new int[] { 1,2,1,2,2,2,2},

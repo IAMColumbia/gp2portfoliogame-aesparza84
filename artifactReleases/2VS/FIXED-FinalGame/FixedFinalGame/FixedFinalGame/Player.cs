@@ -31,11 +31,6 @@ namespace FixedFinalGame
         float jumpheight;
 
         bool invulnerable;
-
-        bool intersectsTop;
-        bool intersectLeft;
-        bool intersectRight;
-        bool intersectBottom;
         bool intersects;
 
         private Camera cam;
@@ -95,27 +90,27 @@ namespace FixedFinalGame
         }
 
         
-        public void KeepOnScreen()
-        {
-            //Cheating Floor
-            if (this.Location.Y >= 350 || intersectsTop==true)
-            {
+        //public void KeepOnScreen()
+        //{
+        //    //Cheating Floor
+        //    if (this.Location.Y >= 350 || intersectsTop==true)
+        //    {
 
-                if (intersectsTop==true)
-                {
-                    this.groundState = GroundState.STANDING;
-                }
-                else if (this.Location.Y>=350)
-                {
-                    this.Location.Y = 350;
-                    this.groundState = GroundState.STANDING;
-                }
-            }
-            else
-            {
-                this.groundState = GroundState.JUMPING;
-            }
-        }
+        //        if (intersectsTop==true)
+        //        {
+        //            this.groundState = GroundState.STANDING;
+        //        }
+        //        else if (this.Location.Y>=350)
+        //        {
+        //            this.Location.Y = 350;
+        //            this.groundState = GroundState.STANDING;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        this.groundState = GroundState.JUMPING;
+        //    }
+        //}
 
 
         public void DetermineStanding(float time)
@@ -136,7 +131,7 @@ namespace FixedFinalGame
         }
 
         
-        public void DoGravity(float time)
+        private void DoGravity(float time)
         {
             this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel)*(time/1000);
         }
@@ -202,7 +197,7 @@ namespace FixedFinalGame
         public override void Update(GameTime gameTime)
         {
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            CheckCollision();
+            checkCollision();
 
             //If character goes past 350, then groundstate is standing
             if (intersectsTop == true)
