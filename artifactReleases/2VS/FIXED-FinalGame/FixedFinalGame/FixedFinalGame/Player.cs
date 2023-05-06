@@ -49,7 +49,7 @@ namespace FixedFinalGame
         public Player(Game game, Camera camera) : base(game)
         {
             NormalTexture = "TestingSrite2";
-            BlockingTexture = "TestingSrite2-Blocking";
+            BlockingTexture = "SpriteBlocking";
             hasMap = false;
            
 
