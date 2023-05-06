@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary.Util;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 
 namespace FixedFinalGame
 {
@@ -19,6 +20,7 @@ namespace FixedFinalGame
         InputHandler input;
 
         TileMap GameWorld;
+        Tile[] map { get; set; }
 
         Camera cam;
 
@@ -44,11 +46,9 @@ namespace FixedFinalGame
             player = new Player(this, cam);                     //add Camera to the objects, matrix
             this.Components.Add(player);
 
-            enemy= new Enemy(this, cam);
-            this.Components.Add(enemy);
-
-            //enemy= new Enemy(this, cam, player);
+            //enemy= new Enemy(this, cam);
             //this.Components.Add(enemy);
+
 
         }
 
@@ -57,34 +57,43 @@ namespace FixedFinalGame
             Screenheight = _graphics.PreferredBackBufferHeight;
             Screenwidth  = _graphics.PreferredBackBufferWidth;
 
+            player.Enabled = false;
+
             GameWorld = new TileMap(this.Content, cam);
             GameWorld.CreateMap();
 
+            int n = GameWorld.world.Length * GameWorld.world[0].Length;
+            map = new Tile[n];
 
-            Tile tile = new Tile();
-            for (int i = 0; i < GameWorld.world[0].Length; i++)
+            int m = 0;
+            for (int r = 0; r < GameWorld.world.Length; r++)
             {
-                for (int j = 0; j < GameWorld.world.Length; j++)
-                {
-                    tile = GameWorld.world[j][i];
-                    if (tile.isspawner==true)
-                    {
-                        Enemy en = new Enemy(this, cam);
-                        this.Components.Add(en);
-                        en.GetMap(GameWorld.world);
-                        en.GetCharcter(player);
-                        en.Location = new Vector2(tile.location.X, tile.location.Y - en.Rectagle.Height);
-                        en.Location = tile.location;
 
-                        enemies.Add(en);
-                    }
-                   
+                //grabs columns in row (7)
+                for (int c = 0; c < GameWorld.world[r].Length; c++)
+                {
+
+                    map[m] = GameWorld.world[r][c];
+                    m++;
                 }
             }
 
-           
 
-            player.Enabled = false;
+            Tile tile = new Tile();
+            for (int i = 0; i < map.Length; i++)
+            {
+                tile = map[i];
+                if (tile.isspawner == true)
+                {
+                    Enemy en = new Enemy(this, cam);
+                    this.Components.Add(en);
+                    en.GetMap(GameWorld.world);
+                    en.Location = new Vector2(tile.location.X, tile.location.Y - en.Rectagle.Height);
+                    en.Location = tile.location;
+
+                    enemies.Add(en);
+                }
+            }
 
             base.Initialize();
         }
@@ -102,9 +111,13 @@ namespace FixedFinalGame
 
             player.GetMap(GameWorld.world);
             player.Enabled = true;
-            player.Location = new Vector2(300, 150);
+            player.Location = new Vector2(300, 640);
 
-            
+
+            foreach (Enemy item in enemies)
+            {
+                item.GetCharcter(player);
+            }
 
             // TODO: use this.Content to load your game content here
             // cam = new Camera(player, _spriteBatch);

@@ -27,8 +27,8 @@ namespace FixedFinalGame
 
         private SpriteEffects s;
 
-        Vector2 initialPosition;
-        Vector2 beforeColPosition;
+        Vector2 initialPosition, prevDirection, beforeColPosition;
+        bool canConsc;
         //GameConsole console;
         public Enemy(Game game, Camera camera) : base(game)
         {
@@ -91,6 +91,7 @@ namespace FixedFinalGame
         void Roam() 
         {
             this.Speed = 150;
+
             //if (this.Location.X > initialPosition.X+50)
             //{
             //   Direction = new Vector2(-1,0);
@@ -179,22 +180,31 @@ namespace FixedFinalGame
             checkCollision();
             if (intersectsTop == true)
             {
+                canConsc = true;
                 groundState = GroundState.STANDING;
             }
-            else { groundState = GroundState.JUMPING; }
+            else
+            {
+                groundState = GroundState.JUMPING;
+                canConsc = false;
+                this.Direction.X = 0;
+            }
 
             DetermineStanding(time);
 
 
-
-            if (seePlayer())
+            if (canConsc)
             {
-                consc = Consciousness.CHASING;
+                if (seePlayer())
+                {
+                    consc = Consciousness.CHASING;
+                }
+                else
+                {
+                    consc = Consciousness.ROAMING;
+                }
             }
-            else
-            {
-                consc = Consciousness.ROAMING;
-            }
+            
 
             //if (this.Rectagle.Intersects(passedPlayer.Rectagle))
             //{
