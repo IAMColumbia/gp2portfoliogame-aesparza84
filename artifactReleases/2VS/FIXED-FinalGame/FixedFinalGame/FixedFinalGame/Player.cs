@@ -28,6 +28,7 @@ namespace FixedFinalGame
 
         //------------------Not Icharacter
 
+        Vector2 prevDirection;
         float jumpheight;
 
         bool invulnerable;
@@ -197,6 +198,17 @@ namespace FixedFinalGame
         public override void Update(GameTime gameTime)
         {
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+
+           
+            if (this.Direction.X!=0)
+            {
+                prevDirection.X = this.Direction.X;
+            }
+            if (Direction.X == 0)
+            {
+                this.Direction.X = prevDirection.X;
+            }
             checkCollision();
 
             //If character goes past 350, then groundstate is standing
@@ -207,6 +219,8 @@ namespace FixedFinalGame
             else { groundState = GroundState.JUMPING; }
 
             controller.DifferentHandleInput(gameTime);
+
+            
 
             //Determines Gravity based on groundstate
             DetermineStanding(time);
@@ -262,6 +276,7 @@ namespace FixedFinalGame
             //console.Log("Action State", this.actionstate.ToString());
             console.Log("Direction.Y", this.Direction.Y.ToString());
             console.Log("Direction.X", this.Direction.X.ToString());
+            console.Log("PrevDirection.X", this.prevDirection.X.ToString());
             //console.Log("Speed.Y", this.speed.Y.ToString());
             //console.Log("Speed.X", this.speed.X.ToString());
             console.Log("Speed", this.Speed.ToString());
@@ -289,7 +304,7 @@ namespace FixedFinalGame
 
         public override void Draw(GameTime gameTime)
         {
-            if (Direction.X < 0)
+            if (prevDirection.X < 0)
             {
                 s = SpriteEffects.FlipHorizontally;
                  spriteBatch.Begin(SpriteSortMode.Deferred,null,null,null,null,null, cam.Transform);
@@ -297,7 +312,7 @@ namespace FixedFinalGame
                 spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
                 spriteBatch.End();
             }
-            if (Direction.X >= 0)
+            if (prevDirection.X >= 0)
             {
                 s = SpriteEffects.None;
                 spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);

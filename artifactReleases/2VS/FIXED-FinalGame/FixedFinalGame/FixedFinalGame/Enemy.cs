@@ -119,9 +119,6 @@ namespace FixedFinalGame
             {
                 this.Direction.X = 1;
             }
-
-            beforeColPosition= this.Location;
-           
         }
 
         void MoveToPlayer()
@@ -140,7 +137,7 @@ namespace FixedFinalGame
 
         void Attack() 
         {
-            passedPlayer.TakeDamage();
+            this.Direction.X = 0;
         }
 
         private void timecorrect(float time)
@@ -165,7 +162,7 @@ namespace FixedFinalGame
         }
         bool seePlayer()
         {
-            if (Math.Abs(GetDistance(passedPlayer)) <200f && Math.Abs(this.Location.Y - passedPlayer.Location.Y) <= 1)
+            if (Math.Abs(GetDistance(passedPlayer)) <200f && Math.Abs(this.Location.Y - passedPlayer.Location.Y) <= 100)
             {
                 return true;
             }
@@ -182,6 +179,10 @@ namespace FixedFinalGame
             if (this.Direction.X != 0)
             {
                 prevDirection.X = this.Direction.X;
+            }
+            if (Direction.X == 0)
+            {
+                this.Direction.X = prevDirection.X;
             }
 
             checkCollision();
@@ -207,14 +208,11 @@ namespace FixedFinalGame
                 consc = Consciousness.ROAMING;
             }
 
-               
-            
-            
 
-            //if (this.Rectagle.Intersects(passedPlayer.Rectagle))
-            //{
-            //    Attack();
-            //}
+            if (this.Rectagle.IntersectSide(passedPlayer.Rectagle))
+            {
+                Attack();
+            }
 
             switch (consc)
             {
@@ -229,6 +227,13 @@ namespace FixedFinalGame
                     {
                         consc= Consciousness.ROAMING;
                     }
+                    if (this.Rectagle.IntersectSide(passedPlayer.Rectagle))
+                    {
+                        this.Direction.X = 0;
+                    }
+                    break;
+                case Consciousness.ATTACKING:
+                    
                     break;
                 default:
                     break;
@@ -254,7 +259,7 @@ namespace FixedFinalGame
 
         public override void Draw(GameTime gameTime)
         {
-            if (Direction.X < 0)
+            if (prevDirection.X < 0)
             {
                 s = SpriteEffects.FlipHorizontally;
                 spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);
@@ -262,7 +267,7 @@ namespace FixedFinalGame
                 spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
                 spriteBatch.End();
             }
-            if (Direction.X >= 0)
+            if (prevDirection.X >= 0)
             {
                 s = SpriteEffects.None;
                 spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);
