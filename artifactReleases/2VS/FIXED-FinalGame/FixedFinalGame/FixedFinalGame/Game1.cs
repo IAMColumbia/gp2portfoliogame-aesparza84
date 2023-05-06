@@ -25,6 +25,7 @@ namespace FixedFinalGame
         Player player;
 
         Enemy enemy;
+
         List<Enemy> enemies;
         public Game1()
         {
@@ -32,9 +33,8 @@ namespace FixedFinalGame
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-          
-            
-            enemies= new List<Enemy>(); 
+
+            enemies = new List<Enemy>(); 
 
             cam = new Camera();
 
@@ -43,6 +43,9 @@ namespace FixedFinalGame
 
             player = new Player(this, cam);                     //add Camera to the objects, matrix
             this.Components.Add(player);
+
+            enemy= new Enemy(this, cam);
+            this.Components.Add(enemy);
 
             //enemy= new Enemy(this, cam, player);
             //this.Components.Add(enemy);
@@ -69,6 +72,7 @@ namespace FixedFinalGame
                         Enemy en = new Enemy(this, cam);
                         this.Components.Add(en);
                         en.GetMap(GameWorld.world);
+                        en.GetCharcter(player);
                         en.Location = new Vector2(tile.location.X, tile.location.Y - en.Rectagle.Height);
                         en.Location = tile.location;
 
@@ -91,15 +95,16 @@ namespace FixedFinalGame
             //background = this.Content.Load<Texture2D>("SpaceBackground");
             //FakePlayer = this.Content.Load<Texture2D>("TestingSrite2");
 
+
+            //this.enemy.GetMap(GameWorld.world);
+            //this.enemy.GetCharcter(player);
+            //this.enemy.Location = new Vector2(300,150);
+
             player.GetMap(GameWorld.world);
             player.Enabled = true;
             player.Location = new Vector2(300, 150);
 
-            foreach (Enemy em in enemies)
-            {
-                em.GetMap(GameWorld.world);
-                em.GetCharcter(player);
-            }
+            
 
             // TODO: use this.Content to load your game content here
             // cam = new Camera(player, _spriteBatch);

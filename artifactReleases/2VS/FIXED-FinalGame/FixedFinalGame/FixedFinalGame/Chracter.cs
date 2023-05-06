@@ -21,6 +21,7 @@ namespace FixedFinalGame
         protected bool intersectLeft;
         protected bool intersectRight;
         protected bool intersectBottom;
+        protected bool intersectsSide;
         public int health { get;set; }
         public int Speed;
         public Gravity gravity { get; set; }
@@ -61,6 +62,8 @@ namespace FixedFinalGame
             intersectRight = false;
             intersectLeft = false;
             intersectBottom = false;
+            intersectsSide = false;
+
             if (hasMap)
             {
                 Tile tile = new Tile();
@@ -70,6 +73,8 @@ namespace FixedFinalGame
                     if (this.Rectagle.Intersects(tile.rectangle)
                         && tile.iscollidable == true)
                     {
+
+                        
                         if (this.Rectagle.IntersectsRight(tile.rectangle))
                         {
                             intersectRight = true;
@@ -89,6 +94,11 @@ namespace FixedFinalGame
                                 this.Location.X = tile.rectangle.Left - this.Rectagle.Width - 1;
 
                             }
+                        }
+
+                        if (intersectRight==true || intersectLeft==true)
+                        {
+                            intersectsSide = true;
                         }
 
                         if (this.Rectagle.IntersectsBot(tile.rectangle))

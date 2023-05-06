@@ -51,9 +51,6 @@ namespace FixedFinalGame
                     c.Bottom >= tile.Top);
         }
         
-
-        
-         
         
     }
 }

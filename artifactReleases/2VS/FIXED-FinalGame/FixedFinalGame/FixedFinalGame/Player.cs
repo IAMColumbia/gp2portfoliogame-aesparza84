@@ -42,7 +42,7 @@ namespace FixedFinalGame
         PlayerController controller;
         string NormalTexture, BlockingTexture;
 
-        GameConsole console;
+        //GameConsole console;
 
         
         public Player(Game game, Camera camera) : base(game)
@@ -59,12 +59,12 @@ namespace FixedFinalGame
                 controller = new PlayerController(game, this);
             }
 
-            console = (GameConsole)game.Services.GetService(typeof(GameConsole));
-            if (console == null)
-            {
-                console = new GameConsole(this.Game);
-                this.Game.Components.Add(console);
-            }
+            //console = (GameConsole)game.Services.GetService(typeof(GameConsole));
+            //if (console == null)
+            //{
+            //    console = new GameConsole(this.Game);
+            //    this.Game.Components.Add(console);
+            //}
 
             this.Origin = new Vector2(this.Rectagle.Width/2, this.Rectagle.Height/2);
             SetStats();
@@ -241,34 +241,34 @@ namespace FixedFinalGame
             }
 
             timecorrectedMove(time);
-            UpdateLog();
+            //UpdateLog();
 
             base.Update(gameTime);
         }
 
        
 
-        private void UpdateLog()
-        {
-            console.Log("Standing State ", this.groundState.ToString());
-            console.Log("intersect ", this.intersects.ToString());
-            console.Log("intersect Top", this.intersectsTop.ToString());
-            console.Log("intersect Bot", this.intersectBottom.ToString());
-            console.Log("intersect Right", this.intersectRight.ToString());
-            console.Log("intersect Left", this.intersectLeft.ToString());
-            //console.Log("Right Mouse B", this.controller.Block.ToString());
-            //console.Log("Left Mouse B", this.controller.Attack.ToString());
-            //console.Log("Invulnerable", this.invulnerable.ToString());
-            //console.Log("Action State", this.actionstate.ToString());
-            console.Log("Direction.Y", this.Direction.Y.ToString());
-            console.Log("Direction.X", this.Direction.X.ToString());
-            //console.Log("Speed.Y", this.speed.Y.ToString());
-            //console.Log("Speed.X", this.speed.X.ToString());
-            console.Log("Speed", this.Speed.ToString());
-            console.Log("Bottom", this.Rectagle.Bottom.ToString());
-            console.Log("Top", this.Rectagle.Top.ToString());
-            console.Log("Location", this.Location.ToString());
-        }
+        //private void UpdateLog()
+        //{
+        //    console.Log("Standing State ", this.groundState.ToString());
+        //    console.Log("intersect ", this.intersects.ToString());
+        //    console.Log("intersect Top", this.intersectsTop.ToString());
+        //    console.Log("intersect Bot", this.intersectBottom.ToString());
+        //    console.Log("intersect Right", this.intersectRight.ToString());
+        //    console.Log("intersect Left", this.intersectLeft.ToString());
+        //    //console.Log("Right Mouse B", this.controller.Block.ToString());
+        //    //console.Log("Left Mouse B", this.controller.Attack.ToString());
+        //    //console.Log("Invulnerable", this.invulnerable.ToString());
+        //    //console.Log("Action State", this.actionstate.ToString());
+        //    console.Log("Direction.Y", this.Direction.Y.ToString());
+        //    console.Log("Direction.X", this.Direction.X.ToString());
+        //    //console.Log("Speed.Y", this.speed.Y.ToString());
+        //    //console.Log("Speed.X", this.speed.X.ToString());
+        //    console.Log("Speed", this.Speed.ToString());
+        //    console.Log("Bottom", this.Rectagle.Bottom.ToString());
+        //    //console.Log("Top", this.Rectagle.Top.ToString());
+        //    console.Log("Location", this.Location.ToString());
+        //}
 
         protected override void LoadContent()
         {

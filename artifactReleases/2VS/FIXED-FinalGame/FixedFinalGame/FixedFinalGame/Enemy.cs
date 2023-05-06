@@ -19,6 +19,8 @@ namespace FixedFinalGame
         string TextureName;
         private Camera cam;
 
+        Texture2D Normal, Chasing;
+
         private Consciousness consc;
 
         private Chracter passedPlayer;
@@ -26,22 +28,24 @@ namespace FixedFinalGame
         private SpriteEffects s;
 
         Vector2 initialPosition;
-
-        GameConsole console;
+        Vector2 beforeColPosition;
+        //GameConsole console;
         public Enemy(Game game, Camera camera) : base(game)
         {
-            //console = (GameConsole)game.Services.GetService(typeof(GameConsole));
-            //if (console==null)
-            //{
-            //    console = new GameConsole(this.Game);
-            //    this.Game.Components.Add(console);
-            //}
+            
 
             this.health = 3;
             initialPosition = Location;
             gravity = new Gravity();
             TextureName = "TestEnemy";
             this.cam = camera;
+
+            //console = (GameConsole)game.Services.GetService(typeof(GameConsole));
+            //if (console == null)
+            //{
+            //    console = new GameConsole(this.Game);
+            //    this.Game.Components.Add(console);
+            //}
 
             setStats();
         }
@@ -87,20 +91,39 @@ namespace FixedFinalGame
         void Roam() 
         {
             this.Speed = 150;
-            if (this.Location.X > initialPosition.X+200)
+            //if (this.Location.X > initialPosition.X+50)
+            //{
+            //   Direction = new Vector2(-1,0);
+            //    if (Direction.X==0)
+            //    {
+            //        Direction.X *= -1;
+            //    }
+            //}
+            //else if (this.Location.X < initialPosition.X-50)
+            //{
+            //    Direction = new Vector2(1,0);
+            //    if (Direction.X == 0)
+            //    {
+            //        Direction.X *= -1;
+            //    }
+            //}
+
+            if (intersectLeft)
             {
-               Direction = new Vector2(-1,0);
+                this.Direction.X = -1;
             }
-            else if (this.Location.X < initialPosition.X-200)
+            if (intersectRight)
             {
-                Direction = new Vector2(1,0);
+                this.Direction.X = 1;
             }
 
+            beforeColPosition= this.Location;
+           
         }
 
         void MoveToPlayer()
         {
-            this.Speed = 200;
+            this.Speed = 250;
 
             if (this.Location.X < passedPlayer.Location.X)
             {
@@ -123,7 +146,11 @@ namespace FixedFinalGame
         }
         protected override void LoadContent()
         {
-            this.spriteTexture = this.Game.Content.Load<Texture2D>(TextureName);
+            Normal = this.Game.Content.Load<Texture2D>("TestEnemy");
+            Chasing = this.Game.Content.Load<Texture2D>("TestEnemyChasing");
+            this.spriteTexture = Normal;
+
+
             base.LoadContent();
         }
 
@@ -135,7 +162,7 @@ namespace FixedFinalGame
         }
         bool seePlayer()
         {
-            if (Math.Abs(GetDistance(passedPlayer)) <200f)
+            if (Math.Abs(GetDistance(passedPlayer)) <200f && Math.Abs(this.Location.Y - passedPlayer.Location.Y) <= 1)
             {
                 return true;
             }
@@ -158,45 +185,57 @@ namespace FixedFinalGame
 
             DetermineStanding(time);
 
-            //if (seePlayer())
-            //{
-            //    consc = Consciousness.CHASING;
-            //}
-            //else
-            //{
-            //    consc = Consciousness.ROAMING;
-            //}
+
+
+            if (seePlayer())
+            {
+                consc = Consciousness.CHASING;
+            }
+            else
+            {
+                consc = Consciousness.ROAMING;
+            }
 
             //if (this.Rectagle.Intersects(passedPlayer.Rectagle))
             //{
             //    Attack();
             //}
 
-            //switch (consc)
-            //{
-            //    case Consciousness.ROAMING:
-            //        Roam();
-            //        break;
-            //    case Consciousness.CHASING:
-            //        MoveToPlayer();
-            //        if (Math.Abs(GetDistance(passedPlayer)) > 200f)
-            //        {
-            //            this.Location = initialPosition;
-            //        }
-            //        break;
-
-            //    case Consciousness.ATTACKING:
-            //        Attack();
-            //            break;
-            //    default:
-            //        break;
-            //}
+            switch (consc)
+            {
+                case Consciousness.ROAMING:
+                    this.spriteTexture = Normal;
+                    Roam();
+                    break;
+                case Consciousness.CHASING:
+                    this.spriteTexture = Chasing;
+                    MoveToPlayer();
+                    if (Math.Abs(GetDistance(passedPlayer)) > 200f)
+                    {
+                        consc= Consciousness.ROAMING;
+                    }
+                    break;
+                default:
+                    break;
+            }
 
 
             timecorrect(time);
+            //UpdateLog();
 
             base.Update(gameTime);
         }
+
+        //private void UpdateLog()
+        //{
+        //    console.Log("Direction X ", this.Direction.X.ToString());
+        //    console.Log("Location X ", this.Location.X.ToString());
+        //    console.Log("BeforeCol X ", this.beforeColPosition.X.ToString());
+        //    console.Log("Intersects side ", this.intersectsSide.ToString());
+        //    console.Log("Intersects Right ", this.intersectRight.ToString());
+        //    console.Log("Intersects Left ", this.intersectLeft.ToString());
+        //    console.Log("Concioues", this.consc.ToString());
+        //}
 
         public override void Draw(GameTime gameTime)
         {
