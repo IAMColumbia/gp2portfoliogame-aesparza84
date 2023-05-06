@@ -203,6 +203,7 @@ namespace FixedFinalGame
                 {
                     consc = Consciousness.ROAMING;
                 }
+                
             }
             
 
