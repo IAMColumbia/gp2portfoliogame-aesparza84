@@ -54,6 +54,7 @@ namespace FixedFinalGame
             BlockingTexture = "SpriteBlocking";
             hasMap = false;
             isAttacking= false;
+            canAttack = true;
             
 
             gravity = new Gravity();
@@ -210,6 +211,7 @@ namespace FixedFinalGame
         private static readonly TimeSpan attackInterval = TimeSpan.FromSeconds(1);
         private void Attack(GameTime gameTime) 
         {
+            
             currentTime = (float)gameTime.TotalGameTime.TotalSeconds;
             
             
@@ -297,6 +299,7 @@ namespace FixedFinalGame
             //console.Log("intersect Left", this.intersectLeft.ToString());
             //console.Log("Right Mouse B", this.controller.Block.ToString());
             //console.Log("Left Mouse B", this.controller.Attack.ToString());
+            console.Log("Can Attack", this.canAttack.ToString());
             console.Log("Action State", this.ActionState.ToString());
             console.Log("Invulnerable", this.invulnerable.ToString());
             //console.Log("Action State", this.actionstate.ToString());

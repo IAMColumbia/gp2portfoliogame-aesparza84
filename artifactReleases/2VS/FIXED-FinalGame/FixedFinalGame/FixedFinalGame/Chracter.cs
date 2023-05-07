@@ -22,6 +22,7 @@ namespace FixedFinalGame
         protected bool intersectRight;
         protected bool intersectBottom;
         protected bool intersectsSide;
+        protected bool canAttack;
 
         
         public int health { get;set; }
