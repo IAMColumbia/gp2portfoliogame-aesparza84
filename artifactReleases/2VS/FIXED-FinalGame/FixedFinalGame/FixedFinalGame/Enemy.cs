@@ -147,7 +147,7 @@ namespace FixedFinalGame
         protected override void LoadContent()
         {
             Normal = this.Game.Content.Load<Texture2D>("TestEnemy");
-            Chasing = this.Game.Content.Load<Texture2D>("TestEnemyChasing");
+            Chasing = this.Game.Content.Load<Texture2D>("TestEnemyChasing2");
             this.spriteTexture = Normal;
 
 
