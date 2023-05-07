@@ -43,6 +43,8 @@ namespace FixedFinalGame
         PlayerController controller;
         string NormalTexture, BlockingTexture;
 
+        List<Enemy> enemies;
+
         GameConsole console;
 
         
@@ -198,6 +200,10 @@ namespace FixedFinalGame
             }
         }
 
+        public void GetEnemyList(List<Enemy> Elist)
+        { 
+            enemies= Elist;
+        }
 
         protected float atintefval;
         protected float currentTime;

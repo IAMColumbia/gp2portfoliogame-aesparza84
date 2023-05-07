@@ -126,14 +126,15 @@ namespace FixedFinalGame
             
 
             player.GetMap(GameWorld.world);
+            player.GetEnemyList(enemies);
             player.GetWeapons(weapons);
             player.Enabled = true;
             
 
 
-            foreach (Enemy item in enemies)
+            foreach (Enemy en in enemies)
             {
-                item.GetCharcter(player);
+                en.GetCharcter(player);
             }
 
             // TODO: use this.Content to load your game content here
@@ -146,6 +147,7 @@ namespace FixedFinalGame
                 Exit();
 
             cam.Update(player);
+
 
             // TODO: Add your update logic here
             foreach (Enemy en in enemies)
