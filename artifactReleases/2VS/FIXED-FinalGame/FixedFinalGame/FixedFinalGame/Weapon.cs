@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +14,11 @@ namespace FixedFinalGame
         WeaponState weaponstate { get; set; }
         public string Name { get; set; }
         public int Damage { get; set; }
+        public float timeDelay;
+
+        public Vector2 location;
+
+        public Texture2D texture;
         public Weapon() 
         {
             

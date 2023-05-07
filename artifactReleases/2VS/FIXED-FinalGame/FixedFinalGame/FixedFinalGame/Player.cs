@@ -22,8 +22,6 @@ namespace FixedFinalGame
 
         public LifeState lifestate { get; set; }
         public GroundState groundState { get; set; }
-
-        public IWeapon weapon { get; set; }
         public CharacterState characterState { get; set; }
 
         //------------------Not Icharacter
@@ -33,10 +31,12 @@ namespace FixedFinalGame
 
         bool invulnerable;
         bool intersects;
+        bool isAttacking;
 
         private Camera cam;
 
-        Action actionstate;
+        private Action actionstate;
+        public Action ActionState;
 
         private SpriteEffects s;
 
@@ -51,7 +51,8 @@ namespace FixedFinalGame
             NormalTexture = "TestingSrite2";
             BlockingTexture = "SpriteBlocking";
             hasMap = false;
-           
+            isAttacking= false;
+            
 
             gravity = new Gravity();
 
@@ -75,6 +76,8 @@ namespace FixedFinalGame
             s = SpriteEffects.None;
 
             actionstate = Action.NEUTRAL;
+            
+
         }
 
         void SetStats()
@@ -195,12 +198,23 @@ namespace FixedFinalGame
             }
         }
 
+
+        protected float atintefval;
+        protected float currentTime;
+        private static readonly TimeSpan attackInterval = TimeSpan.FromSeconds(1);
+        private void Attack(GameTime gameTime) 
+        {
+            currentTime = (float)gameTime.TotalGameTime.TotalSeconds;
+            
+            
+        }
         public override void Update(GameTime gameTime)
         {
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            currentTime = (float)gameTime.TotalGameTime.TotalSeconds;
 
-
-           
+            invulnerable = false;
+            
             if (this.Direction.X!=0)
             {
                 prevDirection.X = this.Direction.X;
@@ -230,21 +244,24 @@ namespace FixedFinalGame
             {
                 actionstate = Action.BLOCKING;
             }
+            else if (controller.Attack)
+            {
+                actionstate = Action.ATTACKING;
+            }
             else
             {
                 actionstate = Action.NEUTRAL;
             }
-
+            ActionState = actionstate;
             //CheckIfStanding();
 
             switch (actionstate)
             {
                 case Action.NEUTRAL:
                     this.spriteTexture = normalTexture;
-                    invulnerable = false;
                     break;
                 case Action.ATTACKING:
-                    invulnerable = false;
+                    Attack(gameTime);
                     break;
                 case Action.BLOCKING:
                     this.spriteTexture = blockingTexture;
@@ -265,22 +282,25 @@ namespace FixedFinalGame
         private void UpdateLog()
         {
             console.Log("Standing State ", this.groundState.ToString());
-            console.Log("intersect ", this.intersects.ToString());
-            console.Log("intersect Top", this.intersectsTop.ToString());
-            console.Log("intersect Bot", this.intersectBottom.ToString());
-            console.Log("intersect Right", this.intersectRight.ToString());
-            console.Log("intersect Left", this.intersectLeft.ToString());
+            console.Log("Weapon attacking", this.isAttacking.ToString());
+            console.Log("Shot Time", this.weapon.Name.ToString());
+            //console.Log("intersect ", this.intersects.ToString());
+            //console.Log("intersect Top", this.intersectsTop.ToString());
+            //console.Log("intersect Bot", this.intersectBottom.ToString());
+            //console.Log("intersect Right", this.intersectRight.ToString());
+            //console.Log("intersect Left", this.intersectLeft.ToString());
             //console.Log("Right Mouse B", this.controller.Block.ToString());
             //console.Log("Left Mouse B", this.controller.Attack.ToString());
-            //console.Log("Invulnerable", this.invulnerable.ToString());
+            console.Log("Action State", this.ActionState.ToString());
+            console.Log("Invulnerable", this.invulnerable.ToString());
             //console.Log("Action State", this.actionstate.ToString());
-            console.Log("Direction.Y", this.Direction.Y.ToString());
-            console.Log("Direction.X", this.Direction.X.ToString());
-            console.Log("PrevDirection.X", this.prevDirection.X.ToString());
+           // console.Log("Direction.Y", this.Direction.Y.ToString());
+           // console.Log("Direction.X", this.Direction.X.ToString());
+            //console.Log("PrevDirection.X", this.prevDirection.X.ToString());
             //console.Log("Speed.Y", this.speed.Y.ToString());
             //console.Log("Speed.X", this.speed.X.ToString());
-            console.Log("Speed", this.Speed.ToString());
-            console.Log("Bottom", this.Rectagle.Bottom.ToString());
+            //console.Log("Speed", this.Speed.ToString());
+            //console.Log("Bottom", this.Rectagle.Bottom.ToString());
             //console.Log("Top", this.Rectagle.Top.ToString());
             console.Log("Location", this.Location.ToString());
         }

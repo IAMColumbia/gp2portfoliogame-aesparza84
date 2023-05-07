@@ -22,19 +22,32 @@ namespace FixedFinalGame
         protected bool intersectRight;
         protected bool intersectBottom;
         protected bool intersectsSide;
+
+        
         public int health { get;set; }
         public int Speed;
         public Gravity gravity { get; set; }
         public LifeState lifestate { get; set; }
         public GroundState groundState { get; set; }
-        public IWeapon weapon { get; set; }
+        public Weapon weapon { get; set; }
         public CharacterState characterState { get; set; }
         public Tile[] ColMap { get; set; }
+        public Weapon[] Weaponslist { get; set; }
 
         protected bool hasMap { get; set; }
 
         public virtual void TakeDamage() { }
 
+        public void GetWeapons(Weapon[] w) 
+        {
+            Weaponslist = new Weapon[w.Length];
+            for (int i = 0; i < w.Length; i++)
+            {
+                Weaponslist[i] = w[i];
+            }
+
+            this.weapon = Weaponslist[0];
+        }
         public void GetMap(Tile[][] passedmap)
         {
             int n = passedmap.Length * passedmap[0].Length;

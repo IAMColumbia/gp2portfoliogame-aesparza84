@@ -22,6 +22,8 @@ namespace FixedFinalGame
         TileMap GameWorld;
         Tile[] map { get; set; }
 
+        Weapon[] weapons { get; set; }
+
         Camera cam;
 
         Player player;
@@ -29,6 +31,8 @@ namespace FixedFinalGame
         Enemy enemy;
 
         List<Enemy> enemies;
+        List<Enemy> enemiesToRemove;
+        List<Enemy> enemiesToAddBack;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -36,28 +40,30 @@ namespace FixedFinalGame
             IsMouseVisible = true;
 
 
-            enemies = new List<Enemy>(); 
+            enemies = new List<Enemy>();
+            enemiesToRemove = new List<Enemy>();
+            enemiesToAddBack= new List<Enemy>();
 
+            weapons = new Weapon[1];
+
+            //add Camera to the objects, matrix
             cam = new Camera();
 
             input = new InputHandler(this); 
             this.Components.Add(input);
 
-            player = new Player(this, cam);                     //add Camera to the objects, matrix
+
+            player = new Player(this, cam);
             this.Components.Add(player);
 
             //enemy= new Enemy(this, cam);
             //this.Components.Add(enemy);
-
-
         }
 
         protected override void Initialize()
         {
             Screenheight = _graphics.PreferredBackBufferHeight;
             Screenwidth  = _graphics.PreferredBackBufferWidth;
-
-            player.Enabled = false;
 
             GameWorld = new TileMap(this.Content, cam);
             GameWorld.CreateMap();
@@ -83,7 +89,7 @@ namespace FixedFinalGame
             for (int i = 0; i < map.Length; i++)
             {
                 tile = map[i];
-                if (tile.isspawner == true)
+                if (tile.isEnSpawner == true)
                 {
                     Enemy en = new Enemy(this, cam);
                     this.Components.Add(en);
@@ -92,6 +98,10 @@ namespace FixedFinalGame
                     en.Location = tile.location;
 
                     enemies.Add(en);
+                }
+                if (tile.isPlyrSpawn)
+                {
+                    player.Location = tile.location;
                 }
             }
 
@@ -109,9 +119,16 @@ namespace FixedFinalGame
             //this.enemy.GetCharcter(player);
             //this.enemy.Location = new Vector2(300,150);
 
+            Spear s = new Spear();
+            s.texture = this.Content.Load<Texture2D>("Spear");
+            weapons[0] = s;
+
+            
+
             player.GetMap(GameWorld.world);
+            player.GetWeapons(weapons);
             player.Enabled = true;
-            player.Location = new Vector2(300, 640);
+            
 
 
             foreach (Enemy item in enemies)
@@ -131,6 +148,20 @@ namespace FixedFinalGame
             cam.Update(player);
 
             // TODO: Add your update logic here
+            foreach (Enemy en in enemies)
+            {
+                if (player.Rectagle.Intersects(en.Rectagle) && player.ActionState==Action.ATTACKING)
+                {
+                    enemiesToRemove.Add(en);
+                }
+            }
+
+            foreach (Enemy en in enemiesToRemove)
+            {
+                en.Enabled = false;
+                en.Visible= false;
+                enemiesToAddBack.Add(en);
+            }
 
             base.Update(gameTime);
         }
