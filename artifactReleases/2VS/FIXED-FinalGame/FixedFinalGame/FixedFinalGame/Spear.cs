@@ -27,7 +27,7 @@ namespace FixedFinalGame
         {
             this.Speed = 250;
             this.Location = passedCharacter.Origin;
-            this.Direction.X = passedCharacter.Direction.X;
+            this.Direction.X = passedCharacter.prevDirection.X;
 
             //if (weaponstate != WeaponState.STOPPED)
             //{
@@ -35,6 +35,8 @@ namespace FixedFinalGame
             //}
             //weaponstate = WeaponState.STOPPED;
         }
+
+        
         protected override void LoadContent()
         {
             this.spriteTexture = this.Game.Content.Load<Texture2D>("Spear");
@@ -48,6 +50,10 @@ namespace FixedFinalGame
 
         public override void Update(GameTime gameTime)
         {
+            if (hasPassedPlayer)
+            { 
+                this.Direction.X=this.player.Direction.X;
+            }
             if (this.Direction.X != 0)
             {
                 prevDirection.X = this.Direction.X;
@@ -61,7 +67,7 @@ namespace FixedFinalGame
 
         public override void Draw(GameTime gameTime)
         {
-            if (prevDirection.X < 0)
+            if (prevDirection.X >= 0)
             {
                 s = SpriteEffects.FlipHorizontally;
                 spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);
@@ -69,7 +75,7 @@ namespace FixedFinalGame
                 spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
                 spriteBatch.End();
             }
-            if (prevDirection.X >= 0)
+            if (prevDirection.X < 0)
             {
                 s = SpriteEffects.None;
                 spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);

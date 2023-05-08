@@ -27,9 +27,8 @@ namespace FixedFinalGame
 
         public void Use(Chracter passedCharacter)
         {
+            this.Location.X += 1;
             this.Speed = 250;
-            this.Location = passedCharacter.Origin;
-            this.Direction.X = passedCharacter.Direction.X;
 
             //if (weaponstate != WeaponState.STOPPED)
             //{

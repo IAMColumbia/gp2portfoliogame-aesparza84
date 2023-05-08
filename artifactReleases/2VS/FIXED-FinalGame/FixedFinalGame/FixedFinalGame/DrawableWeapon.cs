@@ -13,6 +13,9 @@ namespace FixedFinalGame
     {
         WeaponState weaponstate { get; set; }
         public string Name { get; set; }
+
+        protected Chracter player;
+        protected bool hasPassedPlayer;
         public int Damage { get; set; }
         public float timeDelay;
 
@@ -20,8 +23,14 @@ namespace FixedFinalGame
         public DrawableWeapon(Game game) : base(game)
         {
             this.Direction = Vector2.Zero;
+            hasPassedPlayer= false;
         }
 
         public virtual void Use(Chracter passedCharacter) { }
+        public void GetCharacter(Chracter passedCharacter)
+        {
+            player = passedCharacter;
+            hasPassedPlayer= true;
+        }
     }
 }
