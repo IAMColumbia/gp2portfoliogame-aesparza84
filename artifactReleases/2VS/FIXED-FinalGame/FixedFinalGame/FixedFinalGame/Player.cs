@@ -208,13 +208,13 @@ namespace FixedFinalGame
 
         protected float atintefval;
         protected float currentTime;
+        private TimeSpan? lastAttck;
+        bool attacked= false;
+
         private static readonly TimeSpan attackInterval = TimeSpan.FromSeconds(1);
-        private void Attack(GameTime gameTime) 
+        private void Attack() 
         {
-            
-            currentTime = (float)gameTime.TotalGameTime.TotalSeconds;
-            
-            
+            this.weapon.Use(this);
         }
         public override void Update(GameTime gameTime)
         {
@@ -269,7 +269,7 @@ namespace FixedFinalGame
                     this.spriteTexture = normalTexture;
                     break;
                 case Action.ATTACKING:
-                    Attack(gameTime);
+                    Attack();
                     break;
                 case Action.BLOCKING:
                     this.spriteTexture = blockingTexture;
@@ -291,7 +291,7 @@ namespace FixedFinalGame
         {
             console.Log("Standing State ", this.groundState.ToString());
             console.Log("Weapon attacking", this.isAttacking.ToString());
-            console.Log("Shot Time", this.weapon.Name.ToString());
+            console.Log("Weapon ", this.weapon.Name.ToString());
             //console.Log("intersect ", this.intersects.ToString());
             //console.Log("intersect Top", this.intersectsTop.ToString());
             //console.Log("intersect Bot", this.intersectBottom.ToString());
@@ -299,6 +299,7 @@ namespace FixedFinalGame
             //console.Log("intersect Left", this.intersectLeft.ToString());
             //console.Log("Right Mouse B", this.controller.Block.ToString());
             //console.Log("Left Mouse B", this.controller.Attack.ToString());
+            console.Log("Attacked", this.attacked.ToString());
             console.Log("Can Attack", this.canAttack.ToString());
             console.Log("Action State", this.ActionState.ToString());
             console.Log("Invulnerable", this.invulnerable.ToString());

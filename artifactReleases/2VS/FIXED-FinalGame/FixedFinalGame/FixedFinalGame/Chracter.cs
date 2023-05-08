@@ -30,18 +30,18 @@ namespace FixedFinalGame
         public Gravity gravity { get; set; }
         public LifeState lifestate { get; set; }
         public GroundState groundState { get; set; }
-        public Weapon weapon { get; set; }
+        public DrawableWeapon weapon { get; set; }
         public CharacterState characterState { get; set; }
         public Tile[] ColMap { get; set; }
-        public Weapon[] Weaponslist { get; set; }
+        public DrawableWeapon[] Weaponslist { get; set; }
 
         protected bool hasMap { get; set; }
 
         public virtual void TakeDamage() { }
 
-        public void GetWeapons(Weapon[] w) 
+        public void GetWeapons(DrawableWeapon[] w) 
         {
-            Weaponslist = new Weapon[w.Length];
+            Weaponslist = new DrawableWeapon[w.Length];
             for (int i = 0; i < w.Length; i++)
             {
                 Weaponslist[i] = w[i];

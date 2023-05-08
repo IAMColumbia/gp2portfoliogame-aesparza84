@@ -10,7 +10,5 @@ namespace FixedFinalGame
     {
         string Name { get; set; }
         int Damage { get; set; }
-        public void Use();
-
     }
 }

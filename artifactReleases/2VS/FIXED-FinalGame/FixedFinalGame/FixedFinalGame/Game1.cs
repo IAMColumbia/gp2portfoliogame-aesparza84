@@ -22,11 +22,12 @@ namespace FixedFinalGame
         TileMap GameWorld;
         Tile[] map { get; set; }
 
-        Weapon[] weapons { get; set; }
+        DrawableWeapon[] weapons { get; set; }
 
         Camera cam;
 
         Player player;
+        Spear spear;
 
         Enemy enemy;
 
@@ -44,7 +45,7 @@ namespace FixedFinalGame
             enemiesToRemove = new List<Enemy>();
             enemiesToAddBack= new List<Enemy>();
 
-            weapons = new Weapon[1];
+            weapons = new DrawableWeapon[1];
 
             //add Camera to the objects, matrix
             cam = new Camera();
@@ -56,6 +57,9 @@ namespace FixedFinalGame
             player = new Player(this, cam);
             this.Components.Add(player);
 
+            spear = new Spear(this, cam);
+            this.Components.Add(spear);
+            weapons[0] = spear;
             //enemy= new Enemy(this, cam);
             //this.Components.Add(enemy);
         }
@@ -118,12 +122,6 @@ namespace FixedFinalGame
             //this.enemy.GetMap(GameWorld.world);
             //this.enemy.GetCharcter(player);
             //this.enemy.Location = new Vector2(300,150);
-
-            Spear s = new Spear();
-            s.texture = this.Content.Load<Texture2D>("Spear");
-            weapons[0] = s;
-
-            
 
             player.GetMap(GameWorld.world);
             player.GetEnemyList(enemies);

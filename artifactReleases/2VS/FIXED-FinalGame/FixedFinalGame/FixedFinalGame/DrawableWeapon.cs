@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Sprite;
 using System;
 using System.Collections.Generic;
@@ -9,22 +8,19 @@ using System.Threading.Tasks;
 
 namespace FixedFinalGame
 {
-   // public enum WeaponState{STOPPED, USING }
-    public abstract class Weapon : IWeapon
+    public enum WeaponState { STOPPED, USING }
+    public class DrawableWeapon : DrawableSprite, IWeapon
     {
-        //WeaponState weaponstate { get; set; }
+        WeaponState weaponstate { get; set; }
         public string Name { get; set; }
         public int Damage { get; set; }
         public float timeDelay;
 
-        protected Vector2 Direction, Location;
-        protected int Speed;
-        public Texture2D texture;
-        public Weapon()
+        protected Vector2 prevDirection;
+        public DrawableWeapon(Game game) : base(game)
         {
             this.Direction = Vector2.Zero;
         }
-
         public void Use(Chracter passedCharacter)
         {
             this.Speed = 250;
@@ -37,7 +33,5 @@ namespace FixedFinalGame
             //}
             //weaponstate = WeaponState.STOPPED;
         }
-
-        
     }
 }
