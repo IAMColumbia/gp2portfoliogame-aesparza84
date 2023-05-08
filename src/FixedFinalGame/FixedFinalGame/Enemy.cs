@@ -39,6 +39,7 @@ namespace FixedFinalGame
             gravity = new Gravity();
             TextureName = "TestEnemy";
             this.cam = camera;
+            this.hitCount= 0;
 
             //console = (GameConsole)game.Services.GetService(typeof(GameConsole));
             //if (console == null)
@@ -73,7 +74,10 @@ namespace FixedFinalGame
         {
             this.Location = this.Location + (this.Direction * Speed) * (time / 1000);
         }
-
+        public override void TakeDamage()
+        {
+            base.TakeDamage();
+        }
         public void DetermineStanding(float time)
         {
             switch (this.groundState)

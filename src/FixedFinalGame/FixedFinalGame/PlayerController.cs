@@ -22,6 +22,7 @@ namespace FixedFinalGame
 
         public bool Block;
         public bool Attack;
+        public MouseState newInput, oldInput;
 
         public PlayerController(Game game, Player player, IWeapon passedWeapon) 
         {
@@ -54,6 +55,9 @@ namespace FixedFinalGame
             Block=false;
             Attack=false;
 
+            newInput = Mouse.GetState();
+            
+
             this.Direction = Vector2.Zero;
 
             if (input.KeyboardState.IsKeyDown(Keys.A))
@@ -75,18 +79,23 @@ namespace FixedFinalGame
                 }
                 else if (PassedPlayer.groundState == GroundState.JUMPING)
                 {
-                    //DoGravity(time);
-
+                    //Do nothing
                 }
             }
+
 
             if (input.MouseState.RightButton == ButtonState.Pressed)
             {
                 Block = true;
             }
             if (input.MouseState.LeftButton == ButtonState.Pressed)
-            {
-                Attack = true;
+            {                
+                
+                if (newInput.LeftButton == ButtonState.Pressed &&
+                    oldInput.LeftButton == ButtonState.Released)
+                {
+                    Attack = true;
+                }
             }
 
             if (input.KeyboardState.IsKeyDown(Keys.R))
@@ -97,6 +106,8 @@ namespace FixedFinalGame
             {
                 PassedPlayer.Location.Y -= 35;
             }
+
+            oldInput = input.PreviousMouseState;
         }
 
         public void LockInput()

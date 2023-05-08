@@ -155,7 +155,11 @@ namespace FixedFinalGame
                 if (player.weapon.Rectagle.Intersects(en.Rectagle) &&
                     player.weapon.weaponstate == WeaponState.USING)
                 {
-                    enemiesToRemove.Add(en);
+                    en.TakeDamage();
+                    if (en.hitCount>3)
+                    {
+                        enemiesToRemove.Add(en);
+                    }
                 }
             }
 

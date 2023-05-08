@@ -313,10 +313,11 @@ namespace FixedFinalGame
             //console.Log("Right Mouse B", this.controller.Block.ToString());
             //console.Log("Left Mouse B", this.controller.Attack.ToString());
             console.Log("Action State", this.ActionState.ToString());
-            console.Log("Invulnerable", this.invulnerable.ToString());
+            console.Log("mouse New Left", this.controller.newInput.LeftButton.ToString());
+            console.Log("mouse Old Left", this.controller.oldInput.LeftButton.ToString());
             //console.Log("Action State", this.actionstate.ToString());
-           // console.Log("Direction.Y", this.Direction.Y.ToString());
-           // console.Log("Direction.X", this.Direction.X.ToString());
+            // console.Log("Direction.Y", this.Direction.Y.ToString());
+            // console.Log("Direction.X", this.Direction.X.ToString());
             //console.Log("PrevDirection.X", this.prevDirection.X.ToString());
             //console.Log("Speed.Y", this.speed.Y.ToString());
             //console.Log("Speed.X", this.speed.X.ToString());

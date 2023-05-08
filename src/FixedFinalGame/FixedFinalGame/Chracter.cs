@@ -39,7 +39,7 @@ namespace FixedFinalGame
 
         protected bool hasMap { get; set; }
 
-        public virtual void TakeDamage() { }
+        public virtual void TakeDamage() { hitCount++; }
 
         public void GetWeapons(DrawableWeapon[] w) 
         {
