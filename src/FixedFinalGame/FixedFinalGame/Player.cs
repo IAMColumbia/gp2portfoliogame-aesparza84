@@ -9,6 +9,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace FixedFinalGame
 {
@@ -17,34 +19,42 @@ namespace FixedFinalGame
     {
         Texture2D normalTexture, blockingTexture;
         public int health { get; set; }
-        public Vector2 speed;
 
         public LifeState lifestate { get; set; }
         public GroundState groundState { get; set; }
-        public IWeapon weapon { get; set; }
         public CharacterState characterState { get; set; }
 
         //------------------Not Icharacter
 
-        bool invulnerable;
+
+        float jumpheight;
+
+        public bool invulnerable;
+        bool intersects;
+        bool isAttacking;
 
         private Camera cam;
 
-        Action actionstate;
+        private Action actionstate;
+        public Action ActionState;
 
         private SpriteEffects s;
 
         PlayerController controller;
         string NormalTexture, BlockingTexture;
 
+        List<Enemy> enemies;
+
         GameConsole console;
 
-        
+
         public Player(Game game, Camera camera) : base(game)
         {
             NormalTexture = "TestingSrite2";
-            BlockingTexture = "TestingSrite2-Blocking";
-           
+            BlockingTexture = "SpriteBlocking";
+            hasMap = false;
+            isAttacking = false;
+            canAttack = true;
 
             gravity = new Gravity();
 
@@ -60,7 +70,7 @@ namespace FixedFinalGame
                 this.Game.Components.Add(console);
             }
 
-            this.Origin = new Vector2(this.Rectagle.Width/2, this.Rectagle.Height/2);
+            this.Origin = new Vector2(this.Rectagle.Width / 2, this.Rectagle.Height / 2);
             SetStats();
 
             cam = camera;
@@ -68,137 +78,215 @@ namespace FixedFinalGame
             s = SpriteEffects.None;
 
             actionstate = Action.NEUTRAL;
+
+
         }
 
         void SetStats()
         {
-            this.health = 100;
-            this.speed = controller.Speed;
-
-            //this.gravity.GravityAccel = 5f;
-            //this.gravity.GravityDir = new Vector2(0,5);
-
-            //this.gravity.GravityAccel = 22f;
-            //this.gravity.GravityDir = new Vector2(0, 1);
+            this.Speed = controller.Speed;
+            this.jumpheight = controller.jumpheight;
+            
         }
 
-        public void ResetLocation() 
+        public void ResetLocation()
         {
             this.health = 100;
             this.Direction = Vector2.Zero;
-            this.Location = new Vector2(Game1.Screenwidth/2, Game1.Screenheight/2-50);
+            this.Location = new Vector2(300, 150);
         }
-        public void KeepOnScreen()
+
+
+        //public void KeepOnScreen()
+        //{
+        //    //Cheating Floor
+        //    if (this.Location.Y >= 350 || intersectsTop==true)
+        //    {
+
+        //        if (intersectsTop==true)
+        //        {
+        //            this.groundState = GroundState.STANDING;
+        //        }
+        //        else if (this.Location.Y>=350)
+        //        {
+        //            this.Location.Y = 350;
+        //            this.groundState = GroundState.STANDING;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        this.groundState = GroundState.JUMPING;
+        //    }
+        //}
+
+
+        public void DetermineStanding(float time)
         {
-            //Cheating Floor
-            if (this.Location.Y > 250)
+            switch (this.groundState)
             {
-                this.Direction.Y = 0.0f;
-                this.Location.Y = 250;
+                case GroundState.FALLING:
+                    break;
+                case GroundState.JUMPING:
+                    this.Direction.X = controller.Direction.X;
+                    DoGravity(time);
+                    break;
+                case GroundState.STANDING:
+                    this.Direction.Y = 0.0f;
+                    this.Direction = controller.Direction;
+                    break;
             }
         }
 
-        public void CheckIfStanding()
+
+        private void DoGravity(float time)
         {
-            if (Direction.Y == 0)
+            this.gravity = controller.gravity;
+            this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel) * (time / 1000);
+        }
+        private void timecorrectedMove(float time)
+        {
+            this.Location = this.Location + (this.Direction * Speed) * (time / 1000);
+        }
+        private void CheckCollision()
+        {
+            intersects = false;
+            intersectsTop = false;
+            intersectRight = false;
+            intersectLeft = false;
+            intersectBottom = false;
+            if (hasMap)
+            {
+                Tile tile = new Tile();
+                for (int i = 0; i < ColMap.Length; i++)
+                {
+                    tile = ColMap[i];
+                    if (this.Rectagle.Intersects(tile.rectangle)
+                        && tile.iscollidable == true)
+                    {
+                        intersects = true;
+                        if (this.Rectagle.IntersectsRight(tile.rectangle))
+                        {
+                            intersectRight = true;
+
+                            if (Direction.X < 0)
+                            {
+                                this.Location.X = tile.rectangle.Right + 1;
+                            }
+
+                        }
+
+                        if (this.Rectagle.IntersectsLeft(tile.rectangle))
+                        {
+                            intersectLeft = true;
+                            if (Direction.X > 0)
+                            {
+                                this.Location.X = tile.rectangle.Left - this.Rectagle.Width - 1;
+
+                            }
+                        }
+
+                        if (this.Rectagle.IntersectsBot(tile.rectangle))
+                        {
+                            intersectBottom = true;
+                            this.Direction.Y = 1;
+                        }
+
+                        if (this.Rectagle.IntersectsTop(tile.rectangle) &&
+                            this.Rectagle.IntersectSide(tile.rectangle))
+                        {
+                            intersectsTop = true;
+                            this.Location.Y = tile.rectangle.Top - this.Rectagle.Height + 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void GetEnemyList(List<Enemy> Elist)
+        {
+            enemies = Elist;
+        }
+
+        public void HoldWeapon()
+        {
+            //this.weapon.Enabled= false;
+            this.weapon.Visible= false;
+            this.weapon.weaponstate = WeaponState.STOPPED;
+            this.weapon.Location = new Vector2(this.Location.X +5, this.Location.Y + 75);
+        }
+
+        bool attacked= false;
+
+        private static readonly TimeSpan attackInterval = TimeSpan.FromSeconds(1);
+        private void Attack(float time) 
+        {
+            //this.weapon.Enabled = true;
+            this.weapon.Visible= true;
+            this.weapon.weaponstate = WeaponState.USING;
+            this.weapon.Use(time);
+        }
+        
+        public override void Update(GameTime gameTime)
+        {
+            float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+           
+            invulnerable = false;
+            this.weapon.Location.Y = this.Location.Y + 75;
+
+            if (this.Direction.X!=0)
+            {
+                prevDirection.X = this.Direction.X;
+            }
+            if (Direction.X == 0)
+            {
+                this.Direction.X = prevDirection.X;
+            }
+            checkCollision();
+
+            //If character goes past 350, then groundstate is standing
+            if (intersectsTop == true)
             {
                 groundState = GroundState.STANDING;
             }
-            else if (Direction.Y != 0) 
-            {
-                groundState = GroundState.JUMPING;
-            }
-        }
-
-        private void DirectionLimit() 
-        {
-            if (Direction.X > 1)
-            {
-                Direction.X = 1;
-            }
-            if (Direction.X < -1)
-            {
-                Direction.X = -1;
-            }
-            if (Direction.Y < -10)
-            {
-                Direction.Y = -10;
-            }
-            if (Direction.Y > 15)
-            {
-                Direction.Y = 15;
-            }
-        }
-        
-        public void DoGravity(float time)
-        {
-            this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel)*(time/1000);
-
-            if (groundState == GroundState.JUMPING)
-            {
-                //this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel) * (time / 1000);
-            }
-        }
-
-        public override void TakeDamage()
-        {
-            this.health -= 25;
-        }
-
-        private void timecorrectedMove(float time) 
-        {
-            this.Location = this.Location + (this.Direction * speed) * (time/1000);
-        }
-
-        
-       
-        public override void Update(GameTime gameTime)
-        {
-            //cam.Update();
-            float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            KeepOnScreen();
-
-            
+            else { groundState = GroundState.JUMPING; }
 
             controller.DifferentHandleInput(gameTime);
 
-            if (health > 0)
-            {
-                lifestate = LifeState.ALIVE;
-            }
-            else
-            {
-                lifestate = LifeState.DEAD;
-            }
+            
+
+            //Determines Gravity based on groundstate
+            DetermineStanding(time);
+
 
             if (controller.Block)
             {
                 actionstate = Action.BLOCKING;
             }
+            else if (controller.Attack)
+            {
+                actionstate = Action.ATTACKING;
+            }
             else
             {
                 actionstate = Action.NEUTRAL;
             }
+            ActionState = actionstate;
 
-            CheckIfStanding();
-            
-
-
-
-            // this.Direction.X = controller.Direction.X;
-            // this.Direction.Y += controller.Direction.Y;
+            //CheckIfStanding();
 
             switch (actionstate)
             {
                 case Action.NEUTRAL:
                     this.spriteTexture = normalTexture;
-                    invulnerable = false;
+                    HoldWeapon();
                     break;
                 case Action.ATTACKING:
-                    invulnerable = false;
+                    this.spriteTexture = normalTexture;
+                    Attack(time);
                     break;
                 case Action.BLOCKING:
                     this.spriteTexture = blockingTexture;
+                    HoldWeapon();
                     invulnerable = true;
                     break;
                 default:
@@ -207,55 +295,42 @@ namespace FixedFinalGame
 
 
 
-            switch (lifestate)
-            {
-                case LifeState.ALIVE:
-                    break;
-                case LifeState.DEAD:
-                    break;
-                default:
-                    break;
-            }
-
-            this.speed = controller.Speed;
-
-            switch (this.groundState)
-            {
-                case GroundState.FALLING:
-                    break;
-                case GroundState.JUMPING:
-                    break;
-                case GroundState.STANDING:
-                    this.Direction = controller.Direction;
-                    break;
-
-            }
-
-
-
-            DirectionLimit();
-            if (groundState == GroundState.JUMPING)
-            {
-                DoGravity(time);
-            }
             timecorrectedMove(time);
             UpdateLog();
 
             base.Update(gameTime);
         }
 
+
+
         private void UpdateLog()
         {
-            console.Log("Health", this.health.ToString());
-            console.Log("Right Mouse B", this.controller.Block.ToString());
-            console.Log("Left Mouse B", this.controller.Attack.ToString());
-            console.Log("Invulnerable", this.invulnerable.ToString());
-            console.Log("Action State", this.actionstate.ToString());
-            console.Log("Direction.Y", this.Direction.Y.ToString());
-            console.Log("Direction.X", this.Direction.X.ToString());
-            console.Log("Speed.Y", this.speed.Y.ToString());
-            console.Log("Speed.X", this.speed.X.ToString());
+            console.Log("Hit COunt  ", this.hitCount.ToString());
             console.Log("Standing State ", this.groundState.ToString());
+            console.Log("Weapon attacking", this.isAttacking.ToString());
+            console.Log("Weapon Dir", this.weapon.Direction.ToString());
+            console.Log("PrevDir ", this.prevDirection.X.ToString());
+            console.Log("Weapon State ", this.weapon.weaponstate.ToString());
+            //console.Log("intersect ", this.intersects.ToString());
+            //console.Log("intersect Top", this.intersectsTop.ToString());
+            console.Log("intersect Bot", this.intersectBottom.ToString());
+            //console.Log("intersect Right", this.intersectRight.ToString());
+            //console.Log("intersect Left", this.intersectLeft.ToString());
+            //console.Log("Right Mouse B", this.controller.Block.ToString());
+            //console.Log("Left Mouse B", this.controller.Attack.ToString());
+            console.Log("wepon Pos", this.weapon.Location.X.ToString());
+            console.Log("wepon initPos", this.weapon.initPosition.X.ToString());
+            console.Log("mouse New Left", this.controller.newInput.LeftButton.ToString());
+            console.Log("mouse Old Left", this.controller.oldInput.LeftButton.ToString());
+            //console.Log("Action State", this.actionstate.ToString());
+            // console.Log("Direction.Y", this.Direction.Y.ToString());
+            // console.Log("Direction.X", this.Direction.X.ToString());
+            //console.Log("PrevDirection.X", this.prevDirection.X.ToString());
+            //console.Log("Speed.Y", this.speed.Y.ToString());
+            //console.Log("Speed.X", this.speed.X.ToString());
+            //console.Log("Speed", this.Speed.ToString());
+            //console.Log("Bottom", this.Rectagle.Bottom.ToString());
+            //console.Log("Top", this.Rectagle.Top.ToString());
             console.Log("Location", this.Location.ToString());
         }
 
@@ -264,20 +339,23 @@ namespace FixedFinalGame
             this.normalTexture = this.Game.Content.Load<Texture2D>(NormalTexture);
             this.blockingTexture = this.Game.Content.Load<Texture2D>(BlockingTexture);
 
+            
+
             this.spriteTexture = normalTexture;
+            this.showMarkers = true;
 
             base.LoadContent();
         }
 
         public override void Initialize()
         {
-
+            
             base.Initialize();  
         }
 
         public override void Draw(GameTime gameTime)
         {
-            if (Direction.X < 0)
+            if (prevDirection.X < 0)
             {
                 s = SpriteEffects.FlipHorizontally;
                  spriteBatch.Begin(SpriteSortMode.Deferred,null,null,null,null,null, cam.Transform);
@@ -285,7 +363,7 @@ namespace FixedFinalGame
                 spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
                 spriteBatch.End();
             }
-            if (Direction.X >= 0)
+            if (prevDirection.X >= 0)
             {
                 s = SpriteEffects.None;
                 spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cam.Transform);
@@ -293,8 +371,6 @@ namespace FixedFinalGame
                 spriteBatch.Draw(this.spriteTexture, this.Location, null, Color.White, 0f, this.Origin, 1f, s, 1);
                 spriteBatch.End();
             }
-
-
         }
 
     }

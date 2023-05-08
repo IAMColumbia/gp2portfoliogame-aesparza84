@@ -17,21 +17,15 @@ namespace FixedFinalGame
 
         Player PassedPlayer;
         public Vector2 Direction;
-        public Vector2 Speed;
+        public int Speed;
+        public float jumpheight;
+        public Gravity gravity;
 
-        public bool Block;
-        public bool Attack;
+        public bool Block, Attack;
+        public int gravLvl;
+        public MouseState newInput, oldInput;
 
-        public PlayerController(Game game, Player player, IWeapon passedWeapon) 
-        {
-            input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
-
-            this.Direction = Vector2.Zero;
-            this.Speed = new Vector2(200, 100);
-
-            this.weapon = passedWeapon;
-            PassedPlayer = player;
-        }
+        
 
         //Building without weapon
         public PlayerController(Game game, Player player)
@@ -39,9 +33,15 @@ namespace FixedFinalGame
             input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
             
             this.Direction = Vector2.Zero;
-            this.Speed = new Vector2(350, 100);
+            this.jumpheight= 2.5f;
+            this.Speed = 500;
+
+            this.gravity = new Gravity();
+            this.gravity.GravityDir = new Vector2(0, 1);
+            this.gravity.GravityAccel = 8.0f;
 
             PassedPlayer = player;
+            
         }
 
 
@@ -52,32 +52,46 @@ namespace FixedFinalGame
             Block=false;
             Attack=false;
 
-            this.Speed.X = 0;
+            newInput = Mouse.GetState();
+            
+
             this.Direction = Vector2.Zero;
+            if (input.KeyboardState.WasKeyPressed(Keys.B))
+            {
+                this.gravity.GravityAccel = 8.0f;
+            }
+            if (input.KeyboardState.WasKeyPressed(Keys.N))
+            {
+                this.gravity.GravityAccel = 4.0f;
+            }
+            if (input.KeyboardState.WasKeyPressed(Keys.M))
+            {
+                this.gravity.GravityAccel = 1.0f;
+            }
 
             if (input.KeyboardState.IsKeyDown(Keys.A))
             {
                 this.Direction = new Vector2(-1, 0);
-                this.Speed.X = 350;
+                //this.Speed.X = 350;
             }
             if (input.KeyboardState.IsKeyDown(Keys.D))
             {
                 this.Direction = new Vector2(1, 0);
-                this.Speed.X = 350;
+                //this.Speed.X = 350;
             }
 
             if (input.KeyboardState.HasReleasedKey(Keys.Space))
             {
                 if (PassedPlayer.groundState == GroundState.STANDING)
                 {
-                    this.Direction.Y = -1;
+                    this.Direction.Y -= jumpheight;
                 }
                 else if (PassedPlayer.groundState == GroundState.JUMPING)
                 {
-                    //DoGravity(time);
-
+                    //Do nothing
                 }
             }
+
 
             if (input.MouseState.RightButton == ButtonState.Pressed)
             {
@@ -86,64 +100,28 @@ namespace FixedFinalGame
             if (input.MouseState.LeftButton == ButtonState.Pressed)
             {
                 Attack = true;
+                //if (newInput.LeftButton == ButtonState.Pressed &&
+                //    oldInput.LeftButton == ButtonState.Released)
+                //{
+                //    Attack = true;
+                //}
             }
 
             if (input.KeyboardState.IsKeyDown(Keys.R))
             {
                 PassedPlayer.ResetLocation();
             }
+            if (input.KeyboardState.IsKeyDown(Keys.E))
+            {
+                PassedPlayer.Location.Y -= 35;
+            }
+
+            oldInput = input.PreviousMouseState;
         }
 
         public void LockInput()
         { 
             
         }
-
-
-
-        //public void HandleInput(GameTime gameTime)
-        //{
-        //    float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-        //    this.Direction = Vector2.Zero;
-
-        //    //var moustate = Mouse.GetState();
-        //        if (input.KeyboardState.IsKeyDown(Keys.A))
-        //        {
-        //            this.Direction = new Vector2(-1, 0);
-                    
-        //        }
-        //        if (input.KeyboardState.IsKeyDown(Keys.D))
-        //        {
-        //            this.Direction = new Vector2(1, 0);
-        //        }
-        //        if (input.KeyboardState.IsKeyDown(Keys.S))
-        //        {
-
-                   
-        //        }
-        //        if (input.KeyboardState.IsKeyDown(Keys.Space))
-        //        {
-        //            if (PassedPlayer.groundState == GroundState.STANDING)
-        //            {                       
-        //                this.Speed = new Vector2(500,10);
-        //                this.Direction = new Vector2(0,-1);
-        //                PassedPlayer.groundState = GroundState.JUMPING;
-        //            }
-        //            if (PassedPlayer.groundState == GroundState.JUMPING)
-        //            {
-                        
-        //            }                    
-        //        }
-        //    if (input.KeyboardState.IsKeyDown(Keys.R))
-        //    {
-        //        PassedPlayer.ResetLocation();
-        //    }
-        //        //if (mouseState.LeftButton == ButtonState.Pressed)
-        //        //{
-        //        //    this.weapon.Use();
-        //        //}
-            
-                          
-        //}
     }
 }

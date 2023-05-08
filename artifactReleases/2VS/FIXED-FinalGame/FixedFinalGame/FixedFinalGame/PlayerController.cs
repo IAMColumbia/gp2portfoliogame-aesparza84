@@ -54,7 +54,6 @@ namespace FixedFinalGame
             Block=false;
             Attack=false;
 
-            //this.Speed.X = 0;
             this.Direction = Vector2.Zero;
 
             if (input.KeyboardState.IsKeyDown(Keys.A))
@@ -93,6 +92,10 @@ namespace FixedFinalGame
             if (input.KeyboardState.IsKeyDown(Keys.R))
             {
                 PassedPlayer.ResetLocation();
+            }
+            if (input.KeyboardState.IsKeyDown(Keys.E))
+            {
+                PassedPlayer.Location.Y -= 35;
             }
         }
 

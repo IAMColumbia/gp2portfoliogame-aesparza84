@@ -19,6 +19,8 @@ namespace FixedFinalGame
         private Chracter passedSprite;
         private Camera cam;
 
+        public bool iscollidable { get; set;}
+
         public MonoTile(Game game, Camera camera) : base(game)
         {
             this.TextureName= "TestTile3";
