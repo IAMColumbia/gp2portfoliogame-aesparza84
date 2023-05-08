@@ -213,9 +213,6 @@ namespace FixedFinalGame
             this.weapon.Location = new Vector2(this.Location.X +5, this.Location.Y + 75);
         }
 
-        protected float atintefval;
-        protected float currentTime;
-        private TimeSpan? lastAttck;
         bool attacked= false;
 
         private static readonly TimeSpan attackInterval = TimeSpan.FromSeconds(1);
@@ -229,7 +226,6 @@ namespace FixedFinalGame
         public override void Update(GameTime gameTime)
         {
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            currentTime = (float)gameTime.TotalGameTime.TotalSeconds;
            
             invulnerable = false;
             this.weapon.Location.Y = this.Location.Y + 75;

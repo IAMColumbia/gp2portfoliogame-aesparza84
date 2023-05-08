@@ -19,7 +19,7 @@ namespace FixedFinalGame
         Tile[] TilesToPickFrom;
         int x, y;
 
-        Texture2D UnderGround, TestTile, AirTile;
+        Texture2D UnderGround, TestTile, AirTile, ESpawner, PSpawn;
         public TileMap(ContentManager content, Camera cam)
         {
             this.Cam= cam;
@@ -27,25 +27,34 @@ namespace FixedFinalGame
             UnderGround = content.Load<Texture2D>("DirtTile");
             TestTile = content.Load<Texture2D>("TestTile3");
             AirTile = content.Load<Texture2D>("AirTile");
+            ESpawner = content.Load<Texture2D>("EnemySpawnTile");
+            PSpawn = content.Load<Texture2D>("PlayerSpawnTile");
 
 
-            TilesToPickFrom = new Tile[3];
+            TilesToPickFrom = new Tile[5];
 
-            TilesToPickFrom[0] = new Tile(true);
+            TilesToPickFrom[0] = new Tile(true, false, false);
             TilesToPickFrom[0].texture= UnderGround;
 
-            TilesToPickFrom[1] = new Tile(true);
+            TilesToPickFrom[1] = new Tile(true, false, false);
             TilesToPickFrom[1].texture= TestTile;
 
-            TilesToPickFrom[2] = new Tile(false);
+            TilesToPickFrom[2] = new Tile(false, false, false);
             TilesToPickFrom[2].texture= AirTile;
 
+            TilesToPickFrom[3] = new Tile(false, true, false);
+            TilesToPickFrom[3].texture = ESpawner;
+
+            TilesToPickFrom[4] = new Tile(false, false, true);
+            TilesToPickFrom[4].texture = PSpawn;
 
         }
 
         private void CopyTile(Tile tile, int n)
         { 
             tile.iscollidable = TilesToPickFrom[n].iscollidable;
+            tile.isEnSpawner = TilesToPickFrom[n].isEnSpawner;
+            tile.isPlyrSpawn = TilesToPickFrom[n].isPlyrSpawn;
             tile.texture = TilesToPickFrom[n].texture;
         }
 
@@ -62,15 +71,19 @@ namespace FixedFinalGame
                //new int[] { 2,2,2,2,2,2,0},
                //new int[] { 2,1,1,1,1,1,0},
 
-               new int[] { 1,1,1,2,2,2,1,2,2,2,2,2,2,2,2},
-               new int[] { 0,2,2,2,2,2,0,2,2,2,2,2,2,2,2},
-               new int[] { 0,2,2,2,2,1,0,2,2,2,2,2,2,2,2},
-               new int[] { 0,2,2,2,2,2,0,2,2,2,2,2,2,2,2},
-               new int[] { 0,1,2,2,2,2,2,2,2,2,1,1,1,2,2},
-               new int[] { 0,0,2,2,2,2,2,2,2,1,0,0,0,1,2},
-               new int[] { 0,0,2,2,2,2,2,2,1,0,0,0,0,0,1},
-               new int[] { 0,0,2,2,2,2,2,1,0,0,0,0,0,0,0},
-               new int[] { 0,0,1,1,1,1,1,0,0,0,0,0,0,0,2},
+               new int[] { 1,1,1,1,1,1,1,1,2,2,2,1,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+               new int[] { 0,2,2,2,2,2,2,2,2,2,2,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+               new int[] { 0,2,4,2,2,2,2,2,2,2,1,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+               new int[] { 0,2,2,2,2,2,2,2,2,2,2,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,0},
+               new int[] { 0,2,1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,2,2,2,2,2,2,2,2,3,2,2,2,2,2,2,2,2,2,2,2,2,0},
+               new int[] { 0,2,0,2,2,2,2,2,2,2,3,2,2,2,1,0,0,0,1,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,0},
+               new int[] { 0,2,0,2,2,2,1,2,2,2,2,2,2,1,0,0,0,0,0,1,2,1,1,1,1,1,1,0,2,2,2,2,2,2,2,2,2,2,2,0},
+               new int[] { 0,2,0,1,1,1,0,2,2,2,2,2,1,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,2,2,2,2,2,2,2,2,2,2,2,0},
+               new int[] { 0,2,2,2,2,2,0,1,1,1,1,1,0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,2,2,2,2,2,2,2,2,2,2,2,0},
+               new int[] { 0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,2,2,2,2,2,2,2,2,2,2,2,0},
+               new int[] { 0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+               new int[] { 0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+               new int[] { 0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
 
                //new int[] { 1,2,1,2,2,2,2},
                //new int[] { 2,2,2,2,2,2,2},

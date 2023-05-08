@@ -18,7 +18,7 @@ namespace FixedFinalGame
 
         LifeState lifestate { get; set; }
         GroundState groundState { get; set; }
-        IWeapon weapon { get; set; }
+        DrawableWeapon weapon { get; set; }
 
         CharacterState characterState { get; set; }
 
