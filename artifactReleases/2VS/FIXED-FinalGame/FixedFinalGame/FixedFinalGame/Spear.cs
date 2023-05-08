@@ -23,7 +23,18 @@ namespace FixedFinalGame
             this.Damage = 1;
             this.timeDelay= 1.0f;
         }
+        public override void Use(Chracter passedCharacter)
+        {
+            this.Speed = 250;
+            this.Location = passedCharacter.Origin;
+            this.Direction.X = passedCharacter.Direction.X;
 
+            //if (weaponstate != WeaponState.STOPPED)
+            //{
+            //    weaponstate = WeaponState.USING;
+            //}
+            //weaponstate = WeaponState.STOPPED;
+        }
         protected override void LoadContent()
         {
             this.spriteTexture = this.Game.Content.Load<Texture2D>("Spear");

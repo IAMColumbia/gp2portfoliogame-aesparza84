@@ -55,8 +55,8 @@ namespace FixedFinalGame
             hasMap = false;
             isAttacking= false;
             canAttack = true;
-            
 
+            this.Origin = new Vector2(this.Rectagle.Width/2, this.Rectagle.Height/2);
             gravity = new Gravity();
 
             if (controller == null)

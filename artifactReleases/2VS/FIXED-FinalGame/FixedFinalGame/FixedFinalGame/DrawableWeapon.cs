@@ -21,17 +21,7 @@ namespace FixedFinalGame
         {
             this.Direction = Vector2.Zero;
         }
-        public void Use(Chracter passedCharacter)
-        {
-            this.Speed = 250;
-            this.Location = passedCharacter.Origin;
-            this.Direction.X = passedCharacter.Direction.X;
 
-            //if (weaponstate != WeaponState.STOPPED)
-            //{
-            //    weaponstate = WeaponState.USING;
-            //}
-            //weaponstate = WeaponState.STOPPED;
-        }
+        public virtual void Use(Chracter passedCharacter) { }
     }
 }

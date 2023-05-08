@@ -27,6 +27,7 @@ namespace FixedFinalGame
         
         public int health { get;set; }
         public int Speed;
+        public Vector2 prevDirection;
         public Gravity gravity { get; set; }
         public LifeState lifestate { get; set; }
         public GroundState groundState { get; set; }
