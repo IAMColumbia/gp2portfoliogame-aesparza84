@@ -86,6 +86,7 @@ namespace FixedFinalGame
         {
             this.Speed = controller.Speed;
             this.jumpheight = controller.jumpheight;
+            
         }
 
         public void ResetLocation()
@@ -139,6 +140,7 @@ namespace FixedFinalGame
 
         private void DoGravity(float time)
         {
+            this.gravity = controller.gravity;
             this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel) * (time / 1000);
         }
         private void timecorrectedMove(float time)
@@ -311,7 +313,7 @@ namespace FixedFinalGame
             console.Log("Weapon State ", this.weapon.weaponstate.ToString());
             //console.Log("intersect ", this.intersects.ToString());
             //console.Log("intersect Top", this.intersectsTop.ToString());
-            //console.Log("intersect Bot", this.intersectBottom.ToString());
+            console.Log("intersect Bot", this.intersectBottom.ToString());
             //console.Log("intersect Right", this.intersectRight.ToString());
             //console.Log("intersect Left", this.intersectLeft.ToString());
             //console.Log("Right Mouse B", this.controller.Block.ToString());

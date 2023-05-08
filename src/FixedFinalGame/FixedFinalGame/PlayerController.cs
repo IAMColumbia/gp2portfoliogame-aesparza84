@@ -19,21 +19,13 @@ namespace FixedFinalGame
         public Vector2 Direction;
         public int Speed;
         public float jumpheight;
+        public Gravity gravity;
 
-        public bool Block;
-        public bool Attack;
+        public bool Block, Attack;
+        public int gravLvl;
         public MouseState newInput, oldInput;
 
-        public PlayerController(Game game, Player player, IWeapon passedWeapon) 
-        {
-            input = (InputHandler)game.Services.GetService(typeof(IInputHandler));
-
-            this.Direction = Vector2.Zero;
-            this.Speed = 500;
-
-            this.weapon = passedWeapon;
-            PassedPlayer = player;
-        }
+        
 
         //Building without weapon
         public PlayerController(Game game, Player player)
@@ -44,7 +36,12 @@ namespace FixedFinalGame
             this.jumpheight= 2.5f;
             this.Speed = 500;
 
+            this.gravity = new Gravity();
+            this.gravity.GravityDir = new Vector2(0, 1);
+            this.gravity.GravityAccel = 8.0f;
+
             PassedPlayer = player;
+            
         }
 
 
@@ -59,6 +56,18 @@ namespace FixedFinalGame
             
 
             this.Direction = Vector2.Zero;
+            if (input.KeyboardState.WasKeyPressed(Keys.B))
+            {
+                this.gravity.GravityAccel = 8.0f;
+            }
+            if (input.KeyboardState.WasKeyPressed(Keys.N))
+            {
+                this.gravity.GravityAccel = 4.0f;
+            }
+            if (input.KeyboardState.WasKeyPressed(Keys.M))
+            {
+                this.gravity.GravityAccel = 1.0f;
+            }
 
             if (input.KeyboardState.IsKeyDown(Keys.A))
             {
