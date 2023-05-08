@@ -29,7 +29,8 @@ namespace FixedFinalGame
         }
         public override void Use(float time)
         {
-
+            weaponstate = WeaponState.USING;
+            initPosition = this.Location;
             this.Location.X = this.Location.X + (this.Direction.X * Speed) * (time / 1000);
 
             //if (weaponstate != WeaponState.STOPPED)
@@ -53,10 +54,7 @@ namespace FixedFinalGame
 
         public override void Update(GameTime gameTime)
         {
-            if (this.Rectagle.Intersects(en.Rectagle))
-            {
-                this.weaponstate = WeaponState.STOPPED;
-            }
+            
 
             if (hasPassedPlayer)
             { 
@@ -71,7 +69,20 @@ namespace FixedFinalGame
                 this.Direction.X = prevDirection.X;
             }
 
-            
+            switch (weaponstate)
+            {
+                case WeaponState.STOPPED:
+                    break;
+                case WeaponState.USING:
+                    if (Math.Abs(initPosition.X-Location.X) >= 50)
+                    {
+                        this.Speed = 0;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
             base.Update(gameTime);
         }
 

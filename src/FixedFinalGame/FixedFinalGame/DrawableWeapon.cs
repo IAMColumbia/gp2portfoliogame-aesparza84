@@ -19,7 +19,7 @@ namespace FixedFinalGame
         public int Damage { get; set; }
         public float timeDelay;
 
-        protected Vector2 initDirection, initPosition;
+        public Vector2 initDirection, initPosition;
         protected Vector2 prevDirection;
         public DrawableWeapon(Game game) : base(game)
         {

@@ -155,13 +155,27 @@ namespace FixedFinalGame
                 if (player.weapon.Rectagle.Intersects(en.Rectagle) &&
                     player.weapon.weaponstate == WeaponState.USING)
                 {
+                    player.HoldWeapon();
                     en.TakeDamage();
-                    if (en.hitCount>3)
+                    if (en.hitCount==3)
                     {
                         enemiesToRemove.Add(en);
                     }
                 }
+
+                if (en.Rectagle.Intersects(player.Rectagle) 
+                    && en.Consc==Consciousness.CHASING 
+                    )
+                {
+                    if (player.invulnerable) { }
+                    else 
+                    {
+                        en.Attack(player);
+                    }
+                    
+                }
             }
+            
 
             foreach (Enemy en in enemiesToRemove)
             {

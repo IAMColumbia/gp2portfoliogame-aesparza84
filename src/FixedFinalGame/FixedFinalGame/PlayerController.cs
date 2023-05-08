@@ -89,13 +89,13 @@ namespace FixedFinalGame
                 Block = true;
             }
             if (input.MouseState.LeftButton == ButtonState.Pressed)
-            {                
-                
-                if (newInput.LeftButton == ButtonState.Pressed &&
-                    oldInput.LeftButton == ButtonState.Released)
-                {
-                    Attack = true;
-                }
+            {
+                Attack = true;
+                //if (newInput.LeftButton == ButtonState.Pressed &&
+                //    oldInput.LeftButton == ButtonState.Released)
+                //{
+                //    Attack = true;
+                //}
             }
 
             if (input.KeyboardState.IsKeyDown(Keys.R))

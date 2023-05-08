@@ -29,7 +29,7 @@ namespace FixedFinalGame
 
         float jumpheight;
 
-        bool invulnerable;
+        public bool invulnerable;
         bool intersects;
         bool isAttacking;
 
@@ -205,7 +205,7 @@ namespace FixedFinalGame
             enemies = Elist;
         }
 
-        private void HoldWeapon()
+        public void HoldWeapon()
         {
             //this.weapon.Enabled= false;
             this.weapon.Visible= false;
@@ -223,6 +223,7 @@ namespace FixedFinalGame
             this.weapon.weaponstate = WeaponState.USING;
             this.weapon.Use(time);
         }
+        
         public override void Update(GameTime gameTime)
         {
             float time = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -266,7 +267,6 @@ namespace FixedFinalGame
             else
             {
                 actionstate = Action.NEUTRAL;
-                HoldWeapon();
             }
             ActionState = actionstate;
 
@@ -276,12 +276,15 @@ namespace FixedFinalGame
             {
                 case Action.NEUTRAL:
                     this.spriteTexture = normalTexture;
+                    HoldWeapon();
                     break;
                 case Action.ATTACKING:
+                    this.spriteTexture = normalTexture;
                     Attack(time);
                     break;
                 case Action.BLOCKING:
                     this.spriteTexture = blockingTexture;
+                    HoldWeapon();
                     invulnerable = true;
                     break;
                 default:
@@ -300,6 +303,7 @@ namespace FixedFinalGame
 
         private void UpdateLog()
         {
+            console.Log("Hit COunt  ", this.hitCount.ToString());
             console.Log("Standing State ", this.groundState.ToString());
             console.Log("Weapon attacking", this.isAttacking.ToString());
             console.Log("Weapon Dir", this.weapon.Direction.ToString());
@@ -312,7 +316,8 @@ namespace FixedFinalGame
             //console.Log("intersect Left", this.intersectLeft.ToString());
             //console.Log("Right Mouse B", this.controller.Block.ToString());
             //console.Log("Left Mouse B", this.controller.Attack.ToString());
-            console.Log("Action State", this.ActionState.ToString());
+            console.Log("wepon Pos", this.weapon.Location.X.ToString());
+            console.Log("wepon initPos", this.weapon.initPosition.X.ToString());
             console.Log("mouse New Left", this.controller.newInput.LeftButton.ToString());
             console.Log("mouse Old Left", this.controller.oldInput.LeftButton.ToString());
             //console.Log("Action State", this.actionstate.ToString());

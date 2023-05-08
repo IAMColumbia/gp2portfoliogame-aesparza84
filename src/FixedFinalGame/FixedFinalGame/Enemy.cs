@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace FixedFinalGame
 {
-    public enum Consciousness {ROAMING, CHASING, ATTACKING, STILL}
+    public enum Consciousness {ROAMING, CHASING, STILL}
     public class Enemy : Chracter
     {
         string TextureName;
@@ -22,6 +22,7 @@ namespace FixedFinalGame
         Texture2D Normal, Chasing;
 
         private Consciousness consc;
+        public Consciousness Consc;
 
         private Chracter passedPlayer;
 
@@ -173,7 +174,10 @@ namespace FixedFinalGame
             return false;
         }
 
-        
+        public void Attack(Chracter p)
+        {
+            p.TakeDamage();
+        }
 
         public override void Update(GameTime gameTime)
         {
@@ -236,14 +240,11 @@ namespace FixedFinalGame
                         this.Direction.X = 0;
                     }
                     break;
-                case Consciousness.ATTACKING:
-                    
-                    break;
                 default:
                     break;
             }
 
-
+            Consc = consc;
             timecorrect(time);
             //UpdateLog();
 
