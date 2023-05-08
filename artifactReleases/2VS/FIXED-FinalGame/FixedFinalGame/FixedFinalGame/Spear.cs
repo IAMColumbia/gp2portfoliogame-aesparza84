@@ -16,18 +16,21 @@ namespace FixedFinalGame
         //public Spear() { }
         private SpriteEffects s;
         private Camera cam;
+        private Enemy en;
         public Spear(Game game, Camera Cam) : base(game)
         {
             this.cam = Cam;
             this.Name = "Spear";
             this.Damage = 1;
             this.timeDelay= 1.0f;
+            this.Speed = 320;
+            this.Direction = new Vector2(1, 0);
+            en = new Enemy(game, cam);
         }
-        public override void Use(Chracter passedCharacter)
+        public override void Use(float time)
         {
-            this.Speed = 250;
-            this.Location = passedCharacter.Origin;
-            this.Direction.X = passedCharacter.prevDirection.X;
+
+            this.Location.X = this.Location.X + (this.Direction.X * Speed) * (time / 1000);
 
             //if (weaponstate != WeaponState.STOPPED)
             //{
@@ -50,6 +53,11 @@ namespace FixedFinalGame
 
         public override void Update(GameTime gameTime)
         {
+            if (this.Rectagle.Intersects(en.Rectagle))
+            {
+                this.weaponstate = WeaponState.STOPPED;
+            }
+
             if (hasPassedPlayer)
             { 
                 this.Direction.X=this.player.Direction.X;
@@ -62,6 +70,8 @@ namespace FixedFinalGame
             {
                 this.Direction.X = prevDirection.X;
             }
+
+            
             base.Update(gameTime);
         }
 

@@ -14,7 +14,8 @@ namespace FixedFinalGame
     {
         protected Chracter(Game game) : base(game)
         {
-
+            hitCount = 0;
+            health = 3;
         }
 
         protected bool intersectsTop;
@@ -26,6 +27,7 @@ namespace FixedFinalGame
 
         
         public int health { get;set; }
+        public int hitCount { get; set; }
         public Vector2 prevDirection;
         public Gravity gravity { get; set; }
         public LifeState lifestate { get; set; }

@@ -32,7 +32,9 @@ namespace FixedFinalGame
         Enemy enemy;
 
         List<Enemy> enemies;
-        List<Enemy> enemiesToRemove;
+
+        public static List<Enemy> enemiesToRemove;
+
         List<Enemy> enemiesToAddBack;
         public Game1()
         {
@@ -150,7 +152,8 @@ namespace FixedFinalGame
             // TODO: Add your update logic here
             foreach (Enemy en in enemies)
             {
-                if (player.Rectagle.Intersects(en.Rectagle) && player.ActionState==Action.ATTACKING)
+                if (player.weapon.Rectagle.Intersects(en.Rectagle) &&
+                    player.weapon.weaponstate == WeaponState.USING)
                 {
                     enemiesToRemove.Add(en);
                 }

@@ -56,7 +56,6 @@ namespace FixedFinalGame
             isAttacking = false;
             canAttack = true;
 
-            this.Origin = new Vector2(this.Rectagle.Width / 2, this.Rectagle.Height / 2);
             gravity = new Gravity();
 
             if (controller == null)
@@ -208,8 +207,9 @@ namespace FixedFinalGame
 
         private void HoldWeapon()
         {
-            this.weapon.Enabled= false;
+            //this.weapon.Enabled= false;
             this.weapon.Visible= false;
+            this.weapon.weaponstate = WeaponState.STOPPED;
             this.weapon.Location = new Vector2(this.Location.X +5, this.Location.Y + 75);
         }
 
@@ -219,11 +219,12 @@ namespace FixedFinalGame
         bool attacked= false;
 
         private static readonly TimeSpan attackInterval = TimeSpan.FromSeconds(1);
-        private void Attack() 
+        private void Attack(float time) 
         {
-            this.weapon.Enabled = true;
+            //this.weapon.Enabled = true;
             this.weapon.Visible= true;
-            this.weapon.Use(this);
+            this.weapon.weaponstate = WeaponState.USING;
+            this.weapon.Use(time);
         }
         public override void Update(GameTime gameTime)
         {
@@ -231,7 +232,8 @@ namespace FixedFinalGame
             currentTime = (float)gameTime.TotalGameTime.TotalSeconds;
            
             invulnerable = false;
-            
+            this.weapon.Location.Y = this.Location.Y + 75;
+
             if (this.Direction.X!=0)
             {
                 prevDirection.X = this.Direction.X;
@@ -271,6 +273,7 @@ namespace FixedFinalGame
                 HoldWeapon();
             }
             ActionState = actionstate;
+
             //CheckIfStanding();
 
             switch (actionstate)
@@ -279,7 +282,7 @@ namespace FixedFinalGame
                     this.spriteTexture = normalTexture;
                     break;
                 case Action.ATTACKING:
-                    Attack();
+                    Attack(time);
                     break;
                 case Action.BLOCKING:
                     this.spriteTexture = blockingTexture;
@@ -288,6 +291,8 @@ namespace FixedFinalGame
                 default:
                     break;
             }
+
+
 
             timecorrectedMove(time);
             UpdateLog();
@@ -301,8 +306,9 @@ namespace FixedFinalGame
         {
             console.Log("Standing State ", this.groundState.ToString());
             console.Log("Weapon attacking", this.isAttacking.ToString());
-            console.Log("Weapon Loc", this.weapon.Location.ToString());
+            console.Log("Weapon Dir", this.weapon.Direction.ToString());
             console.Log("PrevDir ", this.prevDirection.X.ToString());
+            console.Log("Weapon State ", this.weapon.weaponstate.ToString());
             //console.Log("intersect ", this.intersects.ToString());
             //console.Log("intersect Top", this.intersectsTop.ToString());
             //console.Log("intersect Bot", this.intersectBottom.ToString());
@@ -310,8 +316,6 @@ namespace FixedFinalGame
             //console.Log("intersect Left", this.intersectLeft.ToString());
             //console.Log("Right Mouse B", this.controller.Block.ToString());
             //console.Log("Left Mouse B", this.controller.Attack.ToString());
-            console.Log("Attacked", this.attacked.ToString());
-            console.Log("Can Attack", this.canAttack.ToString());
             console.Log("Action State", this.ActionState.ToString());
             console.Log("Invulnerable", this.invulnerable.ToString());
             //console.Log("Action State", this.actionstate.ToString());
