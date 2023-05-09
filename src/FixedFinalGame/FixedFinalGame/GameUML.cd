@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FixedFinalGame.Camera" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAgAAAQAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FixedFinalGame.Chracter" Collapsed="true">
+    <Position X="6.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADEgAAgCAABAACAAAIAAACAACIAQAQACEAAAwAIAAAo=</HashCode>
+      <FileName>Chracter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FixedFinalGame.Enemy" Collapsed="true">
+    <Position X="4.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEwwBABAkAhEAggABBCAAAAAAMBIAAQAAIAAkAgAAAQ=</HashCode>
+      <FileName>Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FixedFinalGame.Player" Collapsed="true">
+    <Position X="4.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwgJAwAwAgAAwEKBAAAAAAAQIAwAQCBKIAAkAICEAw=</HashCode>
+      <FileName>Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FixedFinalGame.PlayerController" Collapsed="true">
+    <Position X="4.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACEAggAAAABAAAAAiAAAAABCMAACBAAAAAAAAAAAAA=</HashCode>
+      <FileName>PlayerController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FixedFinalGame.Tile" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAACACAAAAAgBCAAAAAAAAAAA=</HashCode>
+      <FileName>Tile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FixedFinalGame.TileMap" Collapsed="true">
+    <Position X="2" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAQAAgAEAAAAAAgAAIAAAAAACABgAIBAEEA=</HashCode>
+      <FileName>TileMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FixedFinalGame.Spear" Collapsed="true">
+    <Position X="11" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAACAAAAAwAAAAAAAAAAAAAEAAAAAIAAAAAAAAQ=</HashCode>
+      <FileName>Spear.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FixedFinalGame.DrawableWeapon" Collapsed="true">
+    <Position X="11" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAACACAAABAAAAACAAAAAQAAAAEABgBAAAAAAAAAIA=</HashCode>
+      <FileName>DrawableWeapon.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FixedFinalGame.CollisionDirection" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAACAAAAAAAACAAgAAAAAAAAAAAAgAAAAQAAAAA=</HashCode>
+      <FileName>CollisionDirection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FixedFinalGame.Gravity" Collapsed="true">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAABAAAAAAA=</HashCode>
+      <FileName>Gravity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="FixedFinalGame.ICharacter" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAACAAQAQAAAAAAAAIAAAg=</HashCode>
+      <FileName>ICharacter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FixedFinalGame.ICollidable" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>ICollidable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FixedFinalGame.IWeapon" Collapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IWeapon.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="FixedFinalGame.Consciousness" Collapsed="true">
+    <Position X="6.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAABAAAAAA=</HashCode>
+      <FileName>Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="FixedFinalGame.CharacterState" Collapsed="true">
+    <Position X="6" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAgAAA=</HashCode>
+      <FileName>ICharacter.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="FixedFinalGame.GroundState" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>ICharacter.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="FixedFinalGame.LifeState" Collapsed="true">
+    <Position X="6" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>ICharacter.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="FixedFinalGame.Action" Collapsed="true">
+    <Position X="6.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAgAAA=</HashCode>
+      <FileName>Player.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="FixedFinalGame.WeaponState" Collapsed="true">
+    <Position X="13.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>DrawableWeapon.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
