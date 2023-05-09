@@ -140,10 +140,10 @@ namespace FixedFinalGame
             }
         }
 
-        void Attack() 
-        {
-            this.Direction.X = 0;
-        }
+        //void Attack() 
+        //{
+        //    this.Direction.X = 0;
+        //}
 
         private void timecorrect(float time)
         {
@@ -159,12 +159,15 @@ namespace FixedFinalGame
             base.LoadContent();
         }
 
+        //returns a float distance from a player that is passed through
         float GetDistance(Chracter character)
         { 
             float distance = this.Location.X - character.Location.X;
 
             return distance;
         }
+
+        //returns true if player is within certain distance of enemy
         bool seePlayer()
         {
             if (Math.Abs(GetDistance(passedPlayer)) <200f && Math.Abs(this.Location.Y - passedPlayer.Location.Y) <= 100)
@@ -174,8 +177,10 @@ namespace FixedFinalGame
             return false;
         }
 
+        //takes in player to call damage mthod
         public void Attack(Chracter p)
         {
+            this.Direction.X = 0;
             p.TakeDamage();
         }
 
@@ -217,10 +222,7 @@ namespace FixedFinalGame
             }
 
 
-            if (this.Rectagle.IntersectSide(passedPlayer.Rectagle))
-            {
-                Attack();
-            }
+            
 
             switch (consc)
             {

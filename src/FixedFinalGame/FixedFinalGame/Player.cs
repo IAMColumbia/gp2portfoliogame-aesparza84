@@ -78,17 +78,17 @@ namespace FixedFinalGame
             s = SpriteEffects.None;
 
             actionstate = Action.NEUTRAL;
-
-
         }
 
+
+        //gives player the controller properties
         void SetStats()
         {
             this.Speed = controller.Speed;
             this.jumpheight = controller.jumpheight;
-            
         }
 
+        //moves player to location
         public void ResetLocation()
         {
             this.health = 100;
@@ -120,6 +120,7 @@ namespace FixedFinalGame
         //}
 
 
+        //Apllies gravity when not on top of block
         public void DetermineStanding(float time)
         {
             switch (this.groundState)
@@ -137,12 +138,14 @@ namespace FixedFinalGame
             }
         }
 
-
+        //Applies Gravity
         private void DoGravity(float time)
         {
             this.gravity = controller.gravity;
             this.Direction = this.Direction + (gravity.GravityDir * gravity.GravityAccel) * (time / 1000);
         }
+
+        
         private void timecorrectedMove(float time)
         {
             this.Location = this.Location + (this.Direction * Speed) * (time / 1000);
@@ -202,11 +205,13 @@ namespace FixedFinalGame
             }
         }
 
+        //Gets a list of the enemies
         public void GetEnemyList(List<Enemy> Elist)
         {
             enemies = Elist;
         }
 
+        //disables weapon to not attack enemy
         public void HoldWeapon()
         {
             //this.weapon.Enabled= false;
@@ -215,9 +220,7 @@ namespace FixedFinalGame
             this.weapon.Location = new Vector2(this.Location.X +5, this.Location.Y + 75);
         }
 
-        bool attacked= false;
-
-        private static readonly TimeSpan attackInterval = TimeSpan.FromSeconds(1);
+        //Sets weapon state in order to Attack enemy it collides with
         private void Attack(float time) 
         {
             //this.weapon.Enabled = true;

@@ -1,3 +1,4 @@
+--VS-------------------------
 For this build Gravity and the tilemap are my main issues that I need to sqaush.
 Ive been building my progam off this od version of movement where gravity doesnt kick in 
 until there is X (Key A, Key D) input. 
@@ -11,3 +12,22 @@ but it will return to the initial postition if the character gets out of range.
 Collision on my Tiles I need to redoe because its a simple rectangle intersect method with no other logic.
 I need to check a sprite NEXT location to determine whether it will collide with the tile or not, the side
 of the tile OR the top of the tile.
+
+--Final-Build---------------------------
+The Final Build has much changed since the last milestone. I now have a tilemap that reads from a 2 multidimensional
+array of numbers {1,2,3,4} where it assigns a specific tile to the corresponding numbers. 0 = DirtTile, 1 = Above Ground tile, 2 = AirTile, 3 = Enemey Spawn Tile, 4 = Player spawn tile. 
+Collision is handled within the 'Chracter' abstract class,so every Enemy and Player is checking their own collision rather than having a collision manager checking. I feel that a collision manager would be appropriate for this but I my way to be a quicker implement. Also for collision, every 'Chracter'has a one dimensional array of the gameworld that it iterates through to check for collision. It iterates throught the Tilemap array and copies the Tile rather than creating a new instance of the same properties.
+
+As of this build only the player takes in a Weapon. I wanted to go about giving weapons with how I made the tilemap, where
+I have an array of weapons then copy that array into each 'Chracters' weapon list. I ran into complications because at first I didn't make the Weapon class a DrawableSprite and didn't want to waste too much time on it so that is why only the player can use it. Enemy attacks are based off of rectangle intersection. Player attacks are based off the weapon rectangle intersection with Enemies. I can make more weapons however as it usese the strategy pattern by subclassing 'DrawableWeapon.'
+
+The Player takes a playerController which is used for input. The controller has its own jumpheight, GravityDir, GravityAccel, Speed and Direction, which the Player also has. The Player's properties are set as the controllers so that they are the same and can be used within the Player update for movement. Enemies just update their X postion and Direction in their update call. Player detection for Enemies uses the absolute value of the distance between player and enemy. If the player is within 100px of the enemy (both X and Y values), then a bool 'SeePlayer' will return true which will change the state of the enemy into Chasing, moving towards Player and Attacking.
+
+Players can change gravity by pressing B,N, and M.
+
+Currently my game does not ship with a win/lose state.
+
+
+Outside sources Ive looked to:
+StackOverFlow
+Oyyou (Youtube)
